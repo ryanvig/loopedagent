@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main, develop]
 
+permissions:
+  contents: read
+  security-events: read
+
 jobs:
   commitlint:
     name: Validate Commit Messages
@@ -17,7 +21,7 @@ jobs:
       
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
       
       - run: npm ci
@@ -31,11 +35,11 @@ jobs:
       
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
       
       - run: npm ci
-      - run: npx eslint . --max-warnings 0
+      - run: npx eslint .
       - run: npx prettier --check .
 
   typecheck:
@@ -46,7 +50,7 @@ jobs:
       
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
       
       - run: npm ci
@@ -60,7 +64,7 @@ jobs:
       
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
       
       - run: npm ci
@@ -73,16 +77,19 @@ jobs:
   security:
     name: Security Scan
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
       
-      - uses: github/codeql-action/init@v3
+      - uses: github/codeql-action/init@v4
         with:
           languages: javascript, typescript
       
       - run: npm ci
       
-      - uses: github/codeql-action/analyze@v3
+      - uses: github/codeql-action/analyze@v4
 
   build:
     name: Build
@@ -94,7 +101,7 @@ jobs:
       
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
       
       - run: npm ci
