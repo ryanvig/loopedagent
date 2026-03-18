@@ -7,6 +7,7 @@ module.exports = {
       [
         'feat',     // New feature
         'fix',      // Bug fix
+        'build',    // Build system, dependencies
         'docs',     // Documentation only
         'style',    // Formatting, no code change
         'refactor', // Code change, no feature/fix
