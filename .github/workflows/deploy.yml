@@ -1,0 +1,32 @@
+name: Deploy
+
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Railway
+        run: npm install -g @railway/cli
+
+      - name: Railway Login
+        run: railway login --token ${{ secrets.RAILWAY_TOKEN }}
+
+      - name: Deploy
+        run: railway up --environment staging
+
+      - name: Post Deployment Status
+        run: |
+          echo "Deployment complete!"
+          echo "View at: https://staging.loopedagent.railway.app"
