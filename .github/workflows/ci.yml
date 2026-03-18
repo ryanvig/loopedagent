@@ -21,40 +21,7 @@ jobs:
           cache: 'npm'
       
       - run: npm ci
-      
       - run: npx commitlint --from HEAD~1 --to HEAD --format
-
-  security:
-    name: Security Scan
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - uses: github/codeql-action/init@v3
-        with:
-          languages: javascript, typescript
-      
-      - run: |
-          # Install dependencies
-          npm ci
-      
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
-
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-      
-      - run: npm ci
-      
-      - run: npm test
 
   lint:
     name: Lint
@@ -68,5 +35,68 @@ jobs:
           cache: 'npm'
       
       - run: npm ci
+      - run: npx eslint . --max-warnings 0
+      - run: npx prettier --check .
+
+  typecheck:
+    name: Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       
-      - run: npx eslint .
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - run: npm ci
+      - run: npx tsc --noEmit
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - run: npm ci
+      - run: npm test -- --coverage
+      - uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage/lcov.info
+          fail_ci_if_error: false
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: javascript, typescript
+      
+      - run: npm ci
+      
+      - uses: github/codeql-action/analyze@v3
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [lint, typecheck, test, security]
+    if: github.ref == 'refs/heads/develop'
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - run: npm ci
+      - run: npm run build
+      - run: echo "Build artifacts ready for deployment"
