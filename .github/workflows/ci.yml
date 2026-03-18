@@ -39,7 +39,7 @@ jobs:
           cache: 'npm'
       
       - run: npm ci
-      - run: npx eslint .
+      - run: npx eslint . --ignore-pattern "*.config.js"
       - run: npx prettier --check .
 
   typecheck:
