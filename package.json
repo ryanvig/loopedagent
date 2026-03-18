@@ -1,0 +1,27 @@
+{
+  "name": "loopedagent",
+  "version": "1.0.0",
+  "description": "Looped autonomous agent",
+  "main": "commitlint.config.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryanvig/loopedagent.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ryanvig/loopedagent/issues"
+  },
+  "homepage": "https://github.com/ryanvig/loopedagent#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0"
+  }
+}
