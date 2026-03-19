@@ -1,17 +1,18 @@
 # Branching Strategy
 
 ## Overview
+
 This document outlines the branching strategy for the Looped Agent infrastructure repo.
 
 ## Branch Types
 
-| Branch | Purpose | Base | Merges To |
-|--------|---------|------|-----------|
-| `main` | Production-ready code | - | - |
-| `develop` | Integration branch | main | main |
-| `feature/*` | New features | develop | develop |
-| `fix/*` | Bug fixes | develop | develop |
-| `chore/*` | Maintenance, refactoring | develop | develop |
+| Branch      | Purpose                  | Base    | Merges To |
+| ----------- | ------------------------ | ------- | --------- |
+| `main`      | Production-ready code    | -       | -         |
+| `develop`   | Integration branch       | main    | main      |
+| `feature/*` | New features             | develop | develop   |
+| `fix/*`     | Bug fixes                | develop | develop   |
+| `chore/*`   | Maintenance, refactoring | develop | develop   |
 
 ## Workflow
 

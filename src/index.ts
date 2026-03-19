@@ -31,22 +31,22 @@ export function processTask(task: Task): Task {
   if (!task.title) {
     throw new Error('Task title is required');
   }
-  
+
   return {
     ...task,
-    status: 'done'
+    status: 'done',
   };
 }
 
 export class Agent {
   private config: AgentConfig;
   private name: string;
-  
+
   constructor(config: AgentConfig) {
     this.config = config;
     this.name = config.name;
   }
-  
+
   public run(input: string): string {
     return `[${this.name}] Processed: ${input}`;
   }

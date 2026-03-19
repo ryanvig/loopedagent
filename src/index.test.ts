@@ -7,7 +7,7 @@ describe('Agent', () => {
         initializeAgent({
           name: 'test-agent',
           model: 'minimax',
-          maxTokens: 8192
+          maxTokens: 8192,
         });
       }).not.toThrow();
     });
@@ -19,9 +19,9 @@ describe('Agent', () => {
         id: '1',
         title: 'Test task',
         status: 'pending',
-        priority: 'medium'
+        priority: 'medium',
       });
-      
+
       expect(task.status).toBe('done');
     });
 
@@ -31,7 +31,7 @@ describe('Agent', () => {
           id: '1',
           title: '',
           status: 'pending',
-          priority: 'low'
+          priority: 'low',
         });
       }).toThrow();
     });
@@ -42,9 +42,9 @@ describe('Agent', () => {
       const agent = new Agent({
         name: 'test',
         model: 'minimax',
-        maxTokens: 8192
+        maxTokens: 8192,
       });
-      
+
       expect(agent.run('hello')).toBe('[test] Processed: hello');
     });
   });
