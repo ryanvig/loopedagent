@@ -61,5 +61,8 @@
     "singleQuote": true,
     "tabWidth": 2,
     "trailingComma": "es5"
+  },
+  "dependencies": {
+    "express-rate-limit": "^8.3.1"
   }
 }
