@@ -19,22 +19,24 @@ High-risk domains requiring extra caution and escalation.
 
 ---
 
-## 2. Safety, Moderation & Admin
+## 2. Safety, Moderation & Admin ⚠️ AUDIT COMPLETE
 
 **Files:**
-- `backend/app/routes/admin.py`
+- `backend/app/routes/admin.py` - **AUDIT COMPLETE**
 - `backend/app/routes/safety.py`
 - `backend/app/routes/support.py`
 - `backend/app/models/support.py`
+- `backend/app/middleware/admin_auth.py`
 
-**Why risky:**
-- User trust
-- Moderation impact
-- Authorization mistakes have high blast radius
+**Audit Findings:**
+- ✅ Most routes properly protected with `require_super_admin` or `require_permission(...)`
+- 🔴 **CRITICAL**: `POST /api/admin/accept-invitation/{token}` has NO auth - anyone with token can claim it
+- ⚠️ Routes using `get_current_admin` (any admin) access dashboard, user list, user details
+- ⚠️ Duplicate `GET /api/admin/me` route needs cleanup
 
-**Special note:** `backend/app/routes/admin.py` requires manual route-by-route auth audit before treated as trusted knowledge.
+**Special note:** Do NOT treat admin.py as flawless security precedent until critical invitation bug is fixed.
 
-**Escalation trigger:** Any change to admin powers, report handling, block semantics.
+**Escalation trigger:** Any change to admin routes, invitation flow.
 
 ---
 
