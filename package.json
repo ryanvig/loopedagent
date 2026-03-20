@@ -11,7 +11,9 @@
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "build": "tsc",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "knip": "knip",
+    "deadcode": "knip"
   },
   "repository": {
     "type": "git",
@@ -32,9 +34,9 @@
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
     "@types/jest": "^30.0.0",
-    "@typescript-eslint/parser": "^8.57.1",
     "eslint": "^9.39.4",
     "jest": "^30.3.0",
+    "knip": "^5.88.1",
     "prettier": "^3.8.1",
     "ts-jest": "^29.4.6",
     "typescript": "^5.9.3",

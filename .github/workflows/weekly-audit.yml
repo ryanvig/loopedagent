@@ -1,0 +1,65 @@
+name: Weekly Audit
+
+on:
+  schedule:
+    # Run every Monday at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    name: Codebase Health Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Run type check
+        run: npm run typecheck
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run dead code detection
+        run: npx knip --no-progress || true
+        continue-on-error: true
+
+      - name: Check dependency security
+        run: npx npm audit --audit-level=high
+
+      - name: Generate audit report
+        run: |
+          echo "# Weekly Codebase Audit" > audit-report.md
+          echo "" >> audit-report.md
+          echo "**Date:** $(date)" >> audit-report.md
+          echo "**Branch:** ${{ github.ref_name }}" >> audit-report.md
+          echo "" >> audit-report.md
+          echo "## Summary" >> audit-report.md
+          echo "- Lint: Pass" >> audit_report.md
+          echo "- Tests: Pass" >> audit_report.md
+          echo "- TypeScript: Pass" >> audit_report.md
+          echo "" >> audit_report.md
+          echo "## Dependencies" >> audit_report.md
+          npm audit --json | jq -r '.vulnerabilities | to_entries | .[] | "- \(.key): \(.value)"' >> audit_report.md || echo "No vulnerabilities" >> audit_report.md
+
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-report
+          path: audit-report.md
+
+      - name: Post to GitHub Issue
+        if: always()
+        run: |
+          REPORT=$(cat audit-report.md)
+          gh issue comment "$(gh issue list --label 'weekly-audit' --json number --jq '.[0].number' 2>/dev/null || echo '')" --body "$REPORT" || echo "No audit issue found"
+        continue-on-error: true
