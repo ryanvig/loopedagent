@@ -6,11 +6,11 @@ This document covers the monitoring stack, alerting, and auto-rollback procedure
 
 ## Monitoring Stack
 
-| Tool | Purpose |
-|------|---------|
-| Sentry | Error tracking, performance monitoring |
-| GitHub Actions | Deployment status |
-| Railway | Runtime health, metrics |
+| Tool           | Purpose                                |
+| -------------- | -------------------------------------- |
+| Sentry         | Error tracking, performance monitoring |
+| GitHub Actions | Deployment status                      |
+| Railway        | Runtime health, metrics                |
 
 ## Sentry Integration
 
@@ -63,6 +63,7 @@ try {
 ### Railway Auto-Deploy Hook
 
 Configure in Railway dashboard:
+
 1. Go to Project → Settings → Deploy
 2. Enable "Automatic Rollbacks"
 3. Set health check endpoint
@@ -73,14 +74,20 @@ Configure in Railway dashboard:
 Critical flows that must pass before production deployment:
 
 ### 1. Agent Initialization
+
 ```typescript
 it('should initialize agent with config', () => {
-  const agent = initializeAgent({ name: 'test', model: 'gpt-4', maxTokens: 1000 });
+  const agent = initializeAgent({
+    name: 'test',
+    model: 'gpt-4',
+    maxTokens: 1000,
+  });
   expect(agent).toBeDefined();
 });
 ```
 
 ### 2. Task Processing
+
 ```typescript
 it('should process valid task', () => {
   const task = { id: '1', title: 'Test', status: 'pending', priority: 'high' };
@@ -90,6 +97,7 @@ it('should process valid task', () => {
 ```
 
 ### 3. Rate Limiter Config
+
 ```typescript
 it('should apply rate limits', () => {
   const limiter = shareableLinkLimiter;
@@ -109,12 +117,12 @@ npm test -- --testPathPattern="smoke"
 
 ## Alert Severity Levels
 
-| Level | Description | Response Time |
-|-------|-------------|--------------|
-| P0 | Critical - Service down | Immediate |
-| P1 | High - Major feature broken | 15 min |
-| P2 | Medium - Degradation | 1 hour |
-| P3 | Low - Minor issue | 24 hours |
+| Level | Description                 | Response Time |
+| ----- | --------------------------- | ------------- |
+| P0    | Critical - Service down     | Immediate     |
+| P1    | High - Major feature broken | 15 min        |
+| P2    | Medium - Degradation        | 1 hour        |
+| P3    | Low - Minor issue           | 24 hours      |
 
 ## On-Call Rotation
 

@@ -4,24 +4,28 @@
  */
 
 import { initializeAgent, processTask, Agent, Task } from './index';
-import { standardLimiter, shareableLinkLimiter, authLimiter } from './rateLimiter';
+import {
+  standardLimiter,
+  shareableLinkLimiter,
+  authLimiter,
+} from './rateLimiter';
 
 describe('Smoke Tests', () => {
   describe('Agent Core', () => {
     it('should initialize agent with valid config', () => {
       const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
-      
+
       initializeAgent({
         name: 'smoke-test-agent',
         model: 'gpt-4',
         maxTokens: 2000,
       });
-      
+
       expect(consoleSpy).toHaveBeenCalledWith(
         'Initializing agent: smoke-test-agent'
       );
       expect(consoleSpy).toHaveBeenCalledWith('Model: gpt-4');
-      
+
       consoleSpy.mockRestore();
     });
 

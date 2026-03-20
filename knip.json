@@ -2,9 +2,5 @@
   "$schema": "https://raw.githubusercontent.com/nickmilo/knip/main/schema.json",
   "entry": ["src/index.ts"],
   "project": ["src/**/*.ts"],
-  "ignore": [
-    "src/**/*.test.ts",
-    "src/sentry.ts",
-    "src/rateLimiter.ts"
-  ]
+  "ignore": ["src/**/*.test.ts", "src/sentry.ts", "src/rateLimiter.ts"]
 }

@@ -44,11 +44,11 @@ describe('Shareable Link Security', () => {
 
   it('should rate limit shareable link views', async () => {
     // Make 100+ requests rapidly
-    const promises = Array(101).fill(null).map(() => 
-      request(app).get('/share/any-token')
-    );
+    const promises = Array(101)
+      .fill(null)
+      .map(() => request(app).get('/share/any-token'));
     const responses = await Promise.all(promises);
-    const rateLimited = responses.filter(r => r.status === 429);
+    const rateLimited = responses.filter((r) => r.status === 429);
     expect(rateLimited.length).toBeGreaterThan(0);
   });
 });
