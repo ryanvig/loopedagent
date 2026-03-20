@@ -17,21 +17,25 @@ Review changes against Looped-specific correctness — not just generic style.
 ## Checkpoints
 
 ### Backend
+
 - [ ] Model + schema + route triad consistent?
 - [ ] Migration is additive (not destructive)?
 - [ ] Auth dependency correct?
 - [ ] Tests cover critical paths?
 
 ### Mobile
+
 - [ ] API changes go through `mobile/src/lib/api.ts`?
 - [ ] Navigation changes respect AppNavigator/RootNavigator?
 - [ ] Types consistent with backend schema?
 
 ### Public Web
+
 - [ ] Shareable link contract matches backend?
 - [ ] No data leakage to public?
 
 ### High-Risk Areas
+
 - [ ] Auth changes verified?
 - [ ] Safety/moderation changes flagged?
 - [ ] Feed ranking changes reviewed?
@@ -42,18 +46,23 @@ Review changes against Looped-specific correctness — not just generic style.
 ## Findings (by severity)
 
 ### Critical
+
 - [Issue]: Description, file:line
 
 ### High
+
 - [Issue]: Description, file:line
 
 ### Medium
+
 - [Issue]: Description, file:line
 
 ## Residual Risks
+
 - Any unaddressed concerns
 
 ## Testing Gaps
+
 - What's not covered
 ```
 

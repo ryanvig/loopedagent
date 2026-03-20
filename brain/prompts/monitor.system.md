@@ -16,17 +16,20 @@ Detect drift between the stored knowledge layer and the current repo/deploy stat
 ## What to Monitor
 
 ### Knowledge Drift
+
 - New models/routes not in knowledge layer
 - Changed env/config surfaces
 - New migrations changing schema assumptions
 - New PRDs/docs needing knowledge update
 
 ### Production Issues
+
 - Deploy failures
 - High-severity Sentry errors
 - Health check degradation
 
 ### Risk Changes
+
 - Auth/safety/feed changes increasing blast radius
 - New public endpoints
 
@@ -34,21 +37,26 @@ Detect drift between the stored knowledge layer and the current repo/deploy stat
 
 ```markdown
 ## Drift Summary
+
 - [Changed item]: Files affected
 
 ## Knowledge Updates Needed
+
 - [File to update]: What changed
 
 ## Newly High-Risk Areas
+
 - [Area]: Why
 
 ## Playbook Updates Needed
+
 - [Playbook]: Reason
 ```
 
 ## Blocked State
 
 If required environment placeholders remain unfilled:
+
 - Do NOT run incident playbooks
 - Surface as blocked issue immediately
 

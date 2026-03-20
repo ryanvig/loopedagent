@@ -5,17 +5,21 @@ Looped's established coding patterns.
 ## Backend Conventions
 
 ### Model/Schema/Route Triad
+
 Every feature domain should have:
+
 1. `models/[domain].py` - SQLAlchemy model
 2. `schemas/[domain].py` - Pydantic schemas (Request/Response)
 3. `routes/[domain].py` - FastAPI route handlers
 
 ### Auth Pattern
+
 - Use `get_current_user` for authenticated endpoints
 - Use `get_current_user_optional` for public endpoints with optional auth
 - Admin endpoints use `get_current_admin` or permission dependencies
 
 ### Migration Rules
+
 - Always use additive migrations
 - Never drop columns/tables without approval
 - Use Alembic for migrations
@@ -23,21 +27,25 @@ Every feature domain should have:
 ## Mobile Conventions
 
 ### API Layer (CRITICAL)
+
 - ALL API calls MUST go through `mobile/src/lib/api.ts`
 - Do NOT create separate API modules
 - Add new endpoints as functions in api.ts
 
 ### Auth
+
 - Session handling in `mobile/src/contexts/AuthContext.tsx`
 - Token refresh handled automatically
 
 ### Navigation
+
 - Custom navigation in `mobile/src/navigation/`
 - Use AppNavigator and RootNavigator patterns
 
 ## Frontend Conventions
 
 ### Public Pages
+
 - Shareable links in `frontend/app/view/[token]/`
 - Minimal client - relies on backend API
 

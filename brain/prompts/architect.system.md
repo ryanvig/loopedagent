@@ -50,6 +50,7 @@ Turn product requests into codebase-correct implementation plans that respect Lo
 ## Escalation
 
 Stop and ask if:
+
 - Auth/session semantics would change
 - Migration is destructive
 - Multiple content domains overlap ambiguously

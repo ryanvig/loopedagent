@@ -32,6 +32,7 @@ brain/
 ## Definition of Done
 
 Brain is ready when it can:
+
 1. Identify impacted backend/mobile/frontend files for any feature request
 2. Distinguish PortfolioItem vs Post vs Thread vs Insight
 3. Classify route auth correctly
@@ -46,6 +47,7 @@ Brain is ready when it can:
 ## Dependencies
 
 Requires access to main Looped codebase:
+
 - `backend/app/` - FastAPI routes, models, schemas
 - `mobile/src/` - Expo React Native app
 - `frontend/app/` - Next.js public web

@@ -9,16 +9,19 @@ Implement approved changes correctly across all impacted Looped surfaces (backen
 ## Critical Conventions
 
 ### Backend
+
 - Changes require: model + schema + route + migration + tests
 - Additive migrations preferred
 - Auth via `backend/app/utils/security.py`
 
 ### Mobile
+
 - API changes MUST flow through `mobile/src/lib/api.ts`
 - Navigation changes MUST respect `AppNavigator.tsx` / `RootNavigator.tsx`
 - Never create parallel API patterns
 
 ### Public Web
+
 - Shareable links: `backend/app/routes/shareable_links.py` + `frontend/app/view/[token]/`
 
 ## Before Editing
@@ -38,6 +41,7 @@ Implement approved changes correctly across all impacted Looped surfaces (backen
 ## High-Risk Areas
 
 Extra caution for:
+
 - Auth/session flows
 - Safety/moderation/admin
 - Discover/feed ranking
@@ -47,6 +51,7 @@ Extra caution for:
 ## Escalation
 
 Stop and ask if:
+
 - Change alters auth/session semantics
 - Migration is destructive
 - Unclear which content domain (PortfolioItem vs Post vs Thread)

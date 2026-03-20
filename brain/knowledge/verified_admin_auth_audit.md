@@ -7,6 +7,7 @@ This is verified ground truth - not static inference.
 ## Auth Chain
 
 Admin routes use:
+
 1. `get_current_admin` - verifies user has active admin_profile
 2. `require_super_admin` - super-admin only
 3. `require_permission(...)` - granular permission checks
@@ -17,33 +18,33 @@ Admin routes use:
 
 ## Route Inventory
 
-| Method | Path | Protection | Status |
-|--------|------|------------|--------|
-| POST | /api/admin/login | None (public) | ✅ By design |
-| GET | /api/admin/me | get_current_admin | ✅ Protected |
-| POST | /api/admin/invite | require_super_admin | ✅ Protected |
-| GET | /api/admin/invitations | require_super_admin | ✅ Protected |
-| POST | /api/admin/accept-invitation/{token} | **NONE** | 🔴 CRITICAL GAP |
-| GET | /api/admin/admins | require_super_admin | ✅ Protected |
-| PUT | /api/admin/admins/{id}/permissions | require_super_admin | ✅ Protected |
-| DELETE | /api/admin/admins/{id} | require_super_admin | ✅ Protected |
-| DELETE | /api/admin/invitations/{id} | require_super_admin | ✅ Protected |
-| GET | /api/admin/dashboard | get_current_admin | ⚠️ Any admin |
-| GET | /api/admin/tickets | get_current_admin | ⚠️ Any admin |
-| PATCH | /api/admin/tickets/{id}/assign | get_current_admin | ⚠️ Any admin |
-| POST | /api/admin/tickets/{id}/reply | get_current_admin | ⚠️ Any admin |
-| PATCH | /api/admin/tickets/{id}/resolve | get_current_admin | ⚠️ Any admin |
-| GET | /api/admin/reports | require_permission(can_moderate_content) | ✅ Protected |
-| POST | /api/admin/reports/{id}/action | require_permission(can_moderate_content) | ✅ Protected |
-| GET | /api/admin/campaigns/pending | require_permission(can_approve_campaigns) | ✅ Protected |
-| POST | /api/admin/campaigns/{id}/review | require_permission(can_approve_campaigns) | ✅ Protected |
-| GET | /api/admin/users | get_current_admin | ⚠️ Any admin |
-| GET | /api/admin/users/{id} | get_current_admin | ⚠️ Any admin |
-| POST | /api/admin/users/{id}/suspend | require_permission(can_suspend_users) | ✅ Protected |
-| POST | /api/admin/users/{id}/unsuspend | require_permission(can_suspend_users) | ✅ Protected |
-| POST | /api/admin/users/{id}/ban | require_permission(can_ban_users) | ✅ Protected |
-| POST | /api/admin/users/{id}/unban | require_super_admin | ✅ Protected |
-| GET | /api/admin/audit-log | require_super_admin | ✅ Protected |
+| Method | Path                                 | Protection                                | Status          |
+| ------ | ------------------------------------ | ----------------------------------------- | --------------- |
+| POST   | /api/admin/login                     | None (public)                             | ✅ By design    |
+| GET    | /api/admin/me                        | get_current_admin                         | ✅ Protected    |
+| POST   | /api/admin/invite                    | require_super_admin                       | ✅ Protected    |
+| GET    | /api/admin/invitations               | require_super_admin                       | ✅ Protected    |
+| POST   | /api/admin/accept-invitation/{token} | **NONE**                                  | 🔴 CRITICAL GAP |
+| GET    | /api/admin/admins                    | require_super_admin                       | ✅ Protected    |
+| PUT    | /api/admin/admins/{id}/permissions   | require_super_admin                       | ✅ Protected    |
+| DELETE | /api/admin/admins/{id}               | require_super_admin                       | ✅ Protected    |
+| DELETE | /api/admin/invitations/{id}          | require_super_admin                       | ✅ Protected    |
+| GET    | /api/admin/dashboard                 | get_current_admin                         | ⚠️ Any admin    |
+| GET    | /api/admin/tickets                   | get_current_admin                         | ⚠️ Any admin    |
+| PATCH  | /api/admin/tickets/{id}/assign       | get_current_admin                         | ⚠️ Any admin    |
+| POST   | /api/admin/tickets/{id}/reply        | get_current_admin                         | ⚠️ Any admin    |
+| PATCH  | /api/admin/tickets/{id}/resolve      | get_current_admin                         | ⚠️ Any admin    |
+| GET    | /api/admin/reports                   | require_permission(can_moderate_content)  | ✅ Protected    |
+| POST   | /api/admin/reports/{id}/action       | require_permission(can_moderate_content)  | ✅ Protected    |
+| GET    | /api/admin/campaigns/pending         | require_permission(can_approve_campaigns) | ✅ Protected    |
+| POST   | /api/admin/campaigns/{id}/review     | require_permission(can_approve_campaigns) | ✅ Protected    |
+| GET    | /api/admin/users                     | get_current_admin                         | ⚠️ Any admin    |
+| GET    | /api/admin/users/{id}                | get_current_admin                         | ⚠️ Any admin    |
+| POST   | /api/admin/users/{id}/suspend        | require_permission(can_suspend_users)     | ✅ Protected    |
+| POST   | /api/admin/users/{id}/unsuspend      | require_permission(can_suspend_users)     | ✅ Protected    |
+| POST   | /api/admin/users/{id}/ban            | require_permission(can_ban_users)         | ✅ Protected    |
+| POST   | /api/admin/users/{id}/unban          | require_super_admin                       | ✅ Protected    |
+| GET    | /api/admin/audit-log                 | require_super_admin                       | ✅ Protected    |
 
 ---
 
@@ -60,6 +61,7 @@ Admin routes use:
 ### ⚠️ High: Broad Access Under get_current_admin
 
 Routes using only `get_current_admin` (any active admin):
+
 - Dashboard
 - User search/list
 - User details

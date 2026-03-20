@@ -4,17 +4,17 @@ Root subsystems and their responsibilities.
 
 ## Backend (`backend/app/`)
 
-| Folder/File | Purpose |
-|-------------|---------|
-| `models/` | SQLAlchemy models (user, admin, support, campaign, etc.) |
-| `schemas/` | Pydantic request/response schemas |
-| `routes/` | FastAPI route handlers (35+ route files) |
-| `services/` | Business logic |
-| `middleware/` | Auth middleware including `admin_auth.py` |
-| `utils/security.py` | JWT, password hashing, auth utilities |
-| `config.py` | Environment configuration |
-| `database.py` | DB connection |
-| `rate_limit.py` | Rate limiting |
+| Folder/File         | Purpose                                                  |
+| ------------------- | -------------------------------------------------------- |
+| `models/`           | SQLAlchemy models (user, admin, support, campaign, etc.) |
+| `schemas/`          | Pydantic request/response schemas                        |
+| `routes/`           | FastAPI route handlers (35+ route files)                 |
+| `services/`         | Business logic                                           |
+| `middleware/`       | Auth middleware including `admin_auth.py`                |
+| `utils/security.py` | JWT, password hashing, auth utilities                    |
+| `config.py`         | Environment configuration                                |
+| `database.py`       | DB connection                                            |
+| `rate_limit.py`     | Rate limiting                                            |
 
 ### Key Route Files
 
@@ -36,21 +36,21 @@ Root subsystems and their responsibilities.
 
 ## Mobile (`mobile/src/`)
 
-| Folder/File | Purpose |
-|-------------|---------|
-| `lib/api.ts` | **MONOLITHIC API LAYER** - all API calls |
+| Folder/File   | Purpose                                         |
+| ------------- | ----------------------------------------------- |
+| `lib/api.ts`  | **MONOLITHIC API LAYER** - all API calls        |
 | `navigation/` | Custom navigation (AppNavigator, RootNavigator) |
-| `contexts/` | React Context providers (Auth, etc.) |
-| `screens/` | Screen components |
-| `components/` | Shared UI components |
+| `contexts/`   | React Context providers (Auth, etc.)            |
+| `screens/`    | Screen components                               |
+| `components/` | Shared UI components                            |
 
 ---
 
 ## Frontend (`frontend/app/`)
 
-| Folder | Purpose |
-|--------|---------|
-| `app/` | Next.js App Router pages |
+| Folder          | Purpose                     |
+| --------------- | --------------------------- |
+| `app/`          | Next.js App Router pages    |
 | `view/[token]/` | Public shareable link pages |
 
 ---

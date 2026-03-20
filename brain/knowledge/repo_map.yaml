@@ -154,10 +154,10 @@ frontend:
     - frontend/app/layout.tsx
   pages:
     - frontend/app/page.tsx
-    - "frontend/app/view/[token]/page.tsx"
+    - 'frontend/app/view/[token]/page.tsx'
   routes:
     - frontend/app
-    - "frontend/app/view/[token]"
+    - 'frontend/app/view/[token]'
 mobile:
   api: mobile/src/lib/api.ts
   components:
@@ -177,9 +177,11 @@ mobile:
     - mobile/src/components/LegalDocumentModal.tsx
     - mobile/src/components/LinkPulseLoader.tsx
     - mobile/src/components/OnboardingProgressBar.tsx
+    - mobile/src/components/PinnedThreadCard.tsx
     - mobile/src/components/ProfileGalleryCard.tsx
     - mobile/src/components/ProfileInfoSection.tsx
     - mobile/src/components/ProfileScreenSkeleton.tsx
+    - mobile/src/components/ProfileThreadsList.tsx
     - mobile/src/components/SettingsModal.tsx
     - mobile/src/components/ShareProfileFlow.tsx
     - mobile/src/components/SkeletonLoader.tsx

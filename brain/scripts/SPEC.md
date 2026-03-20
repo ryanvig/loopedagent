@@ -24,7 +24,7 @@ routes:
     auth: none
     file: backend/app/routes/auth.py
     handler: login
-    
+
   - path: /api/admin/users
     methods: [GET]
     auth: get_current_admin
@@ -33,6 +33,7 @@ routes:
 ```
 
 **Implementation hints**:
+
 - Use FastAPI's `APIRouter` introspection
 - Parse decorators like `@router.post()`, `@router.get()`, etc.
 - Extract `Depends()` from handler signatures for auth info
@@ -69,6 +70,7 @@ models:
 ```
 
 **Implementation hints**:
+
 - Use SQLAlchemy's `inspect()` to get model metadata
 - Walk all `.py` files in `backend/app/models/`
 - Extract columns, relationships, and backrefs
@@ -109,7 +111,7 @@ backend:
     - admin.py
   services:
     - (list files)
-    
+
 mobile:
   api: mobile/src/lib/api.ts
   navigation:
@@ -117,7 +119,7 @@ mobile:
     - mobile/src/navigation/RootNavigator.tsx
   screens:
     - (list key screens)
-    
+
 frontend:
   pages:
     - (list Next.js routes)
@@ -155,7 +157,7 @@ Compare current codebase to stored knowledge, report changes.
 ```
 brain/scripts/
 ├── extract_routes.py
-├── extract_models.py  
+├── extract_models.py
 ├── extract_schemas.py
 ├── refresh_repo_map.py
 ├── detect_drift.py
