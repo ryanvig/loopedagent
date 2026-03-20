@@ -1,0 +1,21 @@
+# Verified admin auth overrides
+# These override the auto-extracted auth from routes.yaml
+
+admin_routes_verified: true
+audit_date: "2026-03-19"
+
+routes:
+  - path: "/api/admin/accept-invitation/{token}"
+    override_reason: "CRITICAL BUG - No auth dependency in code despite docstring"
+    verified_auth: "NONE - NEEDS FIX"
+    risk: CRITICAL
+
+  - path: "/api/admin/dashboard"
+    override_reason: "Broad access - any active admin can access"
+    verified_auth: "get_current_admin"
+    risk: MEDIUM
+
+  - path: "/api/admin/users"
+    override_reason: "Broad access - any active admin can access"
+    verified_auth: "get_current_admin"
+    risk: MEDIUM

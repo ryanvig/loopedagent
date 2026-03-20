@@ -17,7 +17,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: metadata_json
         type: Text
         nullable: true
@@ -55,7 +55,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: invitation_token
         type: String
         unique: true
@@ -104,7 +104,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: invited_by
         type: String
         nullable: true
@@ -166,7 +166,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: initiated_by
         type: String
         nullable: false
@@ -230,7 +230,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: is_active
         type: Boolean
         default: true
@@ -272,7 +272,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
     file: backend/app/models/agency.py
     relationships:
       - name: brand
@@ -322,7 +322,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: invitation_token
         type: String
         unique: true
@@ -369,7 +369,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: industry
         type: String
         nullable: true
@@ -456,7 +456,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: influencer_id
         type: String
         nullable: false
@@ -502,7 +502,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: location
         type: String(200)
         nullable: true
@@ -554,7 +554,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: source
         type: String
         default: direct
@@ -588,7 +588,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: parameters
         type: String
         nullable: true
@@ -612,7 +612,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: view_duration_seconds
         type: Integer
         nullable: true
@@ -658,7 +658,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: review_result
         type: String(50)
         nullable: true
@@ -691,7 +691,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: last_post_date
         type: DateTime
         nullable: true
@@ -724,7 +724,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: influencer_id
         type: String
         nullable: true
@@ -786,7 +786,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: ip_address
         type: String
         nullable: true
@@ -851,7 +851,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: updated_at
         type: DateTime
         default: datetime.utcnow
@@ -897,7 +897,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: job_title
         type: String
         nullable: true
@@ -955,7 +955,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: source
         type: String
         default: direct
@@ -1015,7 +1015,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: industry
         type: String
         nullable: true
@@ -1073,7 +1073,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: source
         type: String
         default: direct
@@ -1157,7 +1157,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: impressions
         type: Integer
         default: 0
@@ -1257,7 +1257,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: influencer_id
         type: String
         nullable: false
@@ -1301,7 +1301,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: is_deleted
         type: Boolean
         default: false
@@ -1352,7 +1352,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: initiated_by
         type: String
         nullable: false
@@ -1428,7 +1428,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: last_message_at
         type: DateTime
         nullable: true
@@ -1461,7 +1461,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: user_id
         type: String
         nullable: false
@@ -1483,7 +1483,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: muted_until
         type: DateTime
         nullable: true
@@ -1545,7 +1545,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: influencer_id
         type: String
         nullable: false
@@ -1602,7 +1602,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: impression_id
         type: String
         nullable: false
@@ -1647,7 +1647,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: time_to_conversion_seconds
         type: Integer
         nullable: true
@@ -1687,7 +1687,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: impression_type
         type: String(50)
         nullable: false
@@ -1722,7 +1722,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: is_sent
         type: Boolean
         default: false
@@ -1768,7 +1768,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: last_refreshed_at
         type: DateTime
         default: datetime.utcnow
@@ -1793,7 +1793,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: interacted
         type: Boolean
         default: false
@@ -1832,7 +1832,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: role
         type: SQLEnum(CollaboratorRole)
         nullable: false
@@ -1868,7 +1868,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: invitee_id
         type: String
         nullable: false
@@ -1916,7 +1916,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
     file: backend/app/models/follow.py
     relationships:
       - name: followee
@@ -1940,7 +1940,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: influencer_followers
         type: Integer
         default: 0
@@ -2013,7 +2013,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: instagram_followers
         type: Integer
         nullable: true
@@ -2163,7 +2163,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: quote
         type: String(500)
         nullable: false
@@ -2193,7 +2193,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: insight_id
         type: String
         nullable: false
@@ -2226,7 +2226,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: media_meta
         type: JSON
         nullable: true
@@ -2256,7 +2256,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: message_id
         type: String
         nullable: false
@@ -2288,7 +2288,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: milestone_type
         type: String(50)
         nullable: false
@@ -2315,7 +2315,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: milestone_id
         type: String
         nullable: false
@@ -2349,7 +2349,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: moderator_id
         type: String
         nullable: false
@@ -2412,7 +2412,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: is_read
         type: Boolean
         default: false
@@ -2471,7 +2471,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: in_app_enabled
         type: Boolean
         default: true
@@ -2510,7 +2510,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: ip_address
         type: String(50)
         nullable: true
@@ -2535,7 +2535,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: phyllo_user_id
         type: String
         nullable: false
@@ -2628,7 +2628,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: image_urls
         type: JSON
         nullable: true
@@ -2709,7 +2709,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: portfolio_item_id
         type: String
         nullable: false
@@ -2751,7 +2751,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: is_anonymous
         type: Boolean
         default: false
@@ -2811,7 +2811,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: post_id
         type: String
         nullable: false
@@ -2847,7 +2847,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: influencer_id
         type: String
         nullable: false
@@ -2892,7 +2892,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: is_active
         type: Boolean
         default: true
@@ -2931,7 +2931,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: revoked
         type: Boolean
         default: false
@@ -2973,7 +2973,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: moderator_id
         type: String
         nullable: true
@@ -3063,7 +3063,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: influencer_id
         type: String
         nullable: true
@@ -3164,7 +3164,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: name
         type: String(100)
         nullable: false
@@ -3206,7 +3206,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: session_id
         type: String(50)
       - name: user_id
@@ -3236,7 +3236,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: is_active
         type: Boolean
         default: true
@@ -3276,7 +3276,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: ip_hash
         type: String(64)
         nullable: true
@@ -3340,7 +3340,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: influencer_id
         type: String
         nullable: false
@@ -3399,7 +3399,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: is_internal
         type: Boolean
         default: false
@@ -3454,7 +3454,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: priority
         type: Enum(TicketPriority)
         nullable: false
@@ -3523,7 +3523,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: invitation_token
         type: String
         unique: true
@@ -3575,7 +3575,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: last_edited_at
         type: DateTime
         nullable: true
@@ -3634,7 +3634,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: thread_id
         type: String
         nullable: false
@@ -3655,7 +3655,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: thread_id
         type: String
         nullable: false
@@ -3679,7 +3679,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: position
         type: Integer
         nullable: false
@@ -3709,7 +3709,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: reason
         type: String
         nullable: false
@@ -3797,7 +3797,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: is_active
         type: Boolean
         default: true
@@ -3941,7 +3941,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: level
         type: String
         nullable: false
@@ -3979,7 +3979,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: reason
         type: String(500)
         nullable: true
@@ -4006,7 +4006,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: source
         type: String(20)
         default: onboarding
@@ -4039,7 +4039,7 @@ models:
       - name: id
         type: String
         primary_key: true
-        default: 'lambda: str(uuid.uuid4())'
+        default: "lambda: str(uuid.uuid4())"
       - name: source
         type: String
         nullable: false

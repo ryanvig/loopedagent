@@ -10,18 +10,18 @@ schemas:
       - name: can_view_analytics
         type: bool
       - name: message
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/agency.py
   AgencyBrandAccessUpdate:
     fields:
       - name: can_message_creators
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: can_post_campaigns
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: can_review_applications
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: can_view_analytics
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
     file: backend/app/schemas/agency.py
   AgencyClientSummary:
     fields:
@@ -30,7 +30,7 @@ schemas:
       - name: brand_id
         type: str
       - name: brand_logo
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: brand_name
         type: str
       - name: pending_applications
@@ -68,30 +68,30 @@ schemas:
       - name: can_view_analytics
         type: bool
       - name: job_title
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: role
         type: str
     file: backend/app/schemas/agency.py
   AgencyEmployeeUpdate:
     fields:
       - name: can_manage_clients
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: can_manage_team
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: can_message_creators
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: can_post_campaigns
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: can_review_applications
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: can_view_analytics
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: is_active
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: job_title
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: role
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/agency.py
   AgencyInvitationAccept:
     fields:
@@ -115,7 +115,7 @@ schemas:
       - name: email
         type: EmailStr
       - name: job_title
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: role
         type: str
     file: backend/app/schemas/agency.py
@@ -126,7 +126,7 @@ schemas:
       - name: agency_id
         type: str
       - name: agency_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: can_manage_clients
         type: bool
       - name: can_manage_team
@@ -148,7 +148,7 @@ schemas:
       - name: id
         type: str
       - name: job_title
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: role
         type: str
     file: backend/app/schemas/agency.py
@@ -157,104 +157,104 @@ schemas:
       - name: company_name
         type: str
       - name: company_size
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: cover_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: description
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: founded_year
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: headquarters_location
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: industry
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: instagram_handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: is_public
         type: bool
       - name: linkedin_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: logo_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: services
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: slug
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: website
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/agency.py
   AgencyProfilePublic:
     fields:
       - name: company_name
         type: str
       - name: company_size
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: cover_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: created_at
         type: datetime
       - name: description
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: founded_year
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: headquarters_location
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: id
         type: str
       - name: industry
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: instagram_handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: linkedin_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: logo_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: services
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: slug
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: website
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/agency.py
   AgencyProfileUpdate:
     fields:
       - name: company_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: company_size
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: cover_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: description
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: founded_year
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: headquarters_location
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: industry
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: instagram_handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: is_public
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: linkedin_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: logo_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: services
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: slug
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: website
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/agency.py
   ApplicationCreate:
     fields:
       - name: custom_pitch
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: highlighted_portfolio_items
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: proposed_rate
-        type: 'Optional[int]'
+        type: "Optional[int]"
     file: backend/app/schemas/campaign_application.py
   ApplicationListItem:
     fields:
@@ -267,7 +267,7 @@ schemas:
       - name: influencer_id
         type: str
       - name: proposed_rate
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: status
         type: str
     file: backend/app/schemas/campaign_application.py
@@ -278,17 +278,17 @@ schemas:
       - name: created_at
         type: datetime
       - name: custom_pitch
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: highlighted_portfolio_items
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: id
         type: str
       - name: influencer_id
         type: str
       - name: media_kit_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: proposed_rate
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: status
         type: str
       - name: updated_at
@@ -302,40 +302,40 @@ schemas:
   BookmarkBulkMove:
     fields:
       - name: bookmark_ids
-        type: 'List[str]'
+        type: "List[str]"
       - name: folder_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/saved_folder.py
   BookmarkCreate:
     fields:
       - name: campaign_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: folder_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: influencer_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: post_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/bookmark.py
   BookmarkMove:
     fields:
       - name: folder_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/saved_folder.py
   BookmarkResponse:
     fields:
       - name: campaign_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: created_at
         type: datetime
       - name: folder_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: id
         type: str
       - name: influencer_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: post_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: user_id
         type: str
     file: backend/app/schemas/bookmark.py
@@ -347,58 +347,58 @@ schemas:
   BrandEmployeeProfileCreate:
     fields:
       - name: bio
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: brand_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: department
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: education
-        type: 'Optional[List[Education]]'
+        type: "Optional[List[Education]]"
       - name: headline
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: job_title
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: linkedin_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: location
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: social_links
-        type: 'Optional[List[SocialLink]]'
+        type: "Optional[List[SocialLink]]"
       - name: work_experience
-        type: 'Optional[List[WorkExperience]]'
+        type: "Optional[List[WorkExperience]]"
     file: backend/app/schemas/brand_employee.py
   BrandEmployeeProfileResponse:
     fields:
       - name: avg_rating
         type: float
       - name: bio
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: brand_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: campaigns_managed
         type: int
       - name: created_at
         type: datetime
       - name: department
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: education
-        type: 'Optional[List[Education]]'
+        type: "Optional[List[Education]]"
       - name: full_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: headline
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: id
         type: str
       - name: job_title
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: linkedin_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: location
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: profile_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: social_links
-        type: 'Optional[List[SocialLink]]'
+        type: "Optional[List[SocialLink]]"
       - name: total_budget_managed
         type: int
       - name: total_reviews
@@ -408,37 +408,37 @@ schemas:
       - name: user_id
         type: str
       - name: work_experience
-        type: 'Optional[List[WorkExperience]]'
+        type: "Optional[List[WorkExperience]]"
     file: backend/app/schemas/brand_employee.py
   BrandEmployeeProfileUpdate:
     fields:
       - name: bio
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: brand_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: department
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: education
-        type: 'Optional[List[Education]]'
+        type: "Optional[List[Education]]"
       - name: headline
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: job_title
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: linkedin_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: location
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: social_links
-        type: 'Optional[List[SocialLink]]'
+        type: "Optional[List[SocialLink]]"
       - name: work_experience
-        type: 'Optional[List[WorkExperience]]'
+        type: "Optional[List[WorkExperience]]"
     file: backend/app/schemas/brand_employee.py
   BrandInfo:
     fields:
       - name: id
         type: str
       - name: logo_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: name
         type: str
     file: backend/app/schemas/campaign.py
@@ -453,9 +453,9 @@ schemas:
       - name: id
         type: str
       - name: industry
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: logo_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: total_reviews
         type: int
       - name: user_id
@@ -466,44 +466,44 @@ schemas:
       - name: company_name
         type: str
       - name: company_size
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: cover_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: description
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: industry
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: website
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/brand.py
   BrandProfileResponse:
     fields:
       - name: avg_rating
         type: float
       - name: avg_response_time_hours
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: campaigns_launched
         type: int
       - name: company_name
         type: str
       - name: company_size
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: cover_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: created_at
         type: datetime
       - name: description
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: founded_year
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: headquarters_location
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: id
         type: str
       - name: industry
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: logo_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: total_budget_spent
         type: int
       - name: total_reviews
@@ -513,52 +513,52 @@ schemas:
       - name: user_id
         type: str
       - name: website
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/brand.py
   BrandProfileUpdate:
     fields:
       - name: company_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: company_size
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: cover_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: description
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: industry
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: website
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/brand.py
   BulkStatsUpdate:
     fields:
       - name: accounts
-        type: 'List[dict]'
+        type: "List[dict]"
     file: backend/app/schemas/social_account.py
   CampaignCreate:
     fields:
       - name: application_deadline
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: assigned_manager_ids
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: budget_max
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: budget_min
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: campaign_end_date
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: campaign_start_date
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: campaign_type
         type: str
       - name: deliverables
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: description
         type: str
       - name: follower_range_max
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: follower_range_min
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: hide_budget_from_applicants
         type: bool
       - name: hide_from_profile
@@ -568,13 +568,13 @@ schemas:
       - name: is_featured
         type: bool
       - name: location_requirement
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: min_engagement_rate
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: niches
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: platforms_needed
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: positions_available
         type: int
       - name: require_verified_creators
@@ -598,33 +598,33 @@ schemas:
       - name: application_count
         type: int
       - name: application_deadline
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: assigned_managers
-        type: 'Optional[List[dict]]'
+        type: "Optional[List[dict]]"
       - name: brand
-        type: 'Optional[BrandInfo]'
+        type: "Optional[BrandInfo]"
       - name: brand_id
         type: str
       - name: budget_max
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: budget_min
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: campaign_end_date
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: campaign_start_date
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: campaign_type
         type: str
       - name: created_at
         type: datetime
       - name: deliverables
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: description
         type: str
       - name: follower_range_max
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: follower_range_min
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: hide_budget_from_applicants
         type: bool
       - name: hide_from_profile
@@ -636,15 +636,15 @@ schemas:
       - name: is_featured
         type: bool
       - name: location_requirement
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: match
-        type: 'Optional[Dict[str, Any]]'
+        type: "Optional[Dict[str, Any]]"
       - name: min_engagement_rate
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: niches
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: platforms_needed
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: positions_available
         type: int
       - name: positions_filled
@@ -665,29 +665,29 @@ schemas:
       - name: application_count
         type: int
       - name: application_deadline
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: brand_id
         type: str
       - name: budget_max
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: budget_min
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: campaign_end_date
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: campaign_start_date
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: campaign_type
         type: str
       - name: created_at
         type: datetime
       - name: deliverables
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: description
         type: str
       - name: follower_range_max
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: follower_range_min
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: hide_budget_from_applicants
         type: bool
       - name: hide_from_profile
@@ -699,13 +699,13 @@ schemas:
       - name: is_featured
         type: bool
       - name: location_requirement
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: min_engagement_rate
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: niches
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: platforms_needed
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: positions_available
         type: int
       - name: positions_filled
@@ -728,53 +728,53 @@ schemas:
   CampaignUpdate:
     fields:
       - name: application_deadline
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: assigned_manager_ids
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: budget_max
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: budget_min
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: campaign_end_date
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: campaign_start_date
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: campaign_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: deliverables
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: description
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: follower_range_max
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: follower_range_min
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: hide_budget_from_applicants
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: hide_from_profile
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: hide_from_team_members
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: is_featured
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: location_requirement
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: min_engagement_rate
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: niches
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: platforms_needed
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: positions_available
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: require_verified_creators
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: status
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: title
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: visibility
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/campaign.py
   CanReviewResponse:
     fields:
@@ -783,7 +783,7 @@ schemas:
       - name: eligible_campaigns
         type: list
       - name: reason
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: total_past_partnerships
         type: int
     file: backend/app/schemas/review.py
@@ -804,7 +804,7 @@ schemas:
   CollaboratorResponse:
     fields:
       - name: added_by
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: created_at
         type: datetime
       - name: folder_id
@@ -816,7 +816,7 @@ schemas:
       - name: updated_at
         type: datetime
       - name: user
-        type: 'Optional[CollaboratorUserInfo]'
+        type: "Optional[CollaboratorUserInfo]"
       - name: user_id
         type: str
     file: backend/app/schemas/folder_sharing.py
@@ -834,7 +834,7 @@ schemas:
       - name: id
         type: str
       - name: profile_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: user_type
         type: str
     file: backend/app/schemas/folder_sharing.py
@@ -843,7 +843,7 @@ schemas:
       - name: content
         type: str
       - name: parent_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/post.py
   CommentReplyResponse:
     fields:
@@ -858,7 +858,7 @@ schemas:
       - name: like_count
         type: int
       - name: parent_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: user
         type: UserBrief
     file: backend/app/schemas/post.py
@@ -875,7 +875,7 @@ schemas:
       - name: like_count
         type: int
       - name: parent_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: replies
         type: "List['CommentReplyResponse']"
       - name: reply_count
@@ -914,16 +914,16 @@ schemas:
   ContactSyncItem:
     fields:
       - name: emails
-        type: 'List[str]'
+        type: "List[str]"
       - name: phones
-        type: 'List[str]'
+        type: "List[str]"
     file: backend/app/schemas/contact_sync.py
   ContactSyncRequest:
     fields:
       - name: client_sync_token
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: contacts
-        type: 'List[ContactSyncItem]'
+        type: "List[ContactSyncItem]"
       - name: permission_status
         type: PermissionStatus
     file: backend/app/schemas/contact_sync.py
@@ -947,9 +947,9 @@ schemas:
   ContactSyncStatusResponse:
     fields:
       - name: last_client_sync_token
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: last_synced_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: permission_status
         type: PermissionStatus
       - name: sync_enabled
@@ -958,14 +958,14 @@ schemas:
   ConversationCreate:
     fields:
       - name: initial_message
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: participant_ids
-        type: 'List[str]'
+        type: "List[str]"
     file: backend/app/schemas/conversation.py
   ConversationListResponse:
     fields:
       - name: conversations
-        type: 'List[ConversationResponse]'
+        type: "List[ConversationResponse]"
       - name: has_more
         type: bool
       - name: total
@@ -978,7 +978,7 @@ schemas:
       - name: id
         type: str
       - name: profile_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: user_type
         type: str
     file: backend/app/schemas/conversation.py
@@ -989,13 +989,13 @@ schemas:
       - name: id
         type: str
       - name: last_message_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: last_message_content
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: last_message_sender_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: participants
-        type: 'List[ConversationParticipant]'
+        type: "List[ConversationParticipant]"
       - name: unread_count
         type: int
       - name: updated_at
@@ -1006,30 +1006,30 @@ schemas:
       - name: brand_name
         type: str
       - name: campaign_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: quote
         type: str
     file: backend/app/schemas/feed.py
   CreateNotificationRequest:
     fields:
       - name: actor_avatar
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: actor_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: actor_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: data
-        type: 'Optional[Dict[str, Any]]'
+        type: "Optional[Dict[str, Any]]"
       - name: group_key
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: link
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: message
         type: str
       - name: related_entity_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: related_entity_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: title
         type: str
       - name: type
@@ -1042,7 +1042,7 @@ schemas:
       - name: brand_id
         type: str
       - name: brand_logo
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: brand_name
         type: str
       - name: permissions
@@ -1058,28 +1058,28 @@ schemas:
   DetailedRatings:
     fields:
       - name: communication
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: deadline
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: professionalism
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: quality
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: value
-        type: 'Optional[float]'
+        type: "Optional[float]"
     file: backend/app/schemas/review.py
   Education:
     fields:
       - name: degree
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: end_year
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: field
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: school
         type: str
       - name: start_year
-        type: 'Optional[int]'
+        type: "Optional[int]"
     file: backend/app/schemas/brand_employee.py
   EmployeeBrandRestrictionCreate:
     fields:
@@ -1093,7 +1093,7 @@ schemas:
       - name: brand_id
         type: str
       - name: brand_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: created_at
         type: datetime
       - name: id
@@ -1102,55 +1102,55 @@ schemas:
   ExpoPushSubscriptionRequest:
     fields:
       - name: device_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: expo_push_token
         type: str
     file: backend/app/schemas/notification.py
   FeedCampaignSchema:
     fields:
       - name: application_deadline
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: brand_id
         type: str
       - name: brand_logo
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: brand_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: budget_max
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: budget_min
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: campaign_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: created_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: description
         type: str
       - name: follower_range_max
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: follower_range_min
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: id
         type: str
       - name: is_featured
         type: bool
       - name: location_requirement
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: niches
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: platforms_needed
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: title
         type: str
     file: backend/app/schemas/feed.py
   FeedInsightSchema:
     fields:
       - name: author_avatar
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: author_id
         type: str
       - name: author_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: brand_name
         type: str
       - name: created_at
@@ -1167,15 +1167,15 @@ schemas:
   FeedItemSchema:
     fields:
       - name: content
-        type: 'Union[FeedCampaignSchema, FeedInsightSchema, FeedMilestoneSchema, Dict[str, Any]]'
+        type: "Union[FeedCampaignSchema, FeedInsightSchema, FeedMilestoneSchema, Dict[str, Any]]"
       - name: id
         type: str
       - name: is_jackpot
         type: bool
       - name: match_reason
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: match_score
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: position
         type: int
       - name: timestamp
@@ -1196,34 +1196,34 @@ schemas:
       - name: milestone_type
         type: str
       - name: user_avatar
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: user_id
         type: str
       - name: user_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: value
         type: str
     file: backend/app/schemas/feed.py
   FeedPreferenceSchema:
     fields:
       - name: created_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: filter_max_budget
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: filter_min_budget
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: filter_niches
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: filter_remote_only
         type: bool
       - name: id
         type: str
       - name: last_refreshed_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: show_match_reasons
         type: bool
       - name: updated_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: user_id
         type: str
     file: backend/app/schemas/feed.py
@@ -1234,9 +1234,9 @@ schemas:
       - name: is_first_time_user
         type: bool
       - name: items
-        type: 'List[FeedItemSchema]'
+        type: "List[FeedItemSchema]"
       - name: next_page
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: total_count
         type: int
     file: backend/app/schemas/feed.py
@@ -1247,13 +1247,13 @@ schemas:
       - name: collaborator_count
         type: int
       - name: collaborators
-        type: 'List[CollaboratorResponse]'
+        type: "List[CollaboratorResponse]"
       - name: color
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: created_at
         type: datetime
       - name: description
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: id
         type: str
       - name: is_shared
@@ -1274,123 +1274,123 @@ schemas:
       - name: avg_rating
         type: float
       - name: full_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: headline
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: id
         type: str
       - name: instagram_followers
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: is_available
         type: bool
       - name: location
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: primary_niche
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: profile_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: secondary_niches
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: tiktok_followers
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: total_reviews
         type: int
       - name: user_id
         type: str
       - name: youtube_subscribers
-        type: 'Optional[int]'
+        type: "Optional[int]"
     file: backend/app/schemas/influencer.py
   InfluencerProfileCreate:
     fields:
       - name: avg_engagement_rate
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: bio
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: cover_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: headline
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: instagram_followers
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: instagram_handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: is_available
         type: bool
       - name: location
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: pricing
-        type: 'Optional[Dict[str, Any]]'
+        type: "Optional[Dict[str, Any]]"
       - name: primary_niche
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: secondary_niches
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: tiktok_followers
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: tiktok_handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: youtube_handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: youtube_subscribers
-        type: 'Optional[int]'
+        type: "Optional[int]"
     file: backend/app/schemas/influencer.py
   InfluencerProfileResponse:
     fields:
       - name: age_distribution
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: audience_interests
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: avg_engagement_rate
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: avg_rating
         type: float
       - name: avg_response_time_hours
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: bio
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: campaigns_completed
         type: int
       - name: cover_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: created_at
         type: datetime
       - name: gender_split
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: headline
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: id
         type: str
       - name: instagram_followers
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: instagram_handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: instagram_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: is_available
         type: bool
       - name: linkedin_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: location
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: pricing
-        type: 'Optional[Dict[str, Any]]'
+        type: "Optional[Dict[str, Any]]"
       - name: primary_niche
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: secondary_niches
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: tiktok_followers
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: tiktok_handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: tiktok_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: top_locations
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: total_reviews
         type: int
       - name: twitch_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: updated_at
         type: datetime
       - name: user_id
@@ -1398,80 +1398,80 @@ schemas:
       - name: would_work_again_percentage
         type: float
       - name: youtube_handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: youtube_subscribers
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: youtube_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/influencer.py
   InfluencerProfileUpdate:
     fields:
       - name: age_distribution
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: audience_interests
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: avg_engagement_rate
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: bio
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: booking_lead_time
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: brand_partnerships
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: campaign_history
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: campaign_types
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: cover_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: gender_split
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: headline
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: instagram_followers
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: instagram_handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: instagram_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: is_available
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: linkedin_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: location
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: platform_metrics
-        type: 'Optional[Dict[str, Any]]'
+        type: "Optional[Dict[str, Any]]"
       - name: preferred_contact
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: pricing
-        type: 'Optional[Dict[str, Any]]'
+        type: "Optional[Dict[str, Any]]"
       - name: primary_niche
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: response_time
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: secondary_niches
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: specialties
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: tiktok_followers
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: tiktok_handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: tiktok_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: top_locations
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: twitch_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: youtube_handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: youtube_subscribers
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: youtube_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/influencer.py
   InfluencerReviewsResponse:
     fields:
@@ -1490,9 +1490,9 @@ schemas:
   InsightInteractionResponse:
     fields:
       - name: helpful_count
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: save_count
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: success
         type: bool
     file: backend/app/schemas/feed.py
@@ -1503,7 +1503,7 @@ schemas:
       - name: brand_name
         type: str
       - name: campaign_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: comment_count
         type: int
       - name: created_at
@@ -1529,7 +1529,7 @@ schemas:
   InvitationListResponse:
     fields:
       - name: invitations
-        type: 'List[InvitationResponse]'
+        type: "List[InvitationResponse]"
       - name: total
         type: int
     file: backend/app/schemas/folder_sharing.py
@@ -1540,25 +1540,25 @@ schemas:
       - name: expires_at
         type: datetime
       - name: folder_color
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: folder_id
         type: str
       - name: folder_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: id
         type: str
       - name: invitee_id
         type: str
       - name: invitee_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: inviter_id
         type: str
       - name: inviter_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: inviter_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: responded_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: role
         type: CollaboratorRoleEnum
       - name: status
@@ -1571,7 +1571,7 @@ schemas:
       - name: id
         type: str
       - name: logo_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/brand_employee.py
   MarkReadResponse:
     fields:
@@ -1589,7 +1589,7 @@ schemas:
       - name: item_type
         type: "Literal['campaign', 'insight', 'milestone']"
       - name: scroll_position
-        type: 'Optional[int]'
+        type: "Optional[int]"
     file: backend/app/schemas/feed.py
   MarkViewedResponse:
     fields:
@@ -1599,11 +1599,11 @@ schemas:
   MessageCreate:
     fields:
       - name: content
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: media_meta
-        type: 'Optional[dict]'
+        type: "Optional[dict]"
       - name: media_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: message_type
         type: "Literal['text', 'image', 'video', 'voice']"
     file: backend/app/schemas/message.py
@@ -1612,14 +1612,14 @@ schemas:
       - name: has_more
         type: bool
       - name: messages
-        type: 'List[MessageResponse]'
+        type: "List[MessageResponse]"
       - name: total
         type: int
     file: backend/app/schemas/message.py
   MessageResponse:
     fields:
       - name: content
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: conversation_id
         type: str
       - name: created_at
@@ -1629,9 +1629,9 @@ schemas:
       - name: is_read
         type: bool
       - name: media_meta
-        type: 'Optional[dict]'
+        type: "Optional[dict]"
       - name: media_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: message_type
         type: str
       - name: sender
@@ -1646,7 +1646,7 @@ schemas:
       - name: id
         type: str
       - name: profile_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: user_type
         type: str
     file: backend/app/schemas/message.py
@@ -1655,7 +1655,7 @@ schemas:
       - name: has_more
         type: bool
       - name: notifications
-        type: 'List[NotificationResponse]'
+        type: "List[NotificationResponse]"
       - name: total
         type: int
       - name: unread_count
@@ -1681,7 +1681,7 @@ schemas:
       - name: email_digest_timezone
         type: str
       - name: preferences
-        type: 'List[NotificationPreferenceItem]'
+        type: "List[NotificationPreferenceItem]"
       - name: push_enabled_global
         type: bool
       - name: user_id
@@ -1690,35 +1690,35 @@ schemas:
   NotificationResponse:
     fields:
       - name: actor_avatar
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: actor_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: actor_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: created_at
         type: datetime
       - name: data
-        type: 'Optional[Dict[str, Any]]'
+        type: "Optional[Dict[str, Any]]"
       - name: group_count
         type: int
       - name: group_key
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: id
         type: str
       - name: is_read
         type: bool
       - name: link
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: message
         type: str
       - name: priority
         type: str
       - name: read_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: related_entity_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: related_entity_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: title
         type: str
       - name: type
@@ -1748,7 +1748,7 @@ schemas:
   NotificationTypesResponse:
     fields:
       - name: types
-        type: 'List[NotificationTypeInfo]'
+        type: "List[NotificationTypeInfo]"
     file: backend/app/schemas/notification.py
   PerformanceMetricEntry:
     fields:
@@ -1769,40 +1769,40 @@ schemas:
   PortfolioAnalyticsResponse:
     fields:
       - name: recent_views
-        type: 'List[PortfolioViewResponse]'
+        type: "List[PortfolioViewResponse]"
       - name: total_views
         type: int
       - name: views_by_type
-        type: 'Dict[str, int]'
+        type: "Dict[str, int]"
     file: backend/app/schemas/portfolio.py
   PortfolioItemCreate:
     fields:
       - name: brand_logo_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: brand_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: campaign_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: campaign_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: collaboration_date
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: comments
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: content_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: creator_notes
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: deal_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: deliverables
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: description
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: engagement_rate
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: image_urls
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: is_featured
         type: bool
       - name: is_public
@@ -1810,66 +1810,66 @@ schemas:
       - name: item_type
         type: str
       - name: likes
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: live_post_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: metrics
-        type: 'Optional[Dict[str, Any]]'
+        type: "Optional[Dict[str, Any]]"
       - name: original_post_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: performance_metrics
-        type: 'Optional[List[PerformanceMetricEntry]]'
+        type: "Optional[List[PerformanceMetricEntry]]"
       - name: platform
         type: str
       - name: posted_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: shares
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: thumbnail_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: title
         type: str
       - name: video_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: views
-        type: 'Optional[int]'
+        type: "Optional[int]"
     file: backend/app/schemas/portfolio.py
   PortfolioItemResponse:
     fields:
       - name: brand_logo_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: brand_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: campaign_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: campaign_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: collaboration_date
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: content_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: created_at
         type: datetime
       - name: created_by_agent
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: creator_notes
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: deal_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: deliverables
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: description
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: display_order
         type: int
       - name: duration
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: file_size
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: id
         type: str
       - name: image_urls
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: influencer_id
         type: str
       - name: is_featured
@@ -1879,110 +1879,110 @@ schemas:
       - name: item_type
         type: str
       - name: live_post_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: metrics
-        type: 'Optional[Dict[str, Any]]'
+        type: "Optional[Dict[str, Any]]"
       - name: original_post_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: performance_metrics
-        type: 'Optional[List[PerformanceMetricEntry]]'
+        type: "Optional[List[PerformanceMetricEntry]]"
       - name: platform
         type: str
       - name: posted_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: review_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: thumbnail_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: title
         type: str
       - name: updated_at
         type: datetime
       - name: video_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: view_count
-        type: 'Optional[int]'
+        type: "Optional[int]"
     file: backend/app/schemas/portfolio.py
   PortfolioItemUpdate:
     fields:
       - name: brand_logo_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: brand_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: campaign_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: campaign_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: collaboration_date
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: comments
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: content_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: creator_notes
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: deal_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: deliverables
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: description
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: display_order
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: engagement_rate
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: image_urls
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: is_featured
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: is_public
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: item_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: likes
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: live_post_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: metrics
-        type: 'Optional[Dict[str, Any]]'
+        type: "Optional[Dict[str, Any]]"
       - name: original_post_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: performance_metrics
-        type: 'Optional[List[PerformanceMetricEntry]]'
+        type: "Optional[List[PerformanceMetricEntry]]"
       - name: platform
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: posted_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: shares
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: thumbnail_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: title
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: views
-        type: 'Optional[int]'
+        type: "Optional[int]"
     file: backend/app/schemas/portfolio.py
   PortfolioListResponse:
     fields:
       - name: has_more
         type: bool
       - name: items
-        type: 'List[PortfolioItemResponse]'
+        type: "List[PortfolioItemResponse]"
       - name: total
         type: int
     file: backend/app/schemas/portfolio.py
   PortfolioMetrics:
     fields:
       - name: comments
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: engagement_rate
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: likes
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: shares
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: views
-        type: 'Optional[int]'
+        type: "Optional[int]"
     file: backend/app/schemas/portfolio.py
   PortfolioUploadResponse:
     fields:
@@ -2000,20 +2000,20 @@ schemas:
       - name: viewed_at
         type: datetime
       - name: viewer_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: viewer_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/portfolio.py
   PostCreate:
     fields:
       - name: brand_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: content
         type: str
       - name: is_anonymous
         type: bool
       - name: media_urls
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: post_type
         type: str
     file: backend/app/schemas/post.py
@@ -2026,7 +2026,7 @@ schemas:
       - name: page
         type: int
       - name: posts
-        type: 'List[PostResponse]'
+        type: "List[PostResponse]"
       - name: total
         type: int
     file: backend/app/schemas/post.py
@@ -2035,7 +2035,7 @@ schemas:
       - name: comment_count
         type: int
       - name: comments
-        type: 'List[CommentResponse]'
+        type: "List[CommentResponse]"
       - name: content
         type: str
       - name: created_at
@@ -2051,7 +2051,7 @@ schemas:
       - name: like_count
         type: int
       - name: media_urls
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: post_type
         type: str
       - name: share_count
@@ -2062,100 +2062,100 @@ schemas:
   PostUpdate:
     fields:
       - name: content
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: media_urls
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
     file: backend/app/schemas/post.py
   ProfileResponse:
     fields:
       - name: age_distribution
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: audience_interests
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: avg_engagement_rate
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: avg_rating
         type: float
       - name: avg_response_time_hours
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: bio
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: booking_lead_time
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: brand_metrics_updated_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: brand_partnerships
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: campaign_history
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: campaign_types
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: campaigns_completed
         type: int
       - name: cover_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: created_at
         type: datetime
       - name: email
         type: str
       - name: excluded_industries
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: full_name
         type: str
       - name: gender_split
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: headline
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: id
         type: str
       - name: influencer_profile_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: instagram_followers
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: instagram_handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: instagram_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: is_available
         type: bool
       - name: languages
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: linkedin_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: location
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: platform_metrics
-        type: 'Optional[Dict[str, Any]]'
+        type: "Optional[Dict[str, Any]]"
       - name: preferred_contact
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: preferred_industries
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: pricing
-        type: 'Optional[Dict[str, Any]]'
+        type: "Optional[Dict[str, Any]]"
       - name: primary_niche
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: profile_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: response_time
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: secondary_niches
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: specialties
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: tiktok_followers
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: tiktok_handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: tiktok_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: top_locations
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: total_reviews
         type: int
       - name: twitch_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: updated_at
         type: datetime
       - name: user_type
@@ -2163,174 +2163,174 @@ schemas:
       - name: would_work_again_percentage
         type: float
       - name: youtube_handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: youtube_subscribers
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: youtube_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/profile.py
   ProfileUpdate:
     fields:
       - name: age_distribution
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: audience_interests
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: avg_engagement_rate
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: bio
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: booking_lead_time
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: brand_partnerships
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: campaign_history
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: campaign_types
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: excluded_industries
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: full_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: gender_split
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: headline
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: instagram_followers
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: instagram_handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: instagram_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: is_available
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: languages
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: linkedin_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: location
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: platform_metrics
-        type: 'Optional[Dict[str, Any]]'
+        type: "Optional[Dict[str, Any]]"
       - name: preferred_contact
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: preferred_industries
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: pricing
-        type: 'Optional[Dict[str, Any]]'
+        type: "Optional[Dict[str, Any]]"
       - name: primary_niche
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: response_time
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: secondary_niches
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: specialties
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: tiktok_followers
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: tiktok_handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: tiktok_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: top_locations
-        type: 'Optional[List[Dict[str, Any]]]'
+        type: "Optional[List[Dict[str, Any]]]"
       - name: twitch_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: youtube_handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: youtube_subscribers
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: youtube_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/profile.py
   PublicCreatorProfile:
     fields:
       - name: avg_engagement_rate
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: bio
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: cover_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: full_name
         type: str
       - name: handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: headline
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: location
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: primary_niche
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: profile_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: secondary_niches
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: social_handles
-        type: 'List[PublicSocialHandle]'
+        type: "List[PublicSocialHandle]"
       - name: total_followers
-        type: 'Optional[int]'
+        type: "Optional[int]"
     file: backend/app/schemas/shareable_link.py
   PublicPortfolioItem:
     fields:
       - name: brand_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: campaign_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: content_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: created_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: creator_notes
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: deal_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: deliverables
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: description
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: engagement_rate
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: id
         type: str
       - name: image_urls
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: item_type
         type: str
       - name: live_post_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: performance_metrics
-        type: 'Optional[Any]'
+        type: "Optional[Any]"
       - name: platform
         type: str
       - name: posted_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: thumbnail_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: title
         type: str
       - name: video_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/shareable_link.py
   PublicProfileResponse:
     fields:
       - name: creator
         type: PublicCreatorProfile
       - name: portfolio
-        type: 'List[PublicPortfolioItem]'
+        type: "List[PublicPortfolioItem]"
       - name: status
         type: str
     file: backend/app/schemas/shareable_link.py
   PublicSocialHandle:
     fields:
       - name: followers
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: platform
         type: str
       - name: url
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/shareable_link.py
   PushSubscriptionKeys:
     fields:
@@ -2342,7 +2342,7 @@ schemas:
   PushSubscriptionListResponse:
     fields:
       - name: subscriptions
-        type: 'List[PushSubscriptionResponse]'
+        type: "List[PushSubscriptionResponse]"
     file: backend/app/schemas/notification.py
   PushSubscriptionRequest:
     fields:
@@ -2351,14 +2351,14 @@ schemas:
       - name: keys
         type: PushSubscriptionKeys
       - name: user_agent
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/notification.py
   PushSubscriptionResponse:
     fields:
       - name: created_at
         type: datetime
       - name: device_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: id
         type: str
       - name: is_active
@@ -2382,61 +2382,61 @@ schemas:
   ReorderAccountsRequest:
     fields:
       - name: account_ids
-        type: 'List[str]'
+        type: "List[str]"
     file: backend/app/schemas/social_account.py
   ReviewCreate:
     fields:
       - name: brand_employee_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: brand_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: budget_range
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: campaign_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: campaign_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: communication_rating
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: communication_score
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: cons
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: content_quality_score
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: deadline_rating
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: detailed_feedback
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: influencer_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: is_anonymous
         type: bool
       - name: overall_rating
         type: int
       - name: payment_timeliness_score
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: professionalism_score
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: pros
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: review_type
         type: str
       - name: roi_score
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: title
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: value_rating
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: would_recommend
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: would_work_again
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
     file: backend/app/schemas/review.py
   ReviewListItem:
     fields:
       - name: campaign_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: created_at
         type: datetime
       - name: helpful_count
@@ -2450,83 +2450,83 @@ schemas:
       - name: review_type
         type: str
       - name: title
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: would_recommend
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: would_work_again
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
     file: backend/app/schemas/review.py
   ReviewResponse:
     fields:
       - name: brand_employee_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: brand_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: budget_range
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: campaign_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: campaign_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: communication_rating
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: communication_score
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: cons
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: content_quality_score
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: created_at
         type: datetime
       - name: deadline_rating
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: detailed_feedback
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: helpful_count
         type: int
       - name: id
         type: str
       - name: influencer_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: is_anonymous
         type: bool
       - name: overall_rating
         type: int
       - name: payment_timeliness_score
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: professionalism_score
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: pros
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: published_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: review_type
         type: str
       - name: reviewer_id
         type: str
       - name: roi_score
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: status
         type: str
       - name: title
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: updated_at
         type: datetime
       - name: value_rating
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: verification_doc_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: verified_partnership
         type: bool
       - name: would_recommend
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: would_work_again
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
     file: backend/app/schemas/review.py
   ReviewSummary:
     fields:
       - name: average_rating
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: detailed_averages
         type: DetailedRatings
       - name: rating_breakdown
@@ -2534,114 +2534,114 @@ schemas:
       - name: total_reviews
         type: int
       - name: would_recommend_percentage
-        type: 'Optional[float]'
+        type: "Optional[float]"
       - name: would_work_again_percentage
-        type: 'Optional[float]'
+        type: "Optional[float]"
     file: backend/app/schemas/review.py
   ReviewUpdate:
     fields:
       - name: budget_range
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: campaign_type
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: communication_rating
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: communication_score
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: cons
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: content_quality_score
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: deadline_rating
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: detailed_feedback
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: is_anonymous
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: overall_rating
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: payment_timeliness_score
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: professionalism_score
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: pros
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: roi_score
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: title
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: value_rating
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: would_recommend
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: would_work_again
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
     file: backend/app/schemas/review.py
   ReviewWithDetails:
     fields:
       - name: campaign
-        type: 'Optional[CampaignInfo]'
+        type: "Optional[CampaignInfo]"
       - name: campaign_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: cons
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: created_at
         type: datetime
       - name: feedback
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: helpful_count
         type: int
       - name: id
         type: str
       - name: influencer_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: is_anonymous
         type: bool
       - name: overall_rating
         type: int
       - name: pros
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: ratings
-        type: 'Dict[str, Optional[int]]'
+        type: "Dict[str, Optional[int]]"
       - name: review_type
         type: str
       - name: reviewer
-        type: 'Optional[ReviewerInfo]'
+        type: "Optional[ReviewerInfo]"
       - name: status
         type: str
       - name: title
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: verified_partnership
         type: bool
       - name: would_recommend
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: would_work_again
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
     file: backend/app/schemas/review.py
   ReviewerInfo:
     fields:
       - name: brand_logo
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: brand_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: name
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/review.py
   SavedFolderCreate:
     fields:
       - name: color
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: description
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: name
         type: str
     file: backend/app/schemas/saved_folder.py
   SavedFolderReorder:
     fields:
       - name: folder_ids
-        type: 'List[str]'
+        type: "List[str]"
     file: backend/app/schemas/saved_folder.py
   SavedFolderResponse:
     fields:
@@ -2650,17 +2650,17 @@ schemas:
       - name: collaborator_count
         type: int
       - name: color
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: created_at
         type: datetime
       - name: description
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: id
         type: str
       - name: is_shared
         type: bool
       - name: my_role
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: name
         type: str
       - name: position
@@ -2673,33 +2673,33 @@ schemas:
   SavedFolderUpdate:
     fields:
       - name: color
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: description
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: name
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/saved_folder.py
   ShareableLinkCreate:
     fields:
       - name: expires_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: name
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/shareable_link.py
   ShareableLinkListItem:
     fields:
       - name: created_at
         type: datetime
       - name: expires_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: id
         type: str
       - name: is_active
         type: bool
       - name: last_viewed_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: public_url
         type: str
       - name: total_views
@@ -2712,15 +2712,15 @@ schemas:
       - name: created_at
         type: datetime
       - name: expires_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: id
         type: str
       - name: is_active
         type: bool
       - name: last_viewed_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: public_url
         type: str
       - name: token
@@ -2735,11 +2735,11 @@ schemas:
       - name: collaborator_count
         type: int
       - name: color
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: created_at
         type: datetime
       - name: description
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: id
         type: str
       - name: is_shared
@@ -2751,7 +2751,7 @@ schemas:
       - name: owner_id
         type: str
       - name: owner_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: owner_name
         type: str
       - name: position
@@ -2762,57 +2762,57 @@ schemas:
   SocialAccountCreate:
     fields:
       - name: display_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: follower_count
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: following_count
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: is_visible
         type: bool
       - name: platform
         type: SocialPlatform
       - name: post_count
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: profile_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: subscriber_count
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: username
         type: str
     file: backend/app/schemas/social_account.py
   SocialAccountListResponse:
     fields:
       - name: accounts
-        type: 'List[SocialAccountResponse]'
+        type: "List[SocialAccountResponse]"
       - name: total
         type: int
     file: backend/app/schemas/social_account.py
   SocialAccountResponse:
     fields:
       - name: audience_demographics
-        type: 'Optional[dict]'
+        type: "Optional[dict]"
       - name: avg_comments
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: avg_likes
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: avg_views
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: bio
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: created_at
         type: datetime
       - name: data_source
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: display_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: display_order
         type: int
       - name: engagement_rate
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: follower_count
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: following_count
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: id
         type: str
       - name: influencer_id
@@ -2822,21 +2822,21 @@ schemas:
       - name: is_visible
         type: bool
       - name: last_sync_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: phyllo_account_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: platform
         type: str
       - name: post_count
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: profile_image_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: profile_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: stats_updated_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: subscriber_count
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: updated_at
         type: datetime
       - name: username
@@ -2845,25 +2845,25 @@ schemas:
   SocialAccountUpdate:
     fields:
       - name: display_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: display_order
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: follower_count
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: following_count
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: is_primary
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: is_visible
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: post_count
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: profile_url
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: subscriber_count
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: username
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/social_account.py
   SocialLink:
     fields:
@@ -2877,13 +2877,13 @@ schemas:
       - name: full_name
         type: str
       - name: handle
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: id
         type: str
       - name: primary_niche
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: profile_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/thread.py
   ThreadBookmarkResponse:
     fields:
@@ -2913,21 +2913,21 @@ schemas:
       - name: is_pinned
         type: bool
       - name: last_edited_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: like_count
         type: int
       - name: part_count
         type: int
       - name: parts
-        type: 'List[ThreadPartResponse]'
+        type: "List[ThreadPartResponse]"
       - name: published_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: share_count
         type: int
       - name: status
         type: str
       - name: title
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: updated_at
         type: datetime
       - name: visibility
@@ -2936,23 +2936,23 @@ schemas:
   ThreadDraftCreateRequest:
     fields:
       - name: parts
-        type: 'List[ThreadPartInput]'
+        type: "List[ThreadPartInput]"
       - name: title
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/thread.py
   ThreadDraftUpdateRequest:
     fields:
       - name: parts
-        type: 'Optional[List[ThreadPartInput]]'
+        type: "Optional[List[ThreadPartInput]]"
       - name: title
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/thread.py
   ThreadEditRequest:
     fields:
       - name: parts
-        type: 'List[ThreadPartInput]'
+        type: "List[ThreadPartInput]"
       - name: title
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/thread.py
   ThreadLikeResponse:
     fields:
@@ -2966,7 +2966,7 @@ schemas:
       - name: has_more
         type: bool
       - name: threads
-        type: 'List[ThreadSummaryResponse]'
+        type: "List[ThreadSummaryResponse]"
       - name: total
         type: int
     file: backend/app/schemas/thread.py
@@ -2993,26 +2993,26 @@ schemas:
       - name: pinned
         type: bool
       - name: thread_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/thread.py
   ThreadPromptsResponse:
     fields:
       - name: prompts
-        type: 'List[str]'
+        type: "List[str]"
       - name: show_prompts
         type: bool
     file: backend/app/schemas/thread.py
   ThreadPublishRequest:
     fields:
       - name: parts
-        type: 'List[ThreadPartInput]'
+        type: "List[ThreadPartInput]"
       - name: title
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/thread.py
   ThreadReportRequest:
     fields:
       - name: description
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: reason
         type: str
     file: backend/app/schemas/thread.py
@@ -3037,13 +3037,13 @@ schemas:
       - name: preview_text
         type: str
       - name: published_at
-        type: 'Optional[datetime]'
+        type: "Optional[datetime]"
       - name: share_count
         type: int
       - name: status
         type: str
       - name: title
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: visibility
         type: str
     file: backend/app/schemas/thread.py
@@ -3057,7 +3057,7 @@ schemas:
   TokenData:
     fields:
       - name: user_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/user.py
   TokenStatusResponse:
     fields:
@@ -3074,50 +3074,50 @@ schemas:
   UpdateFeedPreferenceRequest:
     fields:
       - name: filter_max_budget
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: filter_min_budget
-        type: 'Optional[int]'
+        type: "Optional[int]"
       - name: filter_niches
-        type: 'Optional[List[str]]'
+        type: "Optional[List[str]]"
       - name: filter_remote_only
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: show_match_reasons
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
     file: backend/app/schemas/feed.py
   UpdateNotificationPreferenceRequest:
     fields:
       - name: email_digest_enabled
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: email_instant_enabled
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: in_app_enabled
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
       - name: notification_type
         type: str
       - name: push_enabled
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
     file: backend/app/schemas/notification.py
   UpdateNotificationPreferencesRequest:
     fields:
       - name: email_digest_time
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: email_digest_timezone
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: preferences
-        type: 'List[UpdateNotificationPreferenceRequest]'
+        type: "List[UpdateNotificationPreferenceRequest]"
       - name: push_enabled_global
-        type: 'Optional[bool]'
+        type: "Optional[bool]"
     file: backend/app/schemas/notification.py
   UserBrief:
     fields:
       - name: full_name
         type: str
       - name: headline
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: id
         type: str
       - name: profile_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: user_type
         type: str
     file: backend/app/schemas/post.py
@@ -3149,9 +3149,9 @@ schemas:
       - name: is_active
         type: bool
       - name: phone_number
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: profile_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: user_type
         type: str
     file: backend/app/schemas/user.py
@@ -3160,7 +3160,7 @@ schemas:
       - name: total
         type: int
       - name: users
-        type: 'List[UserSearchResult]'
+        type: "List[UserSearchResult]"
     file: backend/app/schemas/folder_sharing.py
   UserSearchResult:
     fields:
@@ -3175,33 +3175,33 @@ schemas:
       - name: id
         type: str
       - name: profile_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: user_type
         type: str
     file: backend/app/schemas/folder_sharing.py
   UserUpdate:
     fields:
       - name: full_name
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: profile_image
-        type: 'Optional[str]'
+        type: "Optional[str]"
     file: backend/app/schemas/user.py
   WorkExperience:
     fields:
       - name: company
         type: str
       - name: description
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: end_date
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: is_current
         type: bool
       - name: linked_brand
-        type: 'Optional[LinkedBrand]'
+        type: "Optional[LinkedBrand]"
       - name: linked_brand_id
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: start_date
-        type: 'Optional[str]'
+        type: "Optional[str]"
       - name: title
         type: str
     file: backend/app/schemas/brand_employee.py
