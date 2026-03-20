@@ -1,0 +1,4057 @@
+models:
+  AdminActionLog:
+    fields:
+      - name: action_type
+        type: String(100)
+        nullable: false
+      - name: admin_id
+        type: String
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: description
+        type: Text
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: metadata_json
+        type: Text
+        nullable: true
+      - name: target_id
+        type: String
+        nullable: true
+      - name: target_type
+        type: String(50)
+        nullable: true
+    file: backend/app/models/admin.py
+    relationships:
+      - name: admin
+        target: AdminUser
+        backref: actions
+    table: admin_action_logs
+  AdminInvitation:
+    fields:
+      - name: accepted
+        type: Boolean
+        default: false
+        nullable: false
+      - name: accepted_at
+        type: DateTime
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: email
+        type: String
+        nullable: false
+      - name: expires_at
+        type: DateTime
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: invitation_token
+        type: String
+        unique: true
+        nullable: false
+      - name: invited_by
+        type: String
+        nullable: false
+      - name: role
+        type: Enum(AdminRole)
+        nullable: false
+    file: backend/app/models/admin.py
+    relationships:
+      - name: inviter
+        target: AdminUser
+    table: admin_invitations
+  AdminUser:
+    fields:
+      - name: can_approve_campaigns
+        type: Boolean
+        default: false
+        nullable: false
+      - name: can_ban_users
+        type: Boolean
+        default: false
+        nullable: false
+      - name: can_manage_admins
+        type: Boolean
+        default: false
+        nullable: false
+      - name: can_moderate_content
+        type: Boolean
+        default: true
+        nullable: false
+      - name: can_suspend_users
+        type: Boolean
+        default: false
+        nullable: false
+      - name: can_view_analytics
+        type: Boolean
+        default: true
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: invited_by
+        type: String
+        nullable: true
+      - name: is_active
+        type: Boolean
+        default: true
+        nullable: false
+      - name: last_active_at
+        type: DateTime
+        nullable: true
+      - name: role
+        type: Enum(AdminRole)
+        default: AdminRole.SUPPORT_AGENT
+        nullable: false
+      - name: user_id
+        type: String
+        unique: true
+        nullable: false
+    file: backend/app/models/admin.py
+    relationships:
+      - name: actions
+        target: AdminActionLog
+        backref: admin
+      - name: inviter
+        target: AdminUser
+      - name: user
+        target: User
+        backref: admin_profile
+    table: admin_users
+  AgencyBrandAccess:
+    fields:
+      - name: accepted_at
+        type: DateTime
+        nullable: true
+      - name: accepted_by_user_id
+        type: String
+        nullable: true
+      - name: agency_id
+        type: String
+        nullable: false
+      - name: brand_id
+        type: String
+        nullable: false
+      - name: can_message_creators
+        type: Boolean
+        default: true
+      - name: can_post_campaigns
+        type: Boolean
+        default: true
+      - name: can_review_applications
+        type: Boolean
+        default: true
+      - name: can_view_analytics
+        type: Boolean
+        default: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: initiated_by
+        type: String
+        nullable: false
+      - name: invited_by_user_id
+        type: String
+        nullable: true
+      - name: message
+        type: Text
+        nullable: true
+      - name: revoked_at
+        type: DateTime
+        nullable: true
+      - name: revoked_by_user_id
+        type: String
+        nullable: true
+      - name: status
+        type: String
+        default: pending
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+    file: backend/app/models/agency.py
+    relationships:
+      - name: accepted_by
+        target: User
+      - name: agency
+        target: AgencyProfile
+        backref: brand_access
+      - name: brand
+        target: BrandProfile
+        backref: agency_access
+      - name: invited_by
+        target: User
+    table: agency_brand_access
+  AgencyEmployee:
+    fields:
+      - name: agency_id
+        type: String
+        nullable: false
+      - name: can_manage_clients
+        type: Boolean
+        default: false
+      - name: can_manage_team
+        type: Boolean
+        default: false
+      - name: can_message_creators
+        type: Boolean
+        default: true
+      - name: can_post_campaigns
+        type: Boolean
+        default: true
+      - name: can_review_applications
+        type: Boolean
+        default: true
+      - name: can_view_analytics
+        type: Boolean
+        default: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: is_active
+        type: Boolean
+        default: true
+      - name: job_title
+        type: String
+        nullable: true
+      - name: role
+        type: String
+        default: employee
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/agency.py
+    relationships:
+      - name: agency
+        target: AgencyProfile
+        backref: employees
+      - name: brand_restrictions
+        target: AgencyEmployeeBrandRestriction
+        backref: employee
+      - name: user
+        target: User
+        backref: agency_employee_profile
+    table: agency_employees
+  AgencyEmployeeBrandRestriction:
+    fields:
+      - name: agency_employee_id
+        type: String
+        nullable: false
+      - name: brand_id
+        type: String
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+    file: backend/app/models/agency.py
+    relationships:
+      - name: brand
+        target: BrandProfile
+      - name: employee
+        target: AgencyEmployee
+        backref: brand_restrictions
+    table: agency_employee_brand_restrictions
+  AgencyInvitation:
+    fields:
+      - name: accepted
+        type: Boolean
+        default: false
+      - name: accepted_at
+        type: DateTime
+        nullable: true
+      - name: agency_id
+        type: String
+        nullable: false
+      - name: can_manage_clients
+        type: Boolean
+        default: false
+      - name: can_manage_team
+        type: Boolean
+        default: false
+      - name: can_message_creators
+        type: Boolean
+        default: true
+      - name: can_post_campaigns
+        type: Boolean
+        default: true
+      - name: can_review_applications
+        type: Boolean
+        default: true
+      - name: can_view_analytics
+        type: Boolean
+        default: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: email
+        type: String
+        nullable: false
+      - name: expires_at
+        type: DateTime
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: invitation_token
+        type: String
+        unique: true
+        nullable: false
+      - name: invited_by_user_id
+        type: String
+        nullable: true
+      - name: job_title
+        type: String
+        nullable: true
+      - name: role
+        type: String
+        default: employee
+    file: backend/app/models/agency.py
+    relationships:
+      - name: agency
+        target: AgencyProfile
+      - name: invited_by
+        target: User
+    table: agency_invitations
+  AgencyProfile:
+    fields:
+      - name: company_name
+        type: String
+        nullable: false
+      - name: company_size
+        type: String
+        nullable: true
+      - name: cover_image
+        type: String
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: description
+        type: Text
+        nullable: true
+      - name: founded_year
+        type: Integer
+        nullable: true
+      - name: headquarters_location
+        type: String
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: industry
+        type: String
+        nullable: true
+      - name: instagram_handle
+        type: String
+        nullable: true
+      - name: is_public
+        type: Boolean
+        default: true
+      - name: linkedin_url
+        type: String
+        nullable: true
+      - name: logo_url
+        type: String
+        nullable: true
+      - name: services
+        type: Text
+        nullable: true
+      - name: slug
+        type: String
+        unique: true
+        nullable: true
+      - name: twitter_handle
+        type: String
+        nullable: true
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id
+        type: String
+        unique: true
+        nullable: false
+      - name: website
+        type: String
+        nullable: true
+    file: backend/app/models/agency.py
+    relationships:
+      - name: brand_access
+        target: AgencyBrandAccess
+        backref: agency
+      - name: employees
+        target: AgencyEmployee
+        backref: agency
+      - name: owner
+        target: User
+        backref: agency_profile
+    table: agency_profiles
+  AgentActivityLog:
+    fields:
+      - name: action_category
+        type: String(50)
+        nullable: true
+      - name: action_description
+        type: Text
+        nullable: true
+      - name: action_type
+        type: String(100)
+        nullable: false
+      - name: after_state
+        type: Text
+        nullable: true
+      - name: agent_profile_id
+        type: String
+        nullable: true
+      - name: agent_user_id
+        type: String
+        nullable: false
+      - name: before_state
+        type: Text
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: entity_id
+        type: String
+        nullable: true
+      - name: entity_type
+        type: String(50)
+        nullable: true
+      - name: extra_data
+        type: Text
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: influencer_id
+        type: String
+        nullable: false
+      - name: ip_address
+        type: String(50)
+        nullable: true
+      - name: relationship_id
+        type: String
+        nullable: false
+      - name: user_agent
+        type: String(500)
+        nullable: true
+    file: backend/app/models/agent.py
+    relationships:
+      - name: agent_profile
+        target: AgentProfile
+      - name: agent_user
+        target: User
+      - name: creator_agent_relationship
+        target: CreatorAgentRelationship
+        backref: activity_logs
+      - name: influencer_profile
+        target: InfluencerProfile
+    table: agent_activity_logs
+  AgentProfile:
+    fields:
+      - name: agency_name
+        type: String(200)
+        nullable: true
+      - name: bio
+        type: Text
+        nullable: true
+      - name: client_count
+        type: Integer
+        default: 0
+      - name: cover_photo
+        type: String(500)
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: location
+        type: String(200)
+        nullable: true
+      - name: phone
+        type: String(50)
+        nullable: true
+      - name: profile_photo
+        type: String(500)
+        nullable: true
+      - name: specialties
+        type: Text
+        nullable: true
+      - name: timezone
+        type: String(100)
+        nullable: true
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id
+        type: String
+        unique: true
+        nullable: false
+      - name: verification_documents
+        type: Text
+        nullable: true
+      - name: verified
+        type: Boolean
+        default: false
+      - name: website
+        type: String(500)
+        nullable: true
+      - name: years_experience
+        type: Integer
+        nullable: true
+    file: backend/app/models/agent.py
+    relationships:
+      - name: creator_relationships
+        target: CreatorAgentRelationship
+        backref: agent
+      - name: user
+        target: User
+        backref: agent_profile
+    table: agent_profiles
+  AgentProfileView:
+    fields:
+      - name: agent_id
+        type: String
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: source
+        type: String
+        default: direct
+      - name: viewed_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: viewer_id
+        type: String
+        nullable: true
+      - name: viewer_type
+        type: String
+        default: anonymous
+    file: backend/app/models/agent_profile_view.py
+    relationships:
+      - name: agent
+        target: AgentProfile
+        backref: profile_views
+      - name: viewer
+        target: User
+        backref: agent_profile_views_made
+    table: agent_profile_views
+  AlgorithmExperiment:
+    fields:
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: experiment_name
+        type: String(100)
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: parameters
+        type: String
+        nullable: true
+      - name: session_id
+        type: String
+        nullable: false
+      - name: user_id
+        type: String
+        nullable: true
+      - name: variant
+        type: String(50)
+        nullable: false
+    file: backend/app/models/discovery_analytics.py
+    relationships:
+    table: algorithm_experiments
+  ApplicationView:
+    fields:
+      - name: application_id
+        type: String
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: view_duration_seconds
+        type: Integer
+        nullable: true
+      - name: viewed_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: viewed_by_user_id
+        type: String
+        nullable: false
+    file: backend/app/models/application_view.py
+    relationships:
+      - name: application
+        target: CampaignApplication
+        backref: views
+      - name: viewed_by
+        target: User
+        backref: application_views
+    table: application_views
+  AutoFlag:
+    fields:
+      - name: auto_action_taken
+        type: String(50)
+        nullable: true
+      - name: confidence_score
+        type: Integer
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: entity_id
+        type: String
+        nullable: false
+      - name: entity_type
+        type: String(50)
+        nullable: false
+      - name: flag_type
+        type: String(50)
+        nullable: false
+      - name: flagged_content
+        type: Text
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: review_result
+        type: String(50)
+        nullable: true
+      - name: reviewed
+        type: Boolean
+        default: false
+        nullable: false
+      - name: reviewed_at
+        type: DateTime
+        nullable: true
+      - name: reviewed_by
+        type: String
+        nullable: true
+    file: backend/app/models/support.py
+    relationships:
+      - name: reviewer
+        target: User
+    table: auto_flags
+  BadgeProgress:
+    fields:
+      - name: category
+        type: String
+        nullable: false
+      - name: current_streak
+        type: Integer
+        default: 0
+      - name: current_value
+        type: Integer
+        default: 0
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: last_post_date
+        type: DateTime
+        nullable: true
+      - name: longest_streak
+        type: Integer
+        default: 0
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/badge.py
+    relationships:
+      - name: user
+        target: User
+        backref: badge_progress
+    table: badge_progress
+  Bookmark:
+    fields:
+      - name: campaign_id
+        type: String
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: folder_id
+        type: String
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: influencer_id
+        type: String
+        nullable: true
+      - name: post_id
+        type: String
+        nullable: true
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/bookmark.py
+    relationships:
+      - name: campaign
+        target: Campaign
+        backref: bookmarked_by
+      - name: folder
+        target: SavedFolder
+        backref: bookmarks
+      - name: influencer
+        target: InfluencerProfile
+        backref: bookmarked_by
+      - name: post
+        target: Post
+      - name: user
+        target: User
+        backref: bookmarks
+    table: bookmarks
+  BrandActivityLog:
+    fields:
+      - name: action_category
+        type: String
+        nullable: false
+      - name: action_type
+        type: String
+        nullable: false
+      - name: actor_employee_id
+        type: String
+        nullable: true
+      - name: actor_user_id
+        type: String
+        nullable: true
+      - name: after_state
+        type: JSON
+        nullable: true
+      - name: before_state
+        type: JSON
+        nullable: true
+      - name: brand_id
+        type: String
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: entity_id
+        type: String
+        nullable: true
+      - name: entity_type
+        type: String
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: ip_address
+        type: String
+        nullable: true
+      - name: user_agent
+        type: String
+        nullable: true
+    file: backend/app/models/brand_employee.py
+    relationships:
+      - name: actor_employee
+        target: BrandEmployeeProfile
+        backref: brand_actions
+      - name: actor_user
+        target: User
+        backref: brand_actions
+      - name: brand
+        target: BrandProfile
+        backref: activity_logs
+    table: brand_activity_logs
+  BrandEmployeePermissions:
+    fields:
+      - name: brand_id
+        type: String
+        nullable: false
+      - name: can_comment_as_brand
+        type: Boolean
+        default: false
+        nullable: false
+      - name: can_edit_brand_profile
+        type: Boolean
+        default: false
+        nullable: false
+      - name: can_like_as_brand
+        type: Boolean
+        default: false
+        nullable: false
+      - name: can_manage_campaigns
+        type: Boolean
+        default: false
+        nullable: false
+      - name: can_manage_team
+        type: Boolean
+        default: false
+        nullable: false
+      - name: can_message_as_brand
+        type: Boolean
+        default: false
+        nullable: false
+      - name: can_post_as_brand
+        type: Boolean
+        default: false
+        nullable: false
+      - name: can_review_as_brand
+        type: Boolean
+        default: false
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: employee_id
+        type: String
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+    file: backend/app/models/brand_employee.py
+    relationships:
+      - name: brand
+        target: BrandProfile
+        backref: employee_permissions
+      - name: employee
+        target: BrandEmployeeProfile
+        backref: brand_permissions
+    table: brand_employee_permissions
+  BrandEmployeeProfile:
+    fields:
+      - name: avg_rating
+        type: Float
+        default: 0.0
+      - name: bio
+        type: Text
+        nullable: true
+      - name: brand_id
+        type: String
+        nullable: true
+      - name: campaigns_managed
+        type: Integer
+        default: 0
+      - name: cover_image
+        type: String
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: department
+        type: String
+        nullable: true
+      - name: education
+        type: JSON
+        nullable: true
+        default: list
+      - name: headline
+        type: String
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: job_title
+        type: String
+        nullable: true
+      - name: linkedin_url
+        type: String
+        nullable: true
+      - name: location
+        type: String
+        nullable: true
+      - name: role
+        type: String
+        default: member
+        nullable: true
+      - name: social_links
+        type: JSON
+        nullable: true
+        default: list
+      - name: total_budget_managed
+        type: Integer
+        default: 0
+      - name: total_reviews
+        type: Integer
+        default: 0
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id
+        type: String
+        unique: true
+        nullable: false
+      - name: work_email
+        type: String
+        nullable: true
+      - name: work_experience
+        type: JSON
+        nullable: true
+        default: list
+    file: backend/app/models/brand_employee.py
+    relationships:
+      - name: brand
+        target: BrandProfile
+        backref: employees
+      - name: reviews
+        target: Review
+        backref: brand_employee
+      - name: user
+        target: User
+        backref: brand_employee_profile
+    table: brand_employee_profiles
+  BrandEmployeeProfileView:
+    fields:
+      - name: employee_id
+        type: String
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: source
+        type: String
+        default: direct
+      - name: viewed_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: viewer_id
+        type: String
+        nullable: true
+      - name: viewer_type
+        type: String
+        default: anonymous
+    file: backend/app/models/brand_employee_profile_view.py
+    relationships:
+      - name: employee
+        target: BrandEmployeeProfile
+        backref: profile_views
+      - name: viewer
+        target: User
+        backref: employee_profile_views_made
+    table: brand_employee_profile_views
+  BrandProfile:
+    fields:
+      - name: avg_rating
+        type: Float
+        default: 0.0
+      - name: avg_response_time_hours
+        type: Float
+        nullable: true
+      - name: campaigns_launched
+        type: Integer
+        default: 0
+      - name: company_email_domain
+        type: String
+        nullable: true
+      - name: company_name
+        type: String
+        nullable: false
+      - name: company_size
+        type: String
+        nullable: true
+      - name: cover_image
+        type: String
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: description
+        type: Text
+        nullable: true
+      - name: founded_year
+        type: Integer
+        nullable: true
+      - name: headquarters_location
+        type: String
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: industry
+        type: String
+        nullable: true
+      - name: instagram_handle
+        type: String
+        nullable: true
+      - name: linkedin_url
+        type: String
+        nullable: true
+      - name: logo_url
+        type: String
+        nullable: true
+      - name: total_budget_spent
+        type: Integer
+        default: 0
+      - name: total_reviews
+        type: Integer
+        default: 0
+      - name: twitter_handle
+        type: String
+        nullable: true
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id
+        type: String
+        unique: true
+        nullable: false
+      - name: website
+        type: String
+        nullable: true
+    file: backend/app/models/brand.py
+    relationships:
+      - name: agency_access
+        target: AgencyBrandAccess
+        backref: brand
+      - name: campaigns
+        target: Campaign
+        backref: brand
+      - name: employees
+        target: BrandEmployeeProfile
+        backref: brand
+      - name: reviews
+        target: Review
+        backref: brand
+      - name: user
+        target: User
+        backref: brand_profile
+    table: brand_profiles
+  BrandProfileView:
+    fields:
+      - name: brand_id
+        type: String
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: source
+        type: String
+        default: direct
+      - name: viewed_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: viewer_id
+        type: String
+        nullable: true
+      - name: viewer_type
+        type: String
+        default: anonymous
+    file: backend/app/models/brand_profile_view.py
+    relationships:
+      - name: brand
+        target: BrandProfile
+        backref: profile_views
+      - name: viewer
+        target: User
+        backref: brand_profile_views_made
+    table: brand_profile_views
+  Campaign:
+    fields:
+      - name: application_count
+        type: Integer
+        default: 0
+      - name: application_deadline
+        type: DateTime
+        nullable: true
+      - name: approved_at
+        type: DateTime
+        nullable: true
+      - name: approved_by_admin_id
+        type: String
+        nullable: true
+      - name: brand_id
+        type: String
+        nullable: false
+      - name: budget_max
+        type: Integer
+        nullable: true
+      - name: budget_min
+        type: Integer
+        nullable: true
+      - name: campaign_end_date
+        type: DateTime
+        nullable: true
+      - name: campaign_start_date
+        type: DateTime
+        nullable: true
+      - name: campaign_type
+        type: String
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: deliverables
+        type: JSON
+        nullable: true
+      - name: description
+        type: Text
+        nullable: false
+      - name: featured
+        type: Boolean
+        default: false
+      - name: follower_range_max
+        type: Integer
+        nullable: true
+      - name: follower_range_min
+        type: Integer
+        nullable: true
+      - name: hide_budget_from_applicants
+        type: Boolean
+        default: false
+      - name: hide_from_profile
+        type: Boolean
+        default: false
+      - name: hide_from_team_members
+        type: Boolean
+        default: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: impressions
+        type: Integer
+        default: 0
+      - name: is_featured
+        type: Boolean
+        default: false
+      - name: location_requirement
+        type: String
+        nullable: true
+      - name: match_reason
+        type: String
+        nullable: true
+      - name: match_score
+        type: Integer
+        nullable: true
+      - name: min_engagement_rate
+        type: Float
+        nullable: true
+      - name: niches
+        type: JSON
+        nullable: true
+      - name: platforms_needed
+        type: JSON
+        nullable: true
+      - name: positions_available
+        type: Integer
+        default: 1
+      - name: positions_filled
+        type: Integer
+        default: 0
+      - name: posted_by_user_id
+        type: String
+        nullable: false
+      - name: rejection_reason
+        type: Text
+        nullable: true
+      - name: require_verified_creators
+        type: Boolean
+        default: false
+      - name: save_count
+        type: Integer
+        default: 0
+      - name: status
+        type: String
+        default: draft
+      - name: submitted_for_approval_at
+        type: DateTime
+        nullable: true
+      - name: title
+        type: String
+        nullable: false
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: view_count
+        type: Integer
+        default: 0
+      - name: visibility
+        type: String
+        default: public
+    file: backend/app/models/campaign.py
+    relationships:
+      - name: applications
+        target: CampaignApplication
+        backref: campaign
+      - name: approved_by_admin
+        target: AdminUser
+      - name: bookmarked_by
+        target: Bookmark
+        backref: campaign
+      - name: brand
+        target: BrandProfile
+        backref: campaigns
+      - name: managers
+        target: User
+        backref: managed_campaigns
+      - name: posted_by
+        target: User
+    table: campaigns
+  CampaignApplication:
+    fields:
+      - name: applied_by_agent_id
+        type: String
+        nullable: true
+      - name: campaign_id
+        type: String
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: custom_pitch
+        type: Text
+        nullable: true
+      - name: highlighted_portfolio_items
+        type: JSON
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: influencer_id
+        type: String
+        nullable: false
+      - name: media_kit_url
+        type: String
+        nullable: true
+      - name: proposed_rate
+        type: Integer
+        nullable: true
+      - name: status
+        type: String
+        default: applied
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+    file: backend/app/models/campaign_application.py
+    relationships:
+      - name: applied_by_agent
+        target: AgentProfile
+      - name: campaign
+        target: Campaign
+        backref: applications
+      - name: influencer
+        target: InfluencerProfile
+        backref: applications
+    table: campaign_applications
+  Comment:
+    fields:
+      - name: actor_user_id
+        type: String
+        nullable: true
+      - name: brand_id
+        type: String
+        nullable: true
+      - name: content
+        type: Text
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: is_deleted
+        type: Boolean
+        default: false
+      - name: like_count
+        type: Integer
+        default: 0
+      - name: parent_id
+        type: String
+        nullable: true
+      - name: post_id
+        type: String
+        nullable: false
+      - name: reply_count
+        type: Integer
+        default: 0
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/post.py
+    relationships:
+      - name: actor
+        target: User
+        backref: brand_comment_actions
+      - name: brand
+        target: BrandProfile
+        backref: brand_comments
+      - name: liked_by
+        target: User
+        backref: liked_comments
+      - name: parent
+        target: Comment
+        backref: replies
+      - name: post
+        target: Post
+        backref: comments
+      - name: user
+        target: User
+        backref: comments
+    table: comments
+  Connection:
+    fields:
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: initiated_by
+        type: String
+        nullable: false
+      - name: message
+        type: String
+        nullable: true
+      - name: responded_at
+        type: DateTime
+        nullable: true
+      - name: status
+        type: String
+        default: pending
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id_1
+        type: String
+        nullable: false
+      - name: user_id_2
+        type: String
+        nullable: false
+    file: backend/app/models/connection.py
+    relationships:
+      - name: initiator
+        target: User
+      - name: user1
+        target: User
+      - name: user2
+        target: User
+    table: connections
+  ContactSyncState:
+    fields:
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: last_client_sync_token
+        type: String
+        nullable: true
+      - name: last_synced_at
+        type: DateTime
+        nullable: true
+      - name: permission_status
+        type: String
+        nullable: false
+        default: unknown
+      - name: sync_count_date
+        type: Date
+        nullable: true
+      - name: sync_count_today
+        type: Integer
+        nullable: false
+        default: 0
+      - name: sync_enabled
+        type: Boolean
+        nullable: false
+        default: false
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id
+        type: String
+        primary_key: true
+    file: backend/app/models/contact_sync.py
+    relationships:
+      - name: user
+        target: User
+    table: contact_sync_state
+  Conversation:
+    fields:
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: last_message_at
+        type: DateTime
+        nullable: true
+      - name: last_message_content
+        type: String
+        nullable: true
+      - name: last_message_sender_id
+        type: String
+        nullable: true
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+    file: backend/app/models/conversation.py
+    relationships:
+      - name: messages
+        target: Message
+        backref: conversation
+      - name: participants
+        target: User
+        backref: conversations
+    table: conversations
+  ConversationArchive:
+    fields:
+      - name: conversation_id
+        type: String
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/conversation_archive.py
+    relationships:
+      - name: conversation
+        target: Conversation
+      - name: user
+        target: User
+    table: conversation_archives
+  ConversationMute:
+    fields:
+      - name: conversation_id
+        type: String
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: muted_until
+        type: DateTime
+        nullable: true
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/conversation_mute.py
+    relationships:
+      - name: conversation
+        target: Conversation
+      - name: user
+        target: User
+    table: conversation_mutes
+  CreatorAgentRelationship:
+    fields:
+      - name: agent_id
+        type: String
+        nullable: false
+      - name: agent_notes
+        type: Text
+        nullable: true
+      - name: can_accept_campaigns
+        type: Boolean
+        default: false
+      - name: can_apply_to_campaigns
+        type: Boolean
+        default: false
+      - name: can_edit_profile
+        type: Boolean
+        default: false
+      - name: can_manage_portfolio
+        type: Boolean
+        default: false
+      - name: can_manage_schedule
+        type: Boolean
+        default: false
+      - name: can_message_brands
+        type: Boolean
+        default: false
+      - name: can_negotiate_rates
+        type: Boolean
+        default: false
+      - name: can_view_analytics
+        type: Boolean
+        default: true
+      - name: can_view_campaigns
+        type: Boolean
+        default: true
+      - name: can_view_earnings
+        type: Boolean
+        default: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: custom_permissions
+        type: Text
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: influencer_id
+        type: String
+        nullable: false
+      - name: invitation_accepted_at
+        type: DateTime
+        nullable: true
+      - name: invitation_sent_at
+        type: DateTime
+        nullable: true
+      - name: invitation_token
+        type: String(100)
+        nullable: true
+        unique: true
+      - name: notes
+        type: Text
+        nullable: true
+      - name: revoked_at
+        type: DateTime
+        nullable: true
+      - name: revoked_reason
+        type: Text
+        nullable: true
+      - name: status
+        type: Enum(RelationshipStatus)
+        default: RelationshipStatus.PENDING
+        nullable: false
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+    file: backend/app/models/agent.py
+    relationships:
+      - name: activity_logs
+        target: AgentActivityLog
+        backref: creator_agent_relationship
+      - name: agent
+        target: AgentProfile
+        backref: creator_relationships
+      - name: influencer
+        target: InfluencerProfile
+        backref: agent_relationships
+    table: creator_agent_relationships
+  DiscoveryClick:
+    fields:
+      - name: click_type
+        type: String(50)
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: entity_id
+        type: String
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: impression_id
+        type: String
+        nullable: false
+      - name: session_id
+        type: String
+        nullable: false
+      - name: time_to_click_seconds
+        type: Integer
+        nullable: true
+      - name: user_id
+        type: String
+        nullable: true
+    file: backend/app/models/discovery_analytics.py
+    relationships:
+      - name: conversions
+        target: DiscoveryConversion
+        backref: click
+      - name: impression
+        target: DiscoveryImpression
+        backref: clicks
+      - name: user
+        target: User
+    table: discovery_clicks
+  DiscoveryConversion:
+    fields:
+      - name: campaign_id
+        type: String
+        nullable: true
+      - name: click_id
+        type: String
+        nullable: false
+      - name: conversion_type
+        type: String(50)
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: creator_id
+        type: String
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: time_to_conversion_seconds
+        type: Integer
+        nullable: true
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/discovery_analytics.py
+    relationships:
+      - name: campaign
+        target: Campaign
+      - name: click
+        target: DiscoveryClick
+        backref: conversions
+      - name: creator
+        target: InfluencerProfile
+      - name: user
+        target: User
+    table: discovery_conversions
+  DiscoveryImpression:
+    fields:
+      - name: algorithm_version
+        type: String(50)
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: discovery_score
+        type: Float
+        nullable: true
+      - name: diversity_applied
+        type: String(10)
+        nullable: true
+      - name: entity_id
+        type: String
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: impression_type
+        type: String(50)
+        nullable: false
+      - name: niche_filter
+        type: String(50)
+        nullable: true
+      - name: position
+        type: Integer
+        nullable: false
+      - name: session_id
+        type: String
+        nullable: false
+      - name: user_id
+        type: String
+        nullable: true
+    file: backend/app/models/discovery_analytics.py
+    relationships:
+      - name: clicks
+        target: DiscoveryClick
+        backref: impression
+      - name: user
+        target: User
+    table: discovery_impressions
+  EmailDigestQueue:
+    fields:
+      - name: attempt_count
+        type: Integer
+        default: 0
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: is_sent
+        type: Boolean
+        default: false
+      - name: last_attempted_at
+        type: DateTime
+        nullable: true
+      - name: last_error
+        type: Text
+        nullable: true
+      - name: notification_id
+        type: String
+        nullable: false
+      - name: sent_at
+        type: DateTime
+        nullable: true
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/notification.py
+    relationships:
+      - name: notification
+        target: Notification
+      - name: user
+        target: User
+    table: email_digest_queue
+  FeedPreference:
+    fields:
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: filter_max_budget
+        type: Integer
+        nullable: true
+      - name: filter_min_budget
+        type: Integer
+        nullable: true
+      - name: filter_niches
+        type: ARRAY(String)
+        nullable: true
+      - name: filter_remote_only
+        type: Boolean
+        default: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: last_refreshed_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: show_match_reasons
+        type: Boolean
+        default: true
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id
+        type: String
+        nullable: false
+        unique: true
+    file: backend/app/models/feed.py
+    relationships:
+      - name: user
+        target: User
+        backref: feed_preference
+    table: feed_preferences
+  FeedView:
+    fields:
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: interacted
+        type: Boolean
+        default: false
+      - name: item_id
+        type: String
+        nullable: false
+      - name: item_type
+        type: String(20)
+        nullable: false
+      - name: scroll_position
+        type: Integer
+        nullable: true
+      - name: user_id
+        type: String
+        nullable: false
+      - name: viewed_at
+        type: DateTime
+        default: datetime.utcnow
+    file: backend/app/models/feed.py
+    relationships:
+      - name: user
+        target: User
+        backref: feed_views
+    table: feed_views
+  FolderCollaborator:
+    fields:
+      - name: added_by
+        type: String
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: folder_id
+        type: String
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: role
+        type: SQLEnum(CollaboratorRole)
+        nullable: false
+        default: CollaboratorRole.VIEWER
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/folder_collaborator.py
+    relationships:
+      - name: added_by_user
+        target: User
+      - name: folder
+        target: SavedFolder
+        backref: collaborators
+      - name: user
+        target: User
+        backref: folder_collaborations
+    table: folder_collaborators
+  FolderInvitation:
+    fields:
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: expires_at
+        type: DateTime
+        default: default_expiration
+      - name: folder_id
+        type: String
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: invitee_id
+        type: String
+        nullable: false
+      - name: inviter_id
+        type: String
+        nullable: false
+      - name: responded_at
+        type: DateTime
+        nullable: true
+      - name: role
+        type: SQLEnum(CollaboratorRole)
+        nullable: false
+        default: CollaboratorRole.VIEWER
+      - name: status
+        type: SQLEnum(InvitationStatus)
+        nullable: false
+        default: InvitationStatus.PENDING
+      - name: token
+        type: String(64)
+        unique: true
+        default: generate_invitation_token
+    file: backend/app/models/folder_invitation.py
+    relationships:
+      - name: folder
+        target: SavedFolder
+        backref: invitations
+      - name: invitee
+        target: User
+        backref: received_folder_invitations
+      - name: inviter
+        target: User
+        backref: sent_folder_invitations
+    table: folder_invitations
+  Follow:
+    fields:
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: follower_id
+        type: String
+        nullable: false
+      - name: following_id
+        type: String
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+    file: backend/app/models/follow.py
+    relationships:
+      - name: followee
+        target: User
+        backref: followers_rel
+      - name: follower
+        target: User
+        backref: following_rel
+    table: follows
+  FollowerHistory:
+    fields:
+      - name: agent_followers
+        type: Integer
+        default: 0
+      - name: brand_followers
+        type: Integer
+        default: 0
+      - name: follower_count
+        type: Integer
+        default: 0
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: influencer_followers
+        type: Integer
+        default: 0
+      - name: recorded_date
+        type: Date
+        nullable: false
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/follower_history.py
+    relationships:
+      - name: user
+        target: User
+        backref: follower_history
+    table: follower_history
+  InfluencerProfile:
+    fields:
+      - name: age_distribution
+        type: JSON
+        nullable: true
+      - name: audience_interests
+        type: JSON
+        nullable: true
+      - name: avg_engagement_rate
+        type: Float
+        nullable: true
+      - name: avg_rating
+        type: Float
+        default: 0.0
+      - name: avg_response_time_hours
+        type: Float
+        nullable: true
+      - name: bio
+        type: Text
+        nullable: true
+      - name: booking_lead_time
+        type: String
+        nullable: true
+      - name: brand_metrics_updated_at
+        type: DateTime
+        nullable: true
+      - name: brand_partnerships
+        type: JSON
+        nullable: true
+      - name: campaign_history
+        type: JSON
+        nullable: true
+      - name: campaign_types
+        type: JSON
+        nullable: true
+      - name: campaigns_completed
+        type: Integer
+        default: 0
+      - name: cover_image
+        type: String
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: gender_split
+        type: JSON
+        nullable: true
+      - name: handle
+        type: String(30)
+        unique: true
+        nullable: true
+      - name: headline
+        type: String
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: instagram_followers
+        type: Integer
+        nullable: true
+      - name: instagram_handle
+        type: String
+        nullable: true
+      - name: instagram_url
+        type: String
+        nullable: true
+      - name: is_available
+        type: Boolean
+        default: true
+      - name: last_profile_calculation
+        type: DateTime
+        nullable: true
+      - name: linkedin_url
+        type: String
+        nullable: true
+      - name: location
+        type: String
+        nullable: true
+      - name: pinned_thread_id
+        type: String
+        nullable: true
+      - name: platform_metrics
+        type: JSON
+        nullable: true
+      - name: preferred_contact
+        type: String
+        nullable: true
+      - name: pricing
+        type: JSON
+        nullable: true
+      - name: primary_niche
+        type: String
+        nullable: true
+      - name: profile_strength_score
+        type: Integer
+        default: 0
+      - name: profile_tier
+        type: String
+        default: starter
+      - name: response_time
+        type: String
+        nullable: true
+      - name: secondary_niches
+        type: JSON
+        nullable: true
+      - name: specialties
+        type: JSON
+        nullable: true
+      - name: tiktok_followers
+        type: Integer
+        nullable: true
+      - name: tiktok_handle
+        type: String
+        nullable: true
+      - name: tiktok_url
+        type: String
+        nullable: true
+      - name: top_locations
+        type: JSON
+        nullable: true
+      - name: total_followers
+        type: Integer
+        default: 0
+      - name: total_reviews
+        type: Integer
+        default: 0
+      - name: twitch_url
+        type: String
+        nullable: true
+      - name: twitter_followers
+        type: Integer
+        nullable: true
+      - name: twitter_handle
+        type: String
+        nullable: true
+      - name: twitter_url
+        type: String
+        nullable: true
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id
+        type: String
+        unique: true
+        nullable: false
+      - name: would_work_again_percentage
+        type: Float
+        default: 0.0
+      - name: youtube_handle
+        type: String
+        nullable: true
+      - name: youtube_subscribers
+        type: Integer
+        nullable: true
+      - name: youtube_url
+        type: String
+        nullable: true
+    file: backend/app/models/influencer.py
+    relationships:
+      - name: agent_relationships
+        target: CreatorAgentRelationship
+        backref: influencer
+      - name: applications
+        target: CampaignApplication
+        backref: influencer
+      - name: bookmarked_by
+        target: Bookmark
+        backref: influencer
+      - name: pinned_thread
+        target: Thread
+      - name: portfolio_items
+        target: PortfolioItem
+        backref: influencer
+      - name: reviews
+        target: Review
+        backref: influencer
+      - name: social_accounts
+        target: SocialMediaAccount
+        backref: influencer
+      - name: user
+        target: User
+        backref: influencer_profile
+    table: influencer_profiles
+  Insight:
+    fields:
+      - name: author_id
+        type: String
+        nullable: false
+      - name: brand_name
+        type: String(200)
+        nullable: false
+      - name: campaign_id
+        type: String
+        nullable: true
+      - name: comment_count
+        type: Integer
+        default: 0
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: helpful_count
+        type: Integer
+        default: 0
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: quote
+        type: String(500)
+        nullable: false
+      - name: save_count
+        type: Integer
+        default: 0
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+    file: backend/app/models/feed.py
+    relationships:
+      - name: author
+        target: User
+        backref: insights
+      - name: campaign
+        target: Campaign
+        backref: insights
+      - name: interactions
+        target: InsightInteraction
+        backref: insight
+    table: insights
+  InsightInteraction:
+    fields:
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: insight_id
+        type: String
+        nullable: false
+      - name: interaction_type
+        type: String(20)
+        nullable: false
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/feed.py
+    relationships:
+      - name: insight
+        target: Insight
+        backref: interactions
+      - name: user
+        target: User
+        backref: insight_interactions
+    table: insight_interactions
+  Message:
+    fields:
+      - name: content
+        type: Text
+        nullable: true
+      - name: conversation_id
+        type: String
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: media_meta
+        type: JSON
+        nullable: true
+      - name: media_url
+        type: String
+        nullable: true
+      - name: message_type
+        type: String
+        nullable: false
+        default: text
+      - name: sender_id
+        type: String
+        nullable: false
+    file: backend/app/models/message.py
+    relationships:
+      - name: conversation
+        target: Conversation
+        backref: messages
+      - name: read_by
+        target: MessageRead
+        backref: message
+      - name: sender
+        target: User
+    table: messages
+  MessageRead:
+    fields:
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: message_id
+        type: String
+        nullable: false
+      - name: read_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/message_read.py
+    relationships:
+      - name: message
+        target: Message
+        backref: read_by
+      - name: user
+        target: User
+    table: message_reads
+  Milestone:
+    fields:
+      - name: achieved_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: celebration_count
+        type: Integer
+        default: 0
+      - name: description
+        type: String(500)
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: milestone_type
+        type: String(50)
+        nullable: false
+      - name: user_id
+        type: String
+        nullable: false
+      - name: value
+        type: String(100)
+        nullable: false
+    file: backend/app/models/feed.py
+    relationships:
+      - name: celebrations
+        target: MilestoneCelebration
+        backref: milestone
+      - name: user
+        target: User
+        backref: milestones
+    table: milestones
+  MilestoneCelebration:
+    fields:
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: milestone_id
+        type: String
+        nullable: false
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/feed.py
+    relationships:
+      - name: milestone
+        target: Milestone
+        backref: celebrations
+      - name: user
+        target: User
+        backref: milestone_celebrations
+    table: milestone_celebrations
+  ModerationActionLog:
+    fields:
+      - name: action_type
+        type: Enum(ModerationAction)
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: duration_days
+        type: Integer
+        nullable: true
+      - name: expires_at
+        type: DateTime
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: moderator_id
+        type: String
+        nullable: false
+      - name: notes
+        type: Text
+        nullable: true
+      - name: reason
+        type: Text
+        nullable: false
+      - name: related_entity_id
+        type: String
+        nullable: true
+      - name: related_entity_type
+        type: String(50)
+        nullable: true
+      - name: related_report_id
+        type: String
+        nullable: true
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/support.py
+    relationships:
+      - name: moderator
+        target: User
+        backref: moderation_actions_taken
+      - name: report
+        target: Report
+        backref: moderation_actions
+      - name: user
+        target: User
+        backref: moderation_actions_received
+    table: moderation_actions
+  Notification:
+    fields:
+      - name: actor_avatar
+        type: String
+        nullable: true
+      - name: actor_id
+        type: String
+        nullable: true
+      - name: actor_name
+        type: String
+        nullable: true
+      - name: campaign_id
+        type: String
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: data
+        type: JSON
+        nullable: true
+      - name: group_count
+        type: Integer
+        default: 1
+      - name: group_key
+        type: String
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: is_read
+        type: Boolean
+        default: false
+      - name: link
+        type: String
+        nullable: true
+      - name: message
+        type: Text
+        nullable: false
+      - name: priority
+        type: String
+        nullable: false
+        default: NotificationPriority.MEDIUM.value
+      - name: read_at
+        type: DateTime
+        nullable: true
+      - name: related_entity_id
+        type: String
+        nullable: true
+      - name: related_entity_type
+        type: String
+        nullable: true
+      - name: sent_via
+        type: JSON
+        nullable: true
+        default: list
+      - name: title
+        type: String
+        nullable: false
+      - name: type
+        type: String
+        nullable: false
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/notification.py
+    relationships:
+      - name: actor
+        target: User
+      - name: campaign
+        target: Campaign
+      - name: user
+        target: User
+    table: notifications
+  NotificationPreference:
+    fields:
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: email_digest_enabled
+        type: Boolean
+        default: true
+      - name: email_instant_enabled
+        type: Boolean
+        default: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: in_app_enabled
+        type: Boolean
+        default: true
+      - name: notification_type
+        type: String
+        nullable: false
+      - name: push_enabled
+        type: Boolean
+        default: true
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/notification.py
+    relationships:
+      - name: user
+        target: User
+    table: notification_preferences
+  PermissionCheckLog:
+    fields:
+      - name: agent_id
+        type: String
+        nullable: false
+      - name: checked_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: creator_id
+        type: String
+        nullable: false
+      - name: granted
+        type: Boolean
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: ip_address
+        type: String(50)
+        nullable: true
+      - name: permission_checked
+        type: String(100)
+        nullable: false
+      - name: user_agent
+        type: String(500)
+        nullable: true
+    file: backend/app/models/agent.py
+    relationships:
+      - name: agent
+        target: AgentProfile
+      - name: creator
+        target: InfluencerProfile
+    table: permission_check_logs
+  PhylloUser:
+    fields:
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: phyllo_user_id
+        type: String
+        nullable: false
+        unique: true
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id
+        type: String
+        nullable: false
+        unique: true
+    file: backend/app/models/phyllo_user.py
+    relationships:
+      - name: user
+        target: User
+        backref: phyllo_user
+    table: phyllo_users
+  PortfolioItem:
+    fields:
+      - name: aspect_ratio
+        type: String(20)
+        default: square
+        nullable: false
+      - name: brand_logo_url
+        type: String
+        nullable: true
+      - name: brand_name
+        type: String(200)
+        nullable: true
+      - name: campaign_id
+        type: String
+        nullable: true
+      - name: campaign_name
+        type: String(200)
+        nullable: true
+      - name: campaign_type
+        type: String(50)
+        nullable: true
+      - name: collaboration_date
+        type: DateTime
+        nullable: true
+      - name: comments
+        type: Integer
+        nullable: true
+      - name: content_type
+        type: String(50)
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: created_by_agent_id
+        type: String
+        nullable: true
+      - name: creator_notes
+        type: Text
+        nullable: true
+      - name: deal_type
+        type: String(20)
+        nullable: true
+      - name: deliverables
+        type: Text
+        nullable: true
+      - name: description
+        type: Text
+        nullable: true
+      - name: display_order
+        type: Integer
+        default: 0
+        nullable: false
+      - name: duration
+        type: Float
+        nullable: true
+      - name: embed_html
+        type: Text
+        nullable: true
+      - name: embed_type
+        type: String(30)
+        default: none
+        nullable: false
+      - name: embed_url
+        type: Text
+        nullable: true
+      - name: engagement_rate
+        type: Float
+        nullable: true
+      - name: file_size
+        type: Integer
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: image_urls
+        type: JSON
+        nullable: true
+      - name: influencer_id
+        type: String
+        nullable: false
+      - name: is_featured
+        type: Boolean
+        default: false
+        nullable: false
+      - name: is_public
+        type: Boolean
+        default: true
+        nullable: false
+      - name: item_type
+        type: String(20)
+        default: video
+        nullable: false
+      - name: likes
+        type: Integer
+        nullable: true
+      - name: live_post_url
+        type: Text
+        nullable: true
+      - name: metrics
+        type: JSON
+        nullable: true
+      - name: original_post_url
+        type: Text
+        nullable: true
+      - name: performance_metrics
+        type: JSON
+        nullable: true
+      - name: platform
+        type: String(20)
+        default: instagram
+        nullable: false
+      - name: posted_at
+        type: DateTime
+        nullable: true
+      - name: review_id
+        type: String
+        nullable: true
+      - name: shares
+        type: Integer
+        nullable: true
+      - name: thumbnail_url
+        type: Text
+        nullable: true
+      - name: title
+        type: String(200)
+        nullable: false
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: video_url
+        type: Text
+        nullable: true
+      - name: views
+        type: Integer
+        nullable: true
+    file: backend/app/models/portfolio.py
+    relationships:
+      - name: campaign
+        target: Campaign
+      - name: influencer
+        target: InfluencerProfile
+        backref: portfolio_items
+      - name: review
+        target: Review
+      - name: views_log
+        target: PortfolioView
+        backref: portfolio_item
+    table: portfolio_items
+  PortfolioView:
+    fields:
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: portfolio_item_id
+        type: String
+        nullable: false
+      - name: viewed_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: viewer_id
+        type: String
+        nullable: true
+      - name: viewer_type
+        type: String(20)
+        nullable: true
+    file: backend/app/models/portfolio.py
+    relationships:
+      - name: portfolio_item
+        target: PortfolioItem
+        backref: views_log
+      - name: viewer
+        target: User
+    table: portfolio_views
+  Post:
+    fields:
+      - name: actor_user_id
+        type: String
+        nullable: true
+      - name: brand_id
+        type: String
+        nullable: true
+      - name: comment_count
+        type: Integer
+        default: 0
+      - name: content
+        type: Text
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: is_anonymous
+        type: Boolean
+        default: false
+      - name: is_deleted
+        type: Boolean
+        default: false
+      - name: like_count
+        type: Integer
+        default: 0
+      - name: media_urls
+        type: Text
+        nullable: true
+      - name: post_type
+        type: String
+        default: update
+      - name: share_count
+        type: Integer
+        default: 0
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/post.py
+    relationships:
+      - name: actor
+        target: User
+        backref: brand_post_actions
+      - name: brand
+        target: BrandProfile
+        backref: brand_posts
+      - name: comments
+        target: Comment
+        backref: post
+      - name: liked_by
+        target: User
+        backref: liked_posts
+      - name: saved_by
+        target: User
+        backref: saved_posts
+      - name: user
+        target: User
+        backref: posts
+    table: posts
+  PostReport:
+    fields:
+      - name: admin_notes
+        type: Text
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: description
+        type: Text
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: post_id
+        type: String
+        nullable: false
+      - name: reason
+        type: String
+        nullable: false
+      - name: reporter_id
+        type: String
+        nullable: false
+      - name: reviewed_at
+        type: DateTime
+        nullable: true
+      - name: reviewed_by
+        type: String
+        nullable: true
+      - name: status
+        type: String
+        default: pending
+    file: backend/app/models/post.py
+    relationships:
+      - name: post
+        target: Post
+        backref: reports
+      - name: reporter
+        target: User
+        backref: submitted_reports
+      - name: reviewer
+        target: User
+        backref: reviewed_reports
+    table: post_reports
+  ProfileView:
+    fields:
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: influencer_id
+        type: String
+        nullable: false
+      - name: source
+        type: String
+        default: direct
+      - name: viewed_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: viewer_id
+        type: String
+        nullable: true
+      - name: viewer_type
+        type: String
+        default: anonymous
+    file: backend/app/models/profile_view.py
+    relationships:
+      - name: influencer
+        target: InfluencerProfile
+        backref: profile_views
+      - name: viewer
+        target: User
+        backref: profile_views_made
+    table: profile_views
+  PushSubscription:
+    fields:
+      - name: auth_key
+        type: String
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: device_name
+        type: String
+        nullable: true
+      - name: endpoint
+        type: Text
+        nullable: true
+      - name: failed_count
+        type: Integer
+        default: 0
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: is_active
+        type: Boolean
+        default: true
+      - name: last_used_at
+        type: DateTime
+        nullable: true
+      - name: p256dh_key
+        type: String
+        nullable: true
+      - name: push_token
+        type: String
+        nullable: true
+      - name: token_type
+        type: String
+        nullable: false
+        default: web_push
+      - name: user_agent
+        type: String
+        nullable: true
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/notification.py
+    relationships:
+      - name: user
+        target: User
+    table: push_subscriptions
+  RefreshToken:
+    fields:
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: expires_at
+        type: DateTime
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: revoked
+        type: Boolean
+        default: false
+      - name: token_hash
+        type: String(64)
+        unique: true
+        nullable: false
+      - name: token_version
+        type: Integer
+        nullable: false
+        default: 0
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/refresh_token.py
+    relationships:
+      - name: user
+        target: User
+    table: refresh_tokens
+  Report:
+    fields:
+      - name: action_taken
+        type: Enum(ModerationAction)
+        default: ModerationAction.NONE
+        nullable: true
+      - name: category
+        type: Enum(ReportCategory)
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: description
+        type: Text
+        nullable: true
+      - name: evidence_urls
+        type: JSON
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: moderator_id
+        type: String
+        nullable: true
+      - name: moderator_notes
+        type: Text
+        nullable: true
+      - name: reason
+        type: String(500)
+        nullable: false
+      - name: reported_entity_id
+        type: String
+        nullable: true
+      - name: reported_entity_type
+        type: String(50)
+        nullable: true
+      - name: reported_user_id
+        type: String
+        nullable: true
+      - name: reporter_id
+        type: String
+        nullable: false
+      - name: resolved_at
+        type: DateTime
+        nullable: true
+      - name: reviewed_at
+        type: DateTime
+        nullable: true
+      - name: status
+        type: Enum(ReportStatus)
+        default: ReportStatus.PENDING
+        nullable: false
+    file: backend/app/models/support.py
+    relationships:
+      - name: moderator
+        target: User
+      - name: reported_user
+        target: User
+        backref: reports_against
+      - name: reporter
+        target: User
+        backref: reports_filed
+    table: reports
+  Review:
+    fields:
+      - name: brand_employee_id
+        type: String
+        nullable: true
+      - name: brand_id
+        type: String
+        nullable: true
+      - name: budget_range
+        type: String
+        nullable: true
+      - name: campaign_id
+        type: String
+        nullable: true
+      - name: campaign_type
+        type: String
+        nullable: true
+      - name: communication_rating
+        type: Integer
+        nullable: true
+      - name: communication_score
+        type: Integer
+        nullable: true
+      - name: cons
+        type: Text
+        nullable: true
+      - name: content_quality_score
+        type: Integer
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: deadline_rating
+        type: Integer
+        nullable: true
+      - name: detailed_feedback
+        type: Text
+        nullable: true
+      - name: flagged_reason
+        type: Text
+        nullable: true
+      - name: helpful_count
+        type: Integer
+        default: 0
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: influencer_id
+        type: String
+        nullable: true
+      - name: is_anonymous
+        type: Boolean
+        default: false
+      - name: is_flagged
+        type: Boolean
+        default: false
+      - name: overall_rating
+        type: Integer
+        nullable: false
+      - name: payment_timeliness_score
+        type: Integer
+        nullable: true
+      - name: professionalism_score
+        type: Integer
+        nullable: true
+      - name: pros
+        type: Text
+        nullable: true
+      - name: published_at
+        type: DateTime
+        nullable: true
+      - name: review_type
+        type: String
+        nullable: false
+      - name: reviewer_actor_user_id
+        type: String
+        nullable: true
+      - name: reviewer_brand_id
+        type: String
+        nullable: true
+      - name: reviewer_id
+        type: String
+        nullable: false
+      - name: roi_score
+        type: Integer
+        nullable: true
+      - name: status
+        type: String
+        default: pending
+      - name: title
+        type: String(200)
+        nullable: true
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: value_rating
+        type: Integer
+        nullable: true
+      - name: verification_doc_url
+        type: String
+        nullable: true
+      - name: verified_partnership
+        type: Boolean
+        default: false
+      - name: would_recommend
+        type: Boolean
+        nullable: true
+      - name: would_work_again
+        type: Boolean
+        nullable: true
+    file: backend/app/models/review.py
+    relationships:
+      - name: brand
+        target: BrandProfile
+        backref: reviews
+      - name: brand_employee
+        target: BrandEmployeeProfile
+        backref: reviews
+      - name: campaign
+        target: Campaign
+      - name: influencer
+        target: InfluencerProfile
+        backref: reviews
+      - name: reviewer
+        target: User
+        backref: reviews_written
+      - name: reviewer_actor
+        target: User
+        backref: brand_review_actions
+      - name: reviewer_brand
+        target: BrandProfile
+        backref: reviews_written_as_brand
+    table: reviews
+  SavedFolder:
+    fields:
+      - name: color
+        type: String(7)
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: description
+        type: String(255)
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: name
+        type: String(100)
+        nullable: false
+      - name: position
+        type: Integer
+        default: 0
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/saved_folder.py
+    relationships:
+      - name: bookmarks
+        target: Bookmark
+        backref: folder
+      - name: collaborators
+        target: FolderCollaborator
+        backref: folder
+      - name: invitations
+        target: FolderInvitation
+        backref: folder
+      - name: user
+        target: User
+        backref: saved_folders
+    table: saved_folders
+  SeenContent:
+    fields:
+      - name: content_id
+        type: String
+        nullable: false
+      - name: content_type
+        type: String(20)
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: session_id
+        type: String(50)
+      - name: user_id
+        type: String
+        nullable: false
+      - name: view_duration_ms
+        type: Integer
+        default: 0
+    file: backend/app/models/discovery.py
+    relationships:
+      - name: user
+        target: User
+        backref: seen_content
+    table: seen_content
+  ShareableLink:
+    fields:
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: creator_id
+        type: String
+        nullable: false
+      - name: expires_at
+        type: DateTime
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: is_active
+        type: Boolean
+        default: true
+        nullable: false
+      - name: last_viewed_at
+        type: DateTime
+        nullable: true
+      - name: name
+        type: String(100)
+        nullable: true
+      - name: token_encrypted
+        type: String
+        nullable: true
+      - name: token_hash
+        type: String(64)
+        unique: true
+        nullable: false
+      - name: token_prefix
+        type: String(8)
+        nullable: true
+      - name: total_views
+        type: Integer
+        default: 0
+        nullable: false
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+    file: backend/app/models/shareable_link.py
+    relationships:
+      - name: views
+        target: ShareableLinkView
+        backref: link
+    table: shareable_links
+  ShareableLinkView:
+    fields:
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: ip_hash
+        type: String(64)
+        nullable: true
+      - name: link_id
+        type: String
+        nullable: false
+      - name: session_id
+        type: String(64)
+        nullable: true
+      - name: user_agent
+        type: String(512)
+        nullable: true
+      - name: viewed_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+    file: backend/app/models/shareable_link.py
+    relationships:
+      - name: link
+        target: ShareableLink
+        backref: views
+    table: shareable_link_views
+  SocialMediaAccount:
+    fields:
+      - name: audience_demographics
+        type: JSON
+        nullable: true
+      - name: avg_comments
+        type: Integer
+        nullable: true
+      - name: avg_likes
+        type: Integer
+        nullable: true
+      - name: avg_views
+        type: Integer
+        nullable: true
+      - name: bio
+        type: Text
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: data_source
+        type: String
+        default: manual
+      - name: display_name
+        type: String
+        nullable: true
+      - name: display_order
+        type: Integer
+        default: 0
+      - name: engagement_rate
+        type: String
+        nullable: true
+      - name: follower_count
+        type: Integer
+        nullable: true
+      - name: following_count
+        type: Integer
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: influencer_id
+        type: String
+        nullable: false
+      - name: is_primary
+        type: Boolean
+        default: false
+      - name: is_visible
+        type: Boolean
+        default: true
+      - name: last_sync_at
+        type: DateTime
+        nullable: true
+      - name: phyllo_account_id
+        type: String
+        nullable: true
+        unique: true
+      - name: platform
+        type: String
+        nullable: false
+      - name: post_count
+        type: Integer
+        nullable: true
+      - name: profile_image_url
+        type: String
+        nullable: true
+      - name: profile_url
+        type: String
+        nullable: true
+      - name: stats_updated_at
+        type: DateTime
+        nullable: true
+      - name: subscriber_count
+        type: Integer
+        nullable: true
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: username
+        type: String
+        nullable: false
+    file: backend/app/models/social_account.py
+    relationships:
+      - name: influencer
+        target: InfluencerProfile
+        backref: social_accounts
+    table: social_media_accounts
+  SupportMessage:
+    fields:
+      - name: attachments
+        type: JSON
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: is_internal
+        type: Boolean
+        default: false
+        nullable: false
+      - name: message
+        type: Text
+        nullable: false
+      - name: sender_id
+        type: String
+        nullable: false
+      - name: sender_type
+        type: String(20)
+        nullable: false
+      - name: ticket_id
+        type: String
+        nullable: false
+    file: backend/app/models/support.py
+    relationships:
+      - name: sender
+        target: User
+      - name: ticket
+        target: SupportTicket
+        backref: messages
+    table: support_messages
+  SupportTicket:
+    fields:
+      - name: assigned_to
+        type: String
+        nullable: true
+      - name: attachments
+        type: JSON
+        nullable: true
+      - name: auto_priority_score
+        type: Integer
+        nullable: true
+      - name: category
+        type: Enum(TicketCategory)
+        nullable: false
+      - name: closed_at
+        type: DateTime
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: description
+        type: Text
+        nullable: false
+      - name: first_response_at
+        type: DateTime
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: priority
+        type: Enum(TicketPriority)
+        nullable: false
+      - name: priority_override_by
+        type: String
+        nullable: true
+      - name: priority_override_reason
+        type: Text
+        nullable: true
+      - name: priority_reasoning
+        type: JSON
+        nullable: true
+      - name: resolved_at
+        type: DateTime
+        nullable: true
+      - name: status
+        type: Enum(TicketStatus)
+        default: TicketStatus.OPEN
+        nullable: false
+      - name: subject
+        type: String(500)
+        nullable: false
+      - name: tags
+        type: JSON
+        nullable: true
+      - name: ticket_number
+        type: String(20)
+        unique: true
+        nullable: false
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_email
+        type: String
+        nullable: false
+      - name: user_id
+        type: String
+        nullable: false
+      - name: user_name
+        type: String
+        nullable: false
+    file: backend/app/models/support.py
+    relationships:
+      - name: assigned_moderator
+        target: User
+      - name: messages
+        target: SupportMessage
+        backref: ticket
+      - name: priority_overrider
+        target: User
+      - name: user
+        target: User
+        backref: support_tickets_submitted
+    table: support_tickets
+  TeamInvitation:
+    fields:
+      - name: brand_id
+        type: String
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: expires_at
+        type: DateTime
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: invitation_token
+        type: String
+        unique: true
+        nullable: false
+      - name: invited_by_user_id
+        type: String
+        nullable: false
+      - name: invited_email
+        type: String
+        nullable: false
+      - name: invited_user_id
+        type: String
+        nullable: true
+      - name: message
+        type: Text
+        nullable: true
+      - name: responded_at
+        type: DateTime
+        nullable: true
+      - name: role
+        type: String
+        default: member
+      - name: status
+        type: Enum(InvitationStatus)
+        default: InvitationStatus.PENDING
+    file: backend/app/models/team_invitation.py
+    relationships:
+      - name: brand
+        target: BrandProfile
+        backref: team_invitations
+      - name: invited_by
+        target: User
+        backref: sent_team_invitations
+      - name: invited_user
+        target: User
+        backref: received_team_invitations
+    table: team_invitations
+  Thread:
+    fields:
+      - name: bookmark_count
+        type: Integer
+        default: 0
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: deleted_at
+        type: DateTime
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: last_edited_at
+        type: DateTime
+        nullable: true
+      - name: like_count
+        type: Integer
+        default: 0
+      - name: part_count
+        type: Integer
+        default: 0
+      - name: published_at
+        type: DateTime
+        nullable: true
+      - name: share_count
+        type: Integer
+        default: 0
+      - name: status
+        type: String(20)
+        nullable: false
+        default: draft
+      - name: title
+        type: String(100)
+        nullable: true
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id
+        type: String
+        nullable: false
+      - name: visibility
+        type: String(20)
+        nullable: false
+        default: public
+    file: backend/app/models/thread.py
+    relationships:
+      - name: bookmarks
+        target: ThreadBookmark
+        backref: thread
+      - name: likes
+        target: ThreadLike
+        backref: thread
+      - name: parts
+        target: ThreadPart
+        backref: thread
+      - name: reports
+        target: ThreadReport
+        backref: thread
+      - name: user
+        target: User
+        backref: threads
+    table: threads
+  ThreadBookmark:
+    fields:
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: thread_id
+        type: String
+        nullable: false
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/thread.py
+    relationships:
+      - name: thread
+        target: Thread
+        backref: bookmarks
+    table: thread_bookmarks
+  ThreadLike:
+    fields:
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: thread_id
+        type: String
+        nullable: false
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/thread.py
+    relationships:
+      - name: thread
+        target: Thread
+        backref: likes
+    table: thread_likes
+  ThreadPart:
+    fields:
+      - name: body
+        type: Text
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: position
+        type: Integer
+        nullable: false
+      - name: thread_id
+        type: String
+        nullable: false
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+    file: backend/app/models/thread.py
+    relationships:
+      - name: thread
+        target: Thread
+        backref: parts
+    table: thread_parts
+  ThreadReport:
+    fields:
+      - name: admin_notes
+        type: Text
+        nullable: true
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: description
+        type: Text
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: reason
+        type: String
+        nullable: false
+      - name: reporter_id
+        type: String
+        nullable: false
+      - name: reviewed_at
+        type: DateTime
+        nullable: true
+      - name: reviewed_by
+        type: String
+        nullable: true
+      - name: status
+        type: String
+        default: pending
+      - name: thread_id
+        type: String
+        nullable: false
+    file: backend/app/models/thread.py
+    relationships:
+      - name: reporter
+        target: User
+        backref: submitted_thread_reports
+      - name: reviewer
+        target: User
+        backref: reviewed_thread_reports
+      - name: thread
+        target: Thread
+        backref: reports
+    table: thread_reports
+  User:
+    fields:
+      - name: ban_reason
+        type: Text
+        nullable: true
+      - name: banned_at
+        type: DateTime
+        nullable: true
+      - name: connection_count
+        type: Integer
+        default: 0
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: email
+        type: String
+        unique: true
+        nullable: false
+      - name: email_verification_code
+        type: String(6)
+        nullable: true
+      - name: email_verification_code_attempts
+        type: Integer
+        default: 0
+      - name: email_verification_code_expires
+        type: DateTime
+        nullable: true
+      - name: email_verified
+        type: Boolean
+        default: false
+        nullable: false
+      - name: feed_preferences
+        type: JSON
+        default: "lambda: {'feed_sort': 'relevance'}"
+      - name: follower_count
+        type: Integer
+        default: 0
+      - name: following_count
+        type: Integer
+        default: 0
+      - name: full_name
+        type: String
+        nullable: false
+      - name: google_id
+        type: String
+        nullable: true
+        unique: true
+      - name: has_completed_tutorial
+        type: Boolean
+        default: false
+        nullable: false
+      - name: hashed_password
+        type: String
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: is_active
+        type: Boolean
+        default: true
+      - name: is_banned
+        type: Boolean
+        default: false
+        nullable: false
+      - name: is_moderator
+        type: Boolean
+        default: false
+        nullable: false
+      - name: is_suspended
+        type: Boolean
+        default: false
+        nullable: false
+      - name: language_preference
+        type: JSON
+        default: "lambda: {'language': 'en'}"
+      - name: last_login_device
+        type: String
+        nullable: true
+      - name: last_login_ip
+        type: String
+        nullable: true
+      - name: last_warning_at
+        type: DateTime
+        nullable: true
+      - name: notification_preferences
+        type: JSON
+        default: "lambda: {'email_messages': True, 'email_applications': True, 'email_reviews': True, 'email_opportunities': True, 'email_digest': False, 'push_enabled': True}"
+      - name: onboarding_complete
+        type: Boolean
+        default: false
+      - name: onboarding_completed_at
+        type: DateTime
+        nullable: true
+      - name: password_reset_token
+        type: String(64)
+        nullable: true
+        unique: true
+      - name: password_reset_token_expires
+        type: DateTime
+        nullable: true
+      - name: pending_email
+        type: String
+        nullable: true
+      - name: phone_number
+        type: String
+        nullable: false
+      - name: privacy_settings
+        type: JSON
+        default: "lambda: {'profile_visibility': 'public', 'show_email': False, 'searchable': True, 'show_profile_views': False}"
+      - name: profile_image
+        type: String
+        nullable: true
+      - name: suspension_expires_at
+        type: DateTime
+        nullable: true
+      - name: suspension_reason
+        type: Text
+        nullable: true
+      - name: token_version
+        type: Integer
+        default: 0
+        nullable: false
+      - name: trusted_devices
+        type: Text
+        nullable: true
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_type
+        type: String
+        nullable: false
+      - name: warning_count
+        type: Integer
+        default: 0
+        nullable: false
+    file: backend/app/models/user.py
+    relationships:
+      - name: admin_profile
+        target: AdminUser
+        backref: user
+      - name: agency_employee_profile
+        target: AgencyEmployee
+        backref: user
+      - name: agency_profile
+        target: AgencyProfile
+        backref: owner
+      - name: agent_profile
+        target: AgentProfile
+        backref: user
+      - name: bookmarks
+        target: Bookmark
+        backref: user
+      - name: brand_employee_profile
+        target: BrandEmployeeProfile
+        backref: user
+      - name: brand_profile
+        target: BrandProfile
+        backref: user
+      - name: feed_preference
+        target: FeedPreference
+        backref: user
+      - name: folder_collaborations
+        target: FolderCollaborator
+        backref: user
+      - name: influencer_profile
+        target: InfluencerProfile
+        backref: user
+      - name: insights
+        target: Insight
+        backref: author
+      - name: milestones
+        target: Milestone
+        backref: user
+      - name: received_folder_invitations
+        target: FolderInvitation
+        backref: invitee
+      - name: reviews_written
+        target: Review
+        backref: reviewer
+      - name: saved_folders
+        target: SavedFolder
+        backref: user
+      - name: sent_folder_invitations
+        target: FolderInvitation
+        backref: inviter
+    table: users
+  UserBadge:
+    fields:
+      - name: category
+        type: String
+        nullable: false
+      - name: current_value
+        type: Integer
+        default: 0
+      - name: earned_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: level
+        type: String
+        nullable: false
+      - name: notified
+        type: Boolean
+        default: false
+      - name: threshold
+        type: Integer
+        nullable: false
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/badge.py
+    relationships:
+      - name: user
+        target: User
+        backref: badges
+    table: user_badges
+  UserBlock:
+    fields:
+      - name: block_type
+        type: String(20)
+        default: complete
+        nullable: false
+      - name: blocked_id
+        type: String
+        nullable: false
+      - name: blocker_id
+        type: String
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+        nullable: false
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: reason
+        type: String(500)
+        nullable: true
+    file: backend/app/models/support.py
+    relationships:
+      - name: blocked
+        target: User
+        backref: blocks_received
+      - name: blocker
+        target: User
+        backref: blocks_initiated
+    table: user_blocks
+  UserCategoryAffinity:
+    fields:
+      - name: affinity_score
+        type: Integer
+        default: 0
+      - name: category
+        type: String(50)
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: source
+        type: String(20)
+        default: onboarding
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/discovery.py
+    relationships:
+      - name: user
+        target: User
+        backref: category_affinities
+    table: user_category_affinity
+  UserContactHash:
+    fields:
+      - name: channel
+        type: String
+        nullable: false
+      - name: contact_hash
+        type: String
+        nullable: false
+      - name: created_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: deleted_at
+        type: DateTime
+        nullable: true
+      - name: id
+        type: String
+        primary_key: true
+        default: "lambda: str(uuid.uuid4())"
+      - name: source
+        type: String
+        nullable: false
+        default: mobile_sync
+      - name: updated_at
+        type: DateTime
+        default: datetime.utcnow
+      - name: user_id
+        type: String
+        nullable: false
+    file: backend/app/models/contact_sync.py
+    relationships:
+      - name: user
+        target: User
+    table: user_contact_hashes
