@@ -1,13 +1,13 @@
-name: Deploy
+name: Production Deploy
 
 on:
   push:
-    branches: [develop]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
   deploy:
-    name: Deploy to Staging
+    name: Deploy to Production
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,12 +24,12 @@ jobs:
         run: railway login --token ${{ secrets.RAILWAY_API_TOKEN }}
 
       - name: Deploy
-        run: railway up --environment staging --ci
+        run: railway up --environment production --ci
 
       - name: Resolve Railway Deployment ID
         id: railway_deploy
         run: |
-          deployment_id=$(railway deployment list --environment staging --json --limit 10 | jq -r 'map(select(.status == "SUCCESS")) | first | .id')
+          deployment_id=$(railway deployment list --environment production --json --limit 10 | jq -r 'map(select(.status == "SUCCESS")) | first | .id')
           if [ -z "$deployment_id" ] || [ "$deployment_id" = "null" ]; then
             echo "Unable to determine Railway deployment ID" >&2
             exit 1
@@ -38,9 +38,9 @@ jobs:
 
       - name: Notify rollback monitor
         run: |
-          curl --fail --show-error --silent             -X POST https://loopedagent-production.up.railway.app/deploy/staging             -H "Content-Type: application/json"             -H "x-deploy-webhook-secret: ${{ secrets.DEPLOY_WEBHOOK_SECRET }}"             -d '{"deploymentId":"${{ steps.railway_deploy.outputs.deployment_id }}"}'
+          curl --fail --show-error --silent             -X POST https://loopedagent-production.up.railway.app/deploy/production             -H "Content-Type: application/json"             -H "x-deploy-webhook-secret: ${{ secrets.DEPLOY_WEBHOOK_SECRET }}"             -d '{"deploymentId":"${{ steps.railway_deploy.outputs.deployment_id }}"}'
 
       - name: Post Deployment Status
         run: |
-          echo "Deployment complete!"
-          echo "View at: https://staging.loopedagent.railway.app"
+          echo "Production deployment complete!"
+          echo "View at: https://loopedagent-production.up.railway.app"
