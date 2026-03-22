@@ -37,11 +37,7 @@ jobs:
 
       - name: Notify rollback monitor
         run: |
-          curl --fail --show-error --silent \
-            -X POST https://loopedagent-production.up.railway.app/deploy/staging \
-            -H "Content-Type: application/json" \
-            -H "x-deploy-webhook-secret: ${{ secrets.DEPLOY_WEBHOOK_SECRET }}" \
-            -d '{"deploymentId":"${{ steps.railway_deploy.outputs.deployment_id }}"}'
+          curl --fail --show-error --silent             -X POST https://loopedagent-production.up.railway.app/deploy/staging             -H "Content-Type: application/json"             -H "x-deploy-webhook-secret: ${{ secrets.DEPLOY_WEBHOOK_SECRET }}"             -d '{"deploymentId":"${{ steps.railway_deploy.outputs.deployment_id }}"}'
 
       - name: Post Deployment Status
         run: |
