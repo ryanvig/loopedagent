@@ -1,7 +1,4 @@
-import {
-  getRollbackMutationShape,
-  validateRailwayConnection,
-} from './railway';
+import { getRollbackMutationShape, validateRailwayConnection } from './railway';
 
 async function main(): Promise<void> {
   const validation = await validateRailwayConnection();

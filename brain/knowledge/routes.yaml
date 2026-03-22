@@ -9,7 +9,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/activity/user/{user_id}"
+  - path: '/api/activity/user/{user_id}'
     methods:
       - GET
     auth: get_current_user_optional
@@ -19,7 +19,7 @@ routes:
     dependencies:
       - get_current_user_optional
       - get_db
-  - path: "/api/admin/accept-invitation/{token}"
+  - path: '/api/admin/accept-invitation/{token}'
     methods:
       - POST
     auth: none
@@ -42,7 +42,7 @@ routes:
       - require_super_admin
     inferred_auth: require_super_admin
     audit_status: ✅ Protected
-  - path: "/api/admin/admins/{admin_id}"
+  - path: '/api/admin/admins/{admin_id}'
     methods:
       - DELETE
     auth: require_super_admin
@@ -54,7 +54,7 @@ routes:
       - require_super_admin
     inferred_auth: require_super_admin
     audit_status: ✅ Protected
-  - path: "/api/admin/admins/{admin_id}/permissions"
+  - path: '/api/admin/admins/{admin_id}/permissions'
     methods:
       - PUT
     auth: require_super_admin
@@ -66,7 +66,7 @@ routes:
       - require_super_admin
     inferred_auth: require_super_admin
     audit_status: ✅ Protected
-  - path: "/api/admin/audit-log"
+  - path: '/api/admin/audit-log'
     methods:
       - GET
     auth: require_super_admin
@@ -90,7 +90,7 @@ routes:
       - "require_permission('can_approve_campaigns')"
     inferred_auth: "require_permission('can_approve_campaigns')"
     audit_status: ✅ Protected
-  - path: "/api/admin/campaigns/{campaign_id}/review"
+  - path: '/api/admin/campaigns/{campaign_id}/review'
     methods:
       - POST
     auth: require_permission(can_approve_campaigns)
@@ -126,7 +126,7 @@ routes:
       - require_super_admin
     inferred_auth: require_super_admin
     audit_status: ✅ Protected
-  - path: "/api/admin/invitations/{invitation_id}"
+  - path: '/api/admin/invitations/{invitation_id}'
     methods:
       - DELETE
     auth: require_super_admin
@@ -197,7 +197,7 @@ routes:
       - "require_permission('can_moderate_content')"
     inferred_auth: "require_permission('can_moderate_content')"
     audit_status: ✅ Protected
-  - path: "/api/admin/reports/{report_id}/action"
+  - path: '/api/admin/reports/{report_id}/action'
     methods:
       - POST
     auth: require_permission(can_moderate_content)
@@ -221,7 +221,7 @@ routes:
       - get_db
     inferred_auth: get_current_admin
     audit_status: ⚠️ Any admin
-  - path: "/api/admin/tickets/{ticket_id}/assign"
+  - path: '/api/admin/tickets/{ticket_id}/assign'
     methods:
       - PATCH
     auth: get_current_admin
@@ -233,7 +233,7 @@ routes:
       - get_db
     inferred_auth: get_current_admin
     audit_status: ⚠️ Any admin
-  - path: "/api/admin/tickets/{ticket_id}/reply"
+  - path: '/api/admin/tickets/{ticket_id}/reply'
     methods:
       - POST
     auth: get_current_admin
@@ -245,7 +245,7 @@ routes:
       - get_db
     inferred_auth: get_current_admin
     audit_status: ⚠️ Any admin
-  - path: "/api/admin/tickets/{ticket_id}/resolve"
+  - path: '/api/admin/tickets/{ticket_id}/resolve'
     methods:
       - PATCH
     auth: get_current_admin
@@ -269,7 +269,7 @@ routes:
       - get_db
     inferred_auth: get_current_admin
     audit_status: ⚠️ Any admin
-  - path: "/api/admin/users/{user_id}"
+  - path: '/api/admin/users/{user_id}'
     methods:
       - GET
     auth: get_current_admin
@@ -281,7 +281,7 @@ routes:
       - get_db
     inferred_auth: get_current_admin
     audit_status: ⚠️ Any admin
-  - path: "/api/admin/users/{user_id}/ban"
+  - path: '/api/admin/users/{user_id}/ban'
     methods:
       - POST
     auth: require_permission(can_ban_users)
@@ -293,7 +293,7 @@ routes:
       - "require_permission('can_ban_users')"
     inferred_auth: "require_permission('can_ban_users')"
     audit_status: ✅ Protected
-  - path: "/api/admin/users/{user_id}/suspend"
+  - path: '/api/admin/users/{user_id}/suspend'
     methods:
       - POST
     auth: require_permission(can_suspend_users)
@@ -305,7 +305,7 @@ routes:
       - "require_permission('can_suspend_users')"
     inferred_auth: "require_permission('can_suspend_users')"
     audit_status: ✅ Protected
-  - path: "/api/admin/users/{user_id}/unban"
+  - path: '/api/admin/users/{user_id}/unban'
     methods:
       - POST
     auth: require_super_admin
@@ -317,7 +317,7 @@ routes:
       - require_super_admin
     inferred_auth: require_super_admin
     audit_status: ✅ Protected
-  - path: "/api/admin/users/{user_id}/unsuspend"
+  - path: '/api/admin/users/{user_id}/unsuspend'
     methods:
       - POST
     auth: require_permission(can_suspend_users)
@@ -349,7 +349,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agency/clients/{access_id}"
+  - path: '/api/agency/clients/{access_id}'
     methods:
       - DELETE
     auth: get_current_user
@@ -359,7 +359,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agency/clients/{access_id}"
+  - path: '/api/agency/clients/{access_id}'
     methods:
       - PUT
     auth: get_current_user
@@ -428,7 +428,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agency/profile/slug/{slug}"
+  - path: '/api/agency/profile/slug/{slug}'
     methods:
       - GET
     auth: none
@@ -437,7 +437,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/agency/profile/{agency_id}"
+  - path: '/api/agency/profile/{agency_id}'
     methods:
       - GET
     auth: none
@@ -456,7 +456,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agency/team/accept-invite"
+  - path: '/api/agency/team/accept-invite'
     methods:
       - POST
     auth: get_current_user
@@ -486,7 +486,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agency/team/{employee_id}"
+  - path: '/api/agency/team/{employee_id}'
     methods:
       - DELETE
     auth: get_current_user
@@ -496,7 +496,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agency/team/{employee_id}"
+  - path: '/api/agency/team/{employee_id}'
     methods:
       - PUT
     auth: get_current_user
@@ -506,7 +506,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agency/team/{employee_id}/brands"
+  - path: '/api/agency/team/{employee_id}/brands'
     methods:
       - GET
     auth: get_current_user
@@ -516,7 +516,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agency/team/{employee_id}/brands"
+  - path: '/api/agency/team/{employee_id}/brands'
     methods:
       - POST
     auth: get_current_user
@@ -526,7 +526,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agency/team/{employee_id}/brands/{restriction_id}"
+  - path: '/api/agency/team/{employee_id}/brands/{restriction_id}'
     methods:
       - DELETE
     auth: get_current_user
@@ -536,7 +536,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agents/accept-invitation/{relationship_id}"
+  - path: '/api/agents/accept-invitation/{relationship_id}'
     methods:
       - POST
     auth: get_current_user
@@ -546,7 +546,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agents/accept/{token}"
+  - path: '/api/agents/accept/{token}'
     methods:
       - POST
     auth: get_current_user
@@ -556,7 +556,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agents/activity/{influencer_id}"
+  - path: '/api/agents/activity/{influencer_id}'
     methods:
       - GET
     auth: get_current_user
@@ -566,7 +566,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agents/creator/{creator_id}/analytics"
+  - path: '/api/agents/creator/{creator_id}/analytics'
     methods:
       - GET
     auth: get_current_user
@@ -576,7 +576,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agents/creator/{creator_id}/available-campaigns"
+  - path: '/api/agents/creator/{creator_id}/available-campaigns'
     methods:
       - GET
     auth: get_current_user
@@ -586,7 +586,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agents/creator/{creator_id}/campaigns"
+  - path: '/api/agents/creator/{creator_id}/campaigns'
     methods:
       - GET
     auth: get_current_user
@@ -596,7 +596,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agents/creator/{creator_id}/campaigns/{campaign_id}/apply"
+  - path: '/api/agents/creator/{creator_id}/campaigns/{campaign_id}/apply'
     methods:
       - POST
     auth: get_current_user
@@ -606,7 +606,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agents/creator/{creator_id}/messages"
+  - path: '/api/agents/creator/{creator_id}/messages'
     methods:
       - GET
     auth: get_current_user
@@ -616,7 +616,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agents/creator/{creator_id}/messages/search-brands"
+  - path: '/api/agents/creator/{creator_id}/messages/search-brands'
     methods:
       - GET
     auth: get_current_user
@@ -626,7 +626,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agents/creator/{creator_id}/messages/send"
+  - path: '/api/agents/creator/{creator_id}/messages/send'
     methods:
       - POST
     auth: get_current_user
@@ -636,7 +636,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agents/creator/{creator_id}/permissions"
+  - path: '/api/agents/creator/{creator_id}/permissions'
     methods:
       - GET
     auth: get_current_user
@@ -646,7 +646,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agents/creator/{creator_id}/profile"
+  - path: '/api/agents/creator/{creator_id}/profile'
     methods:
       - GET
     auth: get_current_user
@@ -656,7 +656,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agents/creator/{creator_id}/profile"
+  - path: '/api/agents/creator/{creator_id}/profile'
     methods:
       - PUT
     auth: get_current_user
@@ -676,7 +676,7 @@ routes:
     dependencies:
       - get_current_agent_profile
       - get_db
-  - path: "/api/agents/creators/{relationship_id}"
+  - path: '/api/agents/creators/{relationship_id}'
     methods:
       - GET
     auth: none
@@ -686,7 +686,7 @@ routes:
     dependencies:
       - get_current_agent_profile
       - get_db
-  - path: "/api/agents/dashboard-data"
+  - path: '/api/agents/dashboard-data'
     methods:
       - GET
     auth: get_current_user
@@ -697,7 +697,7 @@ routes:
       - get_current_agent_profile
       - get_current_user
       - get_db
-  - path: "/api/agents/decline/{relationship_id}"
+  - path: '/api/agents/decline/{relationship_id}'
     methods:
       - POST
     auth: none
@@ -707,7 +707,7 @@ routes:
     dependencies:
       - get_current_influencer_profile
       - get_db
-  - path: "/api/agents/disconnect/{relationship_id}"
+  - path: '/api/agents/disconnect/{relationship_id}'
     methods:
       - DELETE
     auth: none
@@ -717,7 +717,7 @@ routes:
     dependencies:
       - get_current_agent_profile
       - get_db
-  - path: "/api/agents/influencer/{influencer_id}/agent"
+  - path: '/api/agents/influencer/{influencer_id}/agent'
     methods:
       - GET
     auth: none
@@ -726,7 +726,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/agents/invitation/{relationship_id}"
+  - path: '/api/agents/invitation/{relationship_id}'
     methods:
       - GET
     auth: get_current_user
@@ -777,7 +777,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agents/my-agents"
+  - path: '/api/agents/my-agents'
     methods:
       - GET
     auth: none
@@ -787,7 +787,7 @@ routes:
     dependencies:
       - get_current_influencer_profile
       - get_db
-  - path: "/api/agents/notes/{relationship_id}"
+  - path: '/api/agents/notes/{relationship_id}'
     methods:
       - PUT
     auth: get_current_user
@@ -797,7 +797,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/agents/permissions/{relationship_id}"
+  - path: '/api/agents/permissions/{relationship_id}'
     methods:
       - PUT
     auth: none
@@ -836,7 +836,7 @@ routes:
     dependencies:
       - get_current_agent_profile
       - get_db
-  - path: "/api/agents/revoke/{relationship_id}"
+  - path: '/api/agents/revoke/{relationship_id}'
     methods:
       - DELETE
     auth: none
@@ -846,7 +846,7 @@ routes:
     dependencies:
       - get_current_influencer_profile
       - get_db
-  - path: "/api/agents/search-creators"
+  - path: '/api/agents/search-creators'
     methods:
       - GET
     auth: none
@@ -856,7 +856,7 @@ routes:
     dependencies:
       - get_current_agent_profile
       - get_db
-  - path: "/api/agents/{agent_id}"
+  - path: '/api/agents/{agent_id}'
     methods:
       - GET
     auth: none
@@ -865,7 +865,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/agents/{agent_id}/activity"
+  - path: '/api/agents/{agent_id}/activity'
     methods:
       - GET
     auth: none
@@ -874,7 +874,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/agents/{agent_id}/creators"
+  - path: '/api/agents/{agent_id}/creators'
     methods:
       - GET
     auth: none
@@ -883,7 +883,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/analytics/algorithm-effectiveness"
+  - path: '/api/analytics/algorithm-effectiveness'
     methods:
       - GET
     auth: none
@@ -892,7 +892,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/analytics/client-errors"
+  - path: '/api/analytics/client-errors'
     methods:
       - POST
     auth: get_current_user_optional
@@ -902,7 +902,7 @@ routes:
     dependencies:
       - get_current_user_optional
       - get_db
-  - path: "/api/analytics/client-errors/summary"
+  - path: '/api/analytics/client-errors/summary'
     methods:
       - GET
     auth: get_current_user
@@ -912,7 +912,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/analytics/conversion-funnel"
+  - path: '/api/analytics/conversion-funnel'
     methods:
       - GET
     auth: none
@@ -921,7 +921,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/analytics/daily-trends"
+  - path: '/api/analytics/daily-trends'
     methods:
       - GET
     auth: none
@@ -930,7 +930,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/analytics/discovery-performance"
+  - path: '/api/analytics/discovery-performance'
     methods:
       - GET
     auth: none
@@ -939,7 +939,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/analytics/niche-performance"
+  - path: '/api/analytics/niche-performance'
     methods:
       - GET
     auth: none
@@ -948,7 +948,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/analytics/top-performing-campaigns"
+  - path: '/api/analytics/top-performing-campaigns'
     methods:
       - GET
     auth: none
@@ -957,7 +957,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/analytics/top-performing-creators"
+  - path: '/api/analytics/top-performing-creators'
     methods:
       - GET
     auth: none
@@ -966,7 +966,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/analytics/track-click"
+  - path: '/api/analytics/track-click'
     methods:
       - POST
     auth: get_current_user_optional
@@ -976,7 +976,7 @@ routes:
     dependencies:
       - get_current_user_optional
       - get_db
-  - path: "/api/analytics/track-conversion"
+  - path: '/api/analytics/track-conversion'
     methods:
       - POST
     auth: get_current_user
@@ -986,7 +986,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/analytics/track-impression"
+  - path: '/api/analytics/track-impression'
     methods:
       - POST
     auth: get_current_user_optional
@@ -996,7 +996,7 @@ routes:
     dependencies:
       - get_current_user_optional
       - get_db
-  - path: "/api/analytics/track-impressions-batch"
+  - path: '/api/analytics/track-impressions-batch'
     methods:
       - POST
     auth: get_current_user_optional
@@ -1006,7 +1006,7 @@ routes:
     dependencies:
       - get_current_user_optional
       - get_db
-  - path: "/api/auth/forgot-password"
+  - path: '/api/auth/forgot-password'
     methods:
       - POST
     auth: none
@@ -1015,7 +1015,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/auth/forgot-password-page"
+  - path: '/api/auth/forgot-password-page'
     methods:
       - GET
     auth: none
@@ -1173,7 +1173,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/auth/me/tutorial-complete"
+  - path: '/api/auth/me/tutorial-complete'
     methods:
       - POST
     auth: get_current_user
@@ -1201,7 +1201,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/auth/resend-code"
+  - path: '/api/auth/resend-code'
     methods:
       - POST
     auth: none
@@ -1210,7 +1210,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/auth/reset-password"
+  - path: '/api/auth/reset-password'
     methods:
       - GET
     auth: none
@@ -1219,7 +1219,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/auth/reset-password"
+  - path: '/api/auth/reset-password'
     methods:
       - POST
     auth: none
@@ -1228,7 +1228,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/auth/verify-device"
+  - path: '/api/auth/verify-device'
     methods:
       - POST
     auth: none
@@ -1237,7 +1237,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/auth/verify-email"
+  - path: '/api/auth/verify-email'
     methods:
       - POST
     auth: none
@@ -1246,7 +1246,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/auth/verify-reset-token"
+  - path: '/api/auth/verify-reset-token'
     methods:
       - GET
     auth: none
@@ -1272,7 +1272,7 @@ routes:
     file: backend/app/routes/badges.py
     handler: get_badge_definitions
     auth_source: inferred
-  - path: "/api/badges/info/{category}/{level}"
+  - path: '/api/badges/info/{category}/{level}'
     methods:
       - GET
     auth: none
@@ -1298,7 +1298,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/badges/user/{user_id}"
+  - path: '/api/badges/user/{user_id}'
     methods:
       - GET
     auth: none
@@ -1307,14 +1307,14 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/beta/testflight-signup"
+  - path: '/api/beta/testflight-signup'
     methods:
       - GET
     auth: none
     file: backend/app/routes/beta.py
     handler: beta_signup_form
     auth_source: inferred
-  - path: "/api/beta/testflight-signup"
+  - path: '/api/beta/testflight-signup'
     methods:
       - POST
     auth: none
@@ -1341,7 +1341,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/bookmarks/bulk-move"
+  - path: '/api/bookmarks/bulk-move'
     methods:
       - PUT
     auth: get_current_active_user
@@ -1351,7 +1351,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/bookmarks/check/campaign/{campaign_id}"
+  - path: '/api/bookmarks/check/campaign/{campaign_id}'
     methods:
       - GET
     auth: get_current_active_user
@@ -1361,7 +1361,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/bookmarks/check/influencer/{influencer_id}"
+  - path: '/api/bookmarks/check/influencer/{influencer_id}'
     methods:
       - GET
     auth: get_current_active_user
@@ -1371,7 +1371,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/bookmarks/check/post/{post_id}"
+  - path: '/api/bookmarks/check/post/{post_id}'
     methods:
       - GET
     auth: get_current_active_user
@@ -1411,7 +1411,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/bookmarks/folders/{folder_id}"
+  - path: '/api/bookmarks/folders/{folder_id}'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -1421,7 +1421,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/bookmarks/folders/{folder_id}"
+  - path: '/api/bookmarks/folders/{folder_id}'
     methods:
       - PUT
     auth: get_current_active_user
@@ -1431,7 +1431,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/bookmarks/{bookmark_id}"
+  - path: '/api/bookmarks/{bookmark_id}'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -1441,7 +1441,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/bookmarks/{bookmark_id}/move"
+  - path: '/api/bookmarks/{bookmark_id}/move'
     methods:
       - PUT
     auth: get_current_active_user
@@ -1451,7 +1451,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brand-context/brands"
+  - path: '/api/brand-context/brands'
     methods:
       - GET
     auth: get_current_active_user
@@ -1461,7 +1461,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brand-context/brands/{brand_id}/activity"
+  - path: '/api/brand-context/brands/{brand_id}/activity'
     methods:
       - GET
     auth: get_current_active_user
@@ -1471,7 +1471,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brand-context/brands/{brand_id}/audit-log"
+  - path: '/api/brand-context/brands/{brand_id}/audit-log'
     methods:
       - GET
     auth: get_current_active_user
@@ -1481,7 +1481,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brand-context/brands/{brand_id}/comments/{comment_id}/like"
+  - path: '/api/brand-context/brands/{brand_id}/comments/{comment_id}/like'
     methods:
       - POST
     auth: get_current_active_user
@@ -1491,7 +1491,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brand-context/brands/{brand_id}/permissions"
+  - path: '/api/brand-context/brands/{brand_id}/permissions'
     methods:
       - GET
     auth: get_current_active_user
@@ -1501,7 +1501,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brand-context/brands/{brand_id}/posts"
+  - path: '/api/brand-context/brands/{brand_id}/posts'
     methods:
       - POST
     auth: get_current_active_user
@@ -1511,7 +1511,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brand-context/brands/{brand_id}/posts/{post_id}/comments"
+  - path: '/api/brand-context/brands/{brand_id}/posts/{post_id}/comments'
     methods:
       - POST
     auth: get_current_active_user
@@ -1521,7 +1521,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brand-context/brands/{brand_id}/posts/{post_id}/like"
+  - path: '/api/brand-context/brands/{brand_id}/posts/{post_id}/like'
     methods:
       - POST
     auth: get_current_active_user
@@ -1531,7 +1531,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brand-context/brands/{brand_id}/reviews"
+  - path: '/api/brand-context/brands/{brand_id}/reviews'
     methods:
       - POST
     auth: get_current_active_user
@@ -1541,7 +1541,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brand-context/brands/{brand_id}/team"
+  - path: '/api/brand-context/brands/{brand_id}/team'
     methods:
       - GET
     auth: get_current_active_user
@@ -1551,7 +1551,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brand-context/brands/{brand_id}/team/{user_id}/permissions"
+  - path: '/api/brand-context/brands/{brand_id}/team/{user_id}/permissions'
     methods:
       - PUT
     auth: get_current_active_user
@@ -1610,7 +1610,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brands/employees/{employee_id}"
+  - path: '/api/brands/employees/{employee_id}'
     methods:
       - PUT
     auth: get_current_active_user
@@ -1620,7 +1620,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brands/employees/{employee_id}/campaigns"
+  - path: '/api/brands/employees/{employee_id}/campaigns'
     methods:
       - GET
     auth: get_current_user_optional
@@ -1630,7 +1630,7 @@ routes:
     dependencies:
       - get_current_user_optional
       - get_db
-  - path: "/api/brands/employees/{employee_id}/reviews"
+  - path: '/api/brands/employees/{employee_id}/reviews'
     methods:
       - GET
     auth: none
@@ -1639,7 +1639,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/brands/employees/{identifier}"
+  - path: '/api/brands/employees/{identifier}'
     methods:
       - GET
     auth: none
@@ -1648,7 +1648,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/brands/invitations/{token}"
+  - path: '/api/brands/invitations/{token}'
     methods:
       - GET
     auth: none
@@ -1657,7 +1657,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/brands/invitations/{token}/accept"
+  - path: '/api/brands/invitations/{token}/accept'
     methods:
       - POST
     auth: get_current_active_user
@@ -1667,7 +1667,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brands/invitations/{token}/decline"
+  - path: '/api/brands/invitations/{token}/decline'
     methods:
       - POST
     auth: get_current_active_user
@@ -1737,7 +1737,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brands/me/agencies/{access_id}"
+  - path: '/api/brands/me/agencies/{access_id}'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -1747,7 +1747,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brands/me/agencies/{access_id}/accept"
+  - path: '/api/brands/me/agencies/{access_id}/accept'
     methods:
       - POST
     auth: get_current_active_user
@@ -1757,7 +1757,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brands/me/agencies/{access_id}/permissions"
+  - path: '/api/brands/me/agencies/{access_id}/permissions'
     methods:
       - PUT
     auth: get_current_active_user
@@ -1767,7 +1767,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brands/me/agencies/{access_id}/reject"
+  - path: '/api/brands/me/agencies/{access_id}/reject'
     methods:
       - POST
     auth: get_current_active_user
@@ -1797,7 +1797,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brands/me/team/invitations/{invitation_id}"
+  - path: '/api/brands/me/team/invitations/{invitation_id}'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -1827,7 +1827,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brands/me/team/members/{user_id}"
+  - path: '/api/brands/me/team/members/{user_id}'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -1846,7 +1846,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/brands/team/search-users"
+  - path: '/api/brands/team/search-users'
     methods:
       - GET
     auth: get_current_active_user
@@ -1856,7 +1856,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brands/{brand_id}"
+  - path: '/api/brands/{brand_id}'
     methods:
       - PUT
     auth: get_current_active_user
@@ -1866,7 +1866,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brands/{brand_id}/cover"
+  - path: '/api/brands/{brand_id}/cover'
     methods:
       - POST
     auth: get_current_active_user
@@ -1876,7 +1876,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brands/{brand_id}/logo"
+  - path: '/api/brands/{brand_id}/logo'
     methods:
       - POST
     auth: get_current_active_user
@@ -1886,7 +1886,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/brands/{identifier}"
+  - path: '/api/brands/{identifier}'
     methods:
       - GET
     auth: none
@@ -1895,7 +1895,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/brands/{identifier}/campaigns"
+  - path: '/api/brands/{identifier}/campaigns'
     methods:
       - GET
     auth: none
@@ -1904,7 +1904,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/brands/{identifier}/employees"
+  - path: '/api/brands/{identifier}/employees'
     methods:
       - GET
     auth: none
@@ -1913,7 +1913,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/brands/{identifier}/reviews"
+  - path: '/api/brands/{identifier}/reviews'
     methods:
       - GET
     auth: none
@@ -1942,7 +1942,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/campaigns/applications/{application_id}"
+  - path: '/api/campaigns/applications/{application_id}'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -1962,7 +1962,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/campaigns/brand/applications/{application_id}/send-update"
+  - path: '/api/campaigns/brand/applications/{application_id}/send-update'
     methods:
       - POST
     auth: get_current_active_user
@@ -1972,7 +1972,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/campaigns/brand/applications/{application_id}/status"
+  - path: '/api/campaigns/brand/applications/{application_id}/status'
     methods:
       - PUT
     auth: get_current_active_user
@@ -2002,7 +2002,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/campaigns/{campaign_id}"
+  - path: '/api/campaigns/{campaign_id}'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -2012,7 +2012,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/campaigns/{campaign_id}"
+  - path: '/api/campaigns/{campaign_id}'
     methods:
       - GET
     auth: none
@@ -2021,7 +2021,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/campaigns/{campaign_id}"
+  - path: '/api/campaigns/{campaign_id}'
     methods:
       - PUT
     auth: get_current_active_user
@@ -2031,7 +2031,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/campaigns/{campaign_id}/applications"
+  - path: '/api/campaigns/{campaign_id}/applications'
     methods:
       - GET
     auth: get_current_active_user
@@ -2041,7 +2041,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/campaigns/{campaign_id}/applications/{application_id}"
+  - path: '/api/campaigns/{campaign_id}/applications/{application_id}'
     methods:
       - PUT
     auth: get_current_active_user
@@ -2051,7 +2051,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/campaigns/{campaign_id}/apply"
+  - path: '/api/campaigns/{campaign_id}/apply'
     methods:
       - POST
     auth: get_current_active_user
@@ -2061,7 +2061,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/campaigns/{campaign_id}/check-application"
+  - path: '/api/campaigns/{campaign_id}/check-application'
     methods:
       - GET
     auth: get_current_active_user
@@ -2071,7 +2071,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/campaigns/{campaign_id}/close"
+  - path: '/api/campaigns/{campaign_id}/close'
     methods:
       - PUT
     auth: get_current_active_user
@@ -2081,7 +2081,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/campaigns/{campaign_id}/managers"
+  - path: '/api/campaigns/{campaign_id}/managers'
     methods:
       - GET
     auth: get_current_active_user
@@ -2091,7 +2091,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/campaigns/{campaign_id}/managers"
+  - path: '/api/campaigns/{campaign_id}/managers'
     methods:
       - POST
     auth: get_current_active_user
@@ -2101,7 +2101,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/campaigns/{campaign_id}/managers/{user_id}"
+  - path: '/api/campaigns/{campaign_id}/managers/{user_id}'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -2111,7 +2111,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/campaigns/{campaign_id}/match"
+  - path: '/api/campaigns/{campaign_id}/match'
     methods:
       - GET
     auth: get_current_active_user
@@ -2121,7 +2121,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/campaigns/{campaign_id}/reopen"
+  - path: '/api/campaigns/{campaign_id}/reopen'
     methods:
       - PUT
     auth: get_current_active_user
@@ -2131,7 +2131,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/campaigns/{campaign_id}/visibility"
+  - path: '/api/campaigns/{campaign_id}/visibility'
     methods:
       - PUT
     auth: get_current_active_user
@@ -2148,7 +2148,7 @@ routes:
     file: backend/app/routes/categories.py
     handler: list_categories
     auth_source: inferred
-  - path: "/api/comments/{comment_id}"
+  - path: '/api/comments/{comment_id}'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -2158,7 +2158,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/comments/{comment_id}"
+  - path: '/api/comments/{comment_id}'
     methods:
       - PUT
     auth: get_current_active_user
@@ -2168,7 +2168,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/comments/{comment_id}/like"
+  - path: '/api/comments/{comment_id}/like'
     methods:
       - POST
     auth: get_current_active_user
@@ -2218,7 +2218,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/dashboard/agents/{agent_id}/view"
+  - path: '/api/dashboard/agents/{agent_id}/view'
     methods:
       - POST
     auth: get_current_user
@@ -2228,7 +2228,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/dashboard/applications/{application_id}/view"
+  - path: '/api/dashboard/applications/{application_id}/view'
     methods:
       - POST
     auth: get_current_user
@@ -2238,7 +2238,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/dashboard/brand-employees/{employee_id}/view"
+  - path: '/api/dashboard/brand-employees/{employee_id}/view'
     methods:
       - POST
     auth: get_current_user
@@ -2248,7 +2248,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/dashboard/brand-insights"
+  - path: '/api/dashboard/brand-insights'
     methods:
       - GET
     auth: get_current_user
@@ -2258,7 +2258,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/dashboard/brands/{brand_id}/view"
+  - path: '/api/dashboard/brands/{brand_id}/view'
     methods:
       - POST
     auth: get_current_user
@@ -2268,7 +2268,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/dashboard/influencer-insights"
+  - path: '/api/dashboard/influencer-insights'
     methods:
       - GET
     auth: get_current_user
@@ -2278,7 +2278,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/dashboard/influencers/{influencer_id}/view"
+  - path: '/api/dashboard/influencers/{influencer_id}/view'
     methods:
       - POST
     auth: get_current_user
@@ -2288,7 +2288,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/dashboard/profile-strength"
+  - path: '/api/dashboard/profile-strength'
     methods:
       - GET
     auth: get_current_user
@@ -2298,7 +2298,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/dashboard/profile-viewers"
+  - path: '/api/dashboard/profile-viewers'
     methods:
       - GET
     auth: get_current_user
@@ -2328,7 +2328,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/feed/check-new"
+  - path: '/api/feed/check-new'
     methods:
       - GET
     auth: get_current_active_user
@@ -2348,7 +2348,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/feed/insights/{insight_id}"
+  - path: '/api/feed/insights/{insight_id}'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -2358,7 +2358,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/feed/insights/{insight_id}/interact"
+  - path: '/api/feed/insights/{insight_id}/interact'
     methods:
       - POST
     auth: get_current_active_user
@@ -2368,7 +2368,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/feed/mark-viewed"
+  - path: '/api/feed/mark-viewed'
     methods:
       - POST
     auth: get_current_active_user
@@ -2378,7 +2378,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/feed/milestones/{milestone_id}/celebrate"
+  - path: '/api/feed/milestones/{milestone_id}/celebrate'
     methods:
       - POST
     auth: get_current_active_user
@@ -2388,7 +2388,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/feed/my-insights"
+  - path: '/api/feed/my-insights'
     methods:
       - GET
     auth: get_current_active_user
@@ -2428,7 +2428,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/folders/invitations/{invitation_id}/accept"
+  - path: '/api/folders/invitations/{invitation_id}/accept'
     methods:
       - POST
     auth: get_current_active_user
@@ -2438,7 +2438,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/folders/invitations/{invitation_id}/decline"
+  - path: '/api/folders/invitations/{invitation_id}/decline'
     methods:
       - POST
     auth: get_current_active_user
@@ -2458,7 +2458,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/folders/{folder_id}"
+  - path: '/api/folders/{folder_id}'
     methods:
       - GET
     auth: get_current_active_user
@@ -2468,7 +2468,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/folders/{folder_id}/collaborators"
+  - path: '/api/folders/{folder_id}/collaborators'
     methods:
       - GET
     auth: get_current_active_user
@@ -2478,7 +2478,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/folders/{folder_id}/collaborators/{user_id}"
+  - path: '/api/folders/{folder_id}/collaborators/{user_id}'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -2488,7 +2488,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/folders/{folder_id}/collaborators/{user_id}"
+  - path: '/api/folders/{folder_id}/collaborators/{user_id}'
     methods:
       - PATCH
     auth: get_current_active_user
@@ -2498,7 +2498,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/folders/{folder_id}/invite"
+  - path: '/api/folders/{folder_id}/invite'
     methods:
       - POST
     auth: get_current_active_user
@@ -2508,7 +2508,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/folders/{folder_id}/leave"
+  - path: '/api/folders/{folder_id}/leave'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -2518,7 +2518,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/folders/{folder_id}/search-users"
+  - path: '/api/folders/{folder_id}/search-users'
     methods:
       - GET
     auth: get_current_active_user
@@ -2528,7 +2528,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/follows/status/{user_id}"
+  - path: '/api/follows/status/{user_id}'
     methods:
       - GET
     auth: get_current_user
@@ -2538,7 +2538,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/follows/{user_id}"
+  - path: '/api/follows/{user_id}'
     methods:
       - DELETE
     auth: get_current_user
@@ -2548,7 +2548,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/follows/{user_id}"
+  - path: '/api/follows/{user_id}'
     methods:
       - POST
     auth: get_current_user
@@ -2558,7 +2558,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/follows/{user_id}/counts"
+  - path: '/api/follows/{user_id}/counts'
     methods:
       - GET
     auth: none
@@ -2567,7 +2567,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/follows/{user_id}/followers"
+  - path: '/api/follows/{user_id}/followers'
     methods:
       - GET
     auth: get_current_user
@@ -2577,7 +2577,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/follows/{user_id}/following"
+  - path: '/api/follows/{user_id}/following'
     methods:
       - GET
     auth: get_current_user
@@ -2587,7 +2587,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/follows/{user_id}/mutual-circle"
+  - path: '/api/follows/{user_id}/mutual-circle'
     methods:
       - GET
     auth: get_current_user
@@ -2616,7 +2616,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/influencers/handle/{handle}"
+  - path: '/api/influencers/handle/{handle}'
     methods:
       - GET
     auth: get_current_user_optional
@@ -2656,7 +2656,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/influencers/{identifier}"
+  - path: '/api/influencers/{identifier}'
     methods:
       - GET
     auth: get_current_user_optional
@@ -2666,7 +2666,7 @@ routes:
     dependencies:
       - get_current_user_optional
       - get_db
-  - path: "/api/influencers/{influencer_id}"
+  - path: '/api/influencers/{influencer_id}'
     methods:
       - PUT
     auth: get_current_active_user
@@ -2676,7 +2676,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/influencers/{influencer_id}/portfolio"
+  - path: '/api/influencers/{influencer_id}/portfolio'
     methods:
       - GET
     auth: none
@@ -2685,7 +2685,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/influencers/{influencer_id}/reviews"
+  - path: '/api/influencers/{influencer_id}/reviews'
     methods:
       - GET
     auth: none
@@ -2764,7 +2764,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/messages/conversations/{conversation_id}"
+  - path: '/api/messages/conversations/{conversation_id}'
     methods:
       - DELETE
     auth: get_current_user
@@ -2774,7 +2774,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/messages/conversations/{conversation_id}"
+  - path: '/api/messages/conversations/{conversation_id}'
     methods:
       - GET
     auth: get_current_user
@@ -2784,7 +2784,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/messages/conversations/{conversation_id}/archive"
+  - path: '/api/messages/conversations/{conversation_id}/archive'
     methods:
       - DELETE
     auth: get_current_user
@@ -2794,7 +2794,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/messages/conversations/{conversation_id}/archive"
+  - path: '/api/messages/conversations/{conversation_id}/archive'
     methods:
       - POST
     auth: get_current_user
@@ -2804,7 +2804,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/messages/conversations/{conversation_id}/messages"
+  - path: '/api/messages/conversations/{conversation_id}/messages'
     methods:
       - GET
     auth: get_current_user
@@ -2814,7 +2814,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/messages/conversations/{conversation_id}/messages"
+  - path: '/api/messages/conversations/{conversation_id}/messages'
     methods:
       - POST
     auth: get_current_user
@@ -2824,7 +2824,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/messages/conversations/{conversation_id}/mute"
+  - path: '/api/messages/conversations/{conversation_id}/mute'
     methods:
       - DELETE
     auth: get_current_user
@@ -2834,7 +2834,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/messages/conversations/{conversation_id}/mute"
+  - path: '/api/messages/conversations/{conversation_id}/mute'
     methods:
       - GET
     auth: get_current_user
@@ -2844,7 +2844,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/messages/conversations/{conversation_id}/mute"
+  - path: '/api/messages/conversations/{conversation_id}/mute'
     methods:
       - POST
     auth: get_current_user
@@ -2854,7 +2854,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/messages/conversations/{conversation_id}/read"
+  - path: '/api/messages/conversations/{conversation_id}/read'
     methods:
       - PUT
     auth: get_current_user
@@ -2864,7 +2864,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/messages/conversations/{conversation_id}/unread"
+  - path: '/api/messages/conversations/{conversation_id}/unread'
     methods:
       - PUT
     auth: get_current_user
@@ -2874,7 +2874,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/messages/messages/{message_id}"
+  - path: '/api/messages/messages/{message_id}'
     methods:
       - DELETE
     auth: get_current_user
@@ -2884,7 +2884,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/messages/search-users"
+  - path: '/api/messages/search-users'
     methods:
       - GET
     auth: get_current_user
@@ -2894,7 +2894,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/messages/unread-count"
+  - path: '/api/messages/unread-count'
     methods:
       - GET
     auth: get_current_user
@@ -2923,7 +2923,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/network/connections/{connection_id}"
+  - path: '/api/network/connections/{connection_id}'
     methods:
       - DELETE
     auth: get_current_user
@@ -2963,7 +2963,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/network/requests/{request_id}/accept"
+  - path: '/api/network/requests/{request_id}/accept'
     methods:
       - POST
     auth: get_current_user
@@ -2973,7 +2973,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/network/requests/{request_id}/cancel"
+  - path: '/api/network/requests/{request_id}/cancel'
     methods:
       - POST
     auth: get_current_user
@@ -2983,7 +2983,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/network/requests/{request_id}/decline"
+  - path: '/api/network/requests/{request_id}/decline'
     methods:
       - POST
     auth: get_current_user
@@ -2993,7 +2993,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/network/requests/{request_id}/ignore"
+  - path: '/api/network/requests/{request_id}/ignore'
     methods:
       - POST
     auth: get_current_user
@@ -3003,7 +3003,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/network/status/{user_id}"
+  - path: '/api/network/status/{user_id}'
     methods:
       - GET
     auth: get_current_user
@@ -3043,7 +3043,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/notifications/mark-all-read"
+  - path: '/api/notifications/mark-all-read'
     methods:
       - PUT
     auth: get_current_user
@@ -3073,7 +3073,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/notifications/push-subscriptions"
+  - path: '/api/notifications/push-subscriptions'
     methods:
       - DELETE
     auth: get_current_user
@@ -3083,7 +3083,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/notifications/push-subscriptions"
+  - path: '/api/notifications/push-subscriptions'
     methods:
       - GET
     auth: get_current_user
@@ -3093,7 +3093,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/notifications/push-subscriptions"
+  - path: '/api/notifications/push-subscriptions'
     methods:
       - POST
     auth: get_current_user
@@ -3103,7 +3103,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/notifications/push-subscriptions/expo"
+  - path: '/api/notifications/push-subscriptions/expo'
     methods:
       - POST
     auth: get_current_user
@@ -3113,7 +3113,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/notifications/push-subscriptions/expo/deactivate"
+  - path: '/api/notifications/push-subscriptions/expo/deactivate'
     methods:
       - POST
     auth: get_current_user
@@ -3123,7 +3123,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/notifications/push-subscriptions/{subscription_id}"
+  - path: '/api/notifications/push-subscriptions/{subscription_id}'
     methods:
       - DELETE
     auth: get_current_user
@@ -3142,7 +3142,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_current_user
-  - path: "/api/notifications/unread-count"
+  - path: '/api/notifications/unread-count'
     methods:
       - GET
     auth: get_current_user
@@ -3152,14 +3152,14 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/notifications/vapid-public-key"
+  - path: '/api/notifications/vapid-public-key'
     methods:
       - GET
     auth: none
     file: backend/app/routes/notifications.py
     handler: get_vapid_public_key
     auth_source: inferred
-  - path: "/api/notifications/{notification_id}"
+  - path: '/api/notifications/{notification_id}'
     methods:
       - DELETE
     auth: get_current_user
@@ -3169,7 +3169,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/notifications/{notification_id}/read"
+  - path: '/api/notifications/{notification_id}/read'
     methods:
       - PUT
     auth: get_current_user
@@ -3238,7 +3238,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/portfolio/from-embed"
+  - path: '/api/portfolio/from-embed'
     methods:
       - POST
     auth: get_current_active_user
@@ -3258,7 +3258,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/portfolio/parse-url"
+  - path: '/api/portfolio/parse-url'
     methods:
       - POST
     auth: get_current_active_user
@@ -3277,7 +3277,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/portfolio/{item_id}"
+  - path: '/api/portfolio/{item_id}'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -3287,7 +3287,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/portfolio/{item_id}"
+  - path: '/api/portfolio/{item_id}'
     methods:
       - GET
     auth: get_current_user
@@ -3297,7 +3297,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/portfolio/{item_id}"
+  - path: '/api/portfolio/{item_id}'
     methods:
       - PUT
     auth: get_current_active_user
@@ -3307,7 +3307,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/portfolio/{item_id}/analytics"
+  - path: '/api/portfolio/{item_id}/analytics'
     methods:
       - GET
     auth: get_current_active_user
@@ -3317,7 +3317,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/portfolio/{item_id}/reorder"
+  - path: '/api/portfolio/{item_id}/reorder'
     methods:
       - POST
     auth: get_current_active_user
@@ -3327,7 +3327,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/portfolio/{item_id}/sync-metrics"
+  - path: '/api/portfolio/{item_id}/sync-metrics'
     methods:
       - POST
     auth: get_current_active_user
@@ -3337,7 +3337,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/portfolio/{item_id}/thumbnail"
+  - path: '/api/portfolio/{item_id}/thumbnail'
     methods:
       - PATCH
     auth: get_current_active_user
@@ -3377,7 +3377,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/posts/admin/reports/{report_id}"
+  - path: '/api/posts/admin/reports/{report_id}'
     methods:
       - PUT
     auth: get_current_active_user
@@ -3414,7 +3414,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/posts/user/{user_id}/activity"
+  - path: '/api/posts/user/{user_id}/activity'
     methods:
       - GET
     auth: get_current_user_optional
@@ -3424,7 +3424,7 @@ routes:
     dependencies:
       - get_current_user_optional
       - get_db
-  - path: "/api/posts/{post_id}"
+  - path: '/api/posts/{post_id}'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -3434,7 +3434,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/posts/{post_id}"
+  - path: '/api/posts/{post_id}'
     methods:
       - GET
     auth: get_current_user_optional
@@ -3444,7 +3444,7 @@ routes:
     dependencies:
       - get_current_user_optional
       - get_db
-  - path: "/api/posts/{post_id}"
+  - path: '/api/posts/{post_id}'
     methods:
       - PUT
     auth: get_current_active_user
@@ -3454,7 +3454,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/posts/{post_id}/comments"
+  - path: '/api/posts/{post_id}/comments'
     methods:
       - GET
     auth: get_current_user_optional
@@ -3464,7 +3464,7 @@ routes:
     dependencies:
       - get_current_user_optional
       - get_db
-  - path: "/api/posts/{post_id}/comments"
+  - path: '/api/posts/{post_id}/comments'
     methods:
       - POST
     auth: get_current_active_user
@@ -3474,7 +3474,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/posts/{post_id}/hide"
+  - path: '/api/posts/{post_id}/hide'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -3484,7 +3484,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/posts/{post_id}/hide"
+  - path: '/api/posts/{post_id}/hide'
     methods:
       - POST
     auth: get_current_active_user
@@ -3494,7 +3494,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/posts/{post_id}/like"
+  - path: '/api/posts/{post_id}/like'
     methods:
       - POST
     auth: get_current_active_user
@@ -3504,7 +3504,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/posts/{post_id}/report"
+  - path: '/api/posts/{post_id}/report'
     methods:
       - POST
     auth: get_current_active_user
@@ -3514,7 +3514,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/posts/{post_id}/save"
+  - path: '/api/posts/{post_id}/save'
     methods:
       - POST
     auth: get_current_active_user
@@ -3524,7 +3524,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/posts/{post_id}/share"
+  - path: '/api/posts/{post_id}/share'
     methods:
       - POST
     auth: get_current_active_user
@@ -3604,7 +3604,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/profile/{user_id}"
+  - path: '/api/profile/{user_id}'
     methods:
       - GET
     auth: get_current_user_optional
@@ -3614,7 +3614,7 @@ routes:
     dependencies:
       - get_current_user_optional
       - get_db
-  - path: "/api/public/threads/{handle}/{thread_id}"
+  - path: '/api/public/threads/{handle}/{thread_id}'
     methods:
       - GET
     auth: get_current_user_optional
@@ -3624,7 +3624,7 @@ routes:
     dependencies:
       - get_current_user_optional
       - get_db
-  - path: "/api/public/threads/{handle}/{thread_id}/share-open"
+  - path: '/api/public/threads/{handle}/{thread_id}/share-open'
     methods:
       - POST
     auth: none
@@ -3633,7 +3633,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/public/view/{token}/portfolio/{item_id}"
+  - path: '/api/public/view/{token}/portfolio/{item_id}'
     methods:
       - GET
     auth: none
@@ -3642,7 +3642,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/public/view/{token}/profile"
+  - path: '/api/public/view/{token}/profile'
     methods:
       - GET
     auth: none
@@ -3661,7 +3661,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/reviews/can-review/{influencer_id}"
+  - path: '/api/reviews/can-review/{influencer_id}'
     methods:
       - GET
     auth: get_current_active_user
@@ -3671,7 +3671,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/reviews/check/influencer/{influencer_id}"
+  - path: '/api/reviews/check/influencer/{influencer_id}'
     methods:
       - GET
     auth: get_current_active_user
@@ -3681,7 +3681,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/reviews/influencer/{influencer_id}"
+  - path: '/api/reviews/influencer/{influencer_id}'
     methods:
       - GET
     auth: none
@@ -3700,7 +3700,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/reviews/{review_id}"
+  - path: '/api/reviews/{review_id}'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -3710,7 +3710,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/reviews/{review_id}"
+  - path: '/api/reviews/{review_id}'
     methods:
       - GET
     auth: none
@@ -3719,7 +3719,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/reviews/{review_id}"
+  - path: '/api/reviews/{review_id}'
     methods:
       - PUT
     auth: get_current_active_user
@@ -3729,7 +3729,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/reviews/{review_id}/helpful"
+  - path: '/api/reviews/{review_id}/helpful'
     methods:
       - POST
     auth: get_current_active_user
@@ -3739,7 +3739,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/reviews/{review_id}/publish"
+  - path: '/api/reviews/{review_id}/publish'
     methods:
       - POST
     auth: get_current_active_user
@@ -3749,7 +3749,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/safety/admin/moderation-actions"
+  - path: '/api/safety/admin/moderation-actions'
     methods:
       - GET
     auth: get_current_user
@@ -3759,7 +3759,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/safety/admin/moderation-actions"
+  - path: '/api/safety/admin/moderation-actions'
     methods:
       - POST
     auth: get_current_user
@@ -3779,7 +3779,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/safety/admin/reports/{report_id}"
+  - path: '/api/safety/admin/reports/{report_id}'
     methods:
       - GET
     auth: get_current_user
@@ -3789,7 +3789,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/safety/admin/reports/{report_id}"
+  - path: '/api/safety/admin/reports/{report_id}'
     methods:
       - PUT
     auth: get_current_user
@@ -3809,7 +3809,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/safety/admin/suspensions/{user_id}"
+  - path: '/api/safety/admin/suspensions/{user_id}'
     methods:
       - DELETE
     auth: get_current_user
@@ -3839,7 +3839,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/safety/blocks/check/{user_id}"
+  - path: '/api/safety/blocks/check/{user_id}'
     methods:
       - GET
     auth: get_current_user
@@ -3849,7 +3849,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/safety/blocks/{block_id}"
+  - path: '/api/safety/blocks/{block_id}'
     methods:
       - DELETE
     auth: get_current_user
@@ -3869,7 +3869,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/safety/reports/my-reports"
+  - path: '/api/safety/reports/my-reports'
     methods:
       - GET
     auth: get_current_user
@@ -3915,7 +3915,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/share-links"
+  - path: '/api/share-links'
     methods:
       - GET
     auth: require_influencer
@@ -3925,7 +3925,7 @@ routes:
     dependencies:
       - get_db
       - require_influencer
-  - path: "/api/share-links"
+  - path: '/api/share-links'
     methods:
       - POST
     auth: require_influencer
@@ -3935,7 +3935,7 @@ routes:
     dependencies:
       - get_db
       - require_influencer
-  - path: "/api/share-links/{link_id}/revoke"
+  - path: '/api/share-links/{link_id}/revoke'
     methods:
       - POST
     auth: require_influencer
@@ -3945,7 +3945,7 @@ routes:
     dependencies:
       - get_db
       - require_influencer
-  - path: "/api/social-accounts"
+  - path: '/api/social-accounts'
     methods:
       - POST
     auth: get_current_active_user
@@ -3955,7 +3955,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/social-accounts/influencer/{influencer_id}"
+  - path: '/api/social-accounts/influencer/{influencer_id}'
     methods:
       - GET
     auth: none
@@ -3964,7 +3964,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/social-accounts/me"
+  - path: '/api/social-accounts/me'
     methods:
       - GET
     auth: get_current_active_user
@@ -3974,7 +3974,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/social-accounts/phyllo/connect"
+  - path: '/api/social-accounts/phyllo/connect'
     methods:
       - POST
     auth: get_current_active_user
@@ -3984,7 +3984,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/social-accounts/phyllo/initiate"
+  - path: '/api/social-accounts/phyllo/initiate'
     methods:
       - POST
     auth: get_current_active_user
@@ -3994,7 +3994,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/social-accounts/phyllo/video-metrics"
+  - path: '/api/social-accounts/phyllo/video-metrics'
     methods:
       - POST
     auth: get_current_active_user
@@ -4004,14 +4004,14 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/social-accounts/platforms"
+  - path: '/api/social-accounts/platforms'
     methods:
       - GET
     auth: none
     file: backend/app/routes/social_accounts.py
     handler: get_available_platforms
     auth_source: inferred
-  - path: "/api/social-accounts/reorder"
+  - path: '/api/social-accounts/reorder'
     methods:
       - POST
     auth: get_current_active_user
@@ -4021,7 +4021,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/social-accounts/{account_id}"
+  - path: '/api/social-accounts/{account_id}'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -4031,7 +4031,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/social-accounts/{account_id}"
+  - path: '/api/social-accounts/{account_id}'
     methods:
       - GET
     auth: get_current_active_user
@@ -4041,7 +4041,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/social-accounts/{account_id}"
+  - path: '/api/social-accounts/{account_id}'
     methods:
       - PUT
     auth: get_current_active_user
@@ -4051,7 +4051,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/social-accounts/{account_id}/disconnect"
+  - path: '/api/social-accounts/{account_id}/disconnect'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -4061,7 +4061,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/social-accounts/{account_id}/phyllo-refresh"
+  - path: '/api/social-accounts/{account_id}/phyllo-refresh'
     methods:
       - POST
     auth: get_current_active_user
@@ -4071,7 +4071,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/social-accounts/{account_id}/refresh-stats"
+  - path: '/api/social-accounts/{account_id}/refresh-stats'
     methods:
       - POST
     auth: get_current_active_user
@@ -4081,14 +4081,14 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/stats/diversity-config"
+  - path: '/api/stats/diversity-config'
     methods:
       - GET
     auth: none
     file: backend/app/routes/stats.py
     handler: get_diversity_config
     auth_source: inferred
-  - path: "/api/stats/diversity-metrics"
+  - path: '/api/stats/diversity-metrics'
     methods:
       - GET
     auth: none
@@ -4097,7 +4097,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/stats/featured-creators"
+  - path: '/api/stats/featured-creators'
     methods:
       - GET
     auth: get_current_user
@@ -4107,7 +4107,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/stats/featured-creators/score-explanation/{creator_id}"
+  - path: '/api/stats/featured-creators/score-explanation/{creator_id}'
     methods:
       - GET
     auth: none
@@ -4116,7 +4116,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/stats/featured-creators/top-scorers"
+  - path: '/api/stats/featured-creators/top-scorers'
     methods:
       - GET
     auth: none
@@ -4143,7 +4143,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/stats/trending-campaigns"
+  - path: '/api/stats/trending-campaigns'
     methods:
       - GET
     auth: none
@@ -4152,7 +4152,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/stats/trending-campaigns/score-explanation/{campaign_id}"
+  - path: '/api/stats/trending-campaigns/score-explanation/{campaign_id}'
     methods:
       - GET
     auth: none
@@ -4161,7 +4161,7 @@ routes:
     auth_source: inferred
     dependencies:
       - get_db
-  - path: "/api/stats/trending-campaigns/top-campaigns"
+  - path: '/api/stats/trending-campaigns/top-campaigns'
     methods:
       - GET
     auth: none
@@ -4190,7 +4190,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/support/admin/tickets/{ticket_id}"
+  - path: '/api/support/admin/tickets/{ticket_id}'
     methods:
       - PUT
     auth: get_current_user
@@ -4200,7 +4200,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/support/admin/tickets/{ticket_id}/assign"
+  - path: '/api/support/admin/tickets/{ticket_id}/assign'
     methods:
       - POST
     auth: get_current_user
@@ -4210,7 +4210,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/support/admin/tickets/{ticket_id}/priority"
+  - path: '/api/support/admin/tickets/{ticket_id}/priority'
     methods:
       - PATCH
     auth: get_current_user
@@ -4220,7 +4220,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/support/admin/tickets/{ticket_id}/priority-details"
+  - path: '/api/support/admin/tickets/{ticket_id}/priority-details'
     methods:
       - GET
     auth: get_current_user
@@ -4250,7 +4250,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/support/tickets/{ticket_id}"
+  - path: '/api/support/tickets/{ticket_id}'
     methods:
       - GET
     auth: get_current_user
@@ -4260,7 +4260,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/support/tickets/{ticket_id}/close"
+  - path: '/api/support/tickets/{ticket_id}/close'
     methods:
       - POST
     auth: get_current_user
@@ -4270,7 +4270,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/api/support/tickets/{ticket_id}/messages"
+  - path: '/api/support/tickets/{ticket_id}/messages'
     methods:
       - POST
     auth: get_current_user
@@ -4310,7 +4310,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/threads/drafts/{thread_id}"
+  - path: '/api/threads/drafts/{thread_id}'
     methods:
       - PUT
     auth: get_current_active_user
@@ -4340,7 +4340,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/threads/user/{user_id}"
+  - path: '/api/threads/user/{user_id}'
     methods:
       - GET
     auth: get_current_user_optional
@@ -4350,7 +4350,7 @@ routes:
     dependencies:
       - get_current_user_optional
       - get_db
-  - path: "/api/threads/{thread_id}"
+  - path: '/api/threads/{thread_id}'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -4360,7 +4360,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/threads/{thread_id}"
+  - path: '/api/threads/{thread_id}'
     methods:
       - GET
     auth: get_current_active_user
@@ -4370,7 +4370,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/threads/{thread_id}"
+  - path: '/api/threads/{thread_id}'
     methods:
       - PUT
     auth: get_current_active_user
@@ -4380,7 +4380,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/threads/{thread_id}/bookmark"
+  - path: '/api/threads/{thread_id}/bookmark'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -4390,7 +4390,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/threads/{thread_id}/bookmark"
+  - path: '/api/threads/{thread_id}/bookmark'
     methods:
       - POST
     auth: get_current_active_user
@@ -4400,7 +4400,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/threads/{thread_id}/like"
+  - path: '/api/threads/{thread_id}/like'
     methods:
       - DELETE
     auth: get_current_active_user
@@ -4410,7 +4410,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/threads/{thread_id}/like"
+  - path: '/api/threads/{thread_id}/like'
     methods:
       - POST
     auth: get_current_active_user
@@ -4420,7 +4420,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/threads/{thread_id}/pin"
+  - path: '/api/threads/{thread_id}/pin'
     methods:
       - POST
     auth: get_current_active_user
@@ -4430,7 +4430,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/threads/{thread_id}/publish"
+  - path: '/api/threads/{thread_id}/publish'
     methods:
       - POST
     auth: get_current_active_user
@@ -4440,7 +4440,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/threads/{thread_id}/report"
+  - path: '/api/threads/{thread_id}/report'
     methods:
       - POST
     auth: get_current_active_user
@@ -4480,7 +4480,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/users/brand-employee/me/profile"
+  - path: '/api/users/brand-employee/me/profile'
     methods:
       - GET
     auth: get_current_active_user
@@ -4490,7 +4490,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/users/brand-employee/me/profile"
+  - path: '/api/users/brand-employee/me/profile'
     methods:
       - PUT
     auth: get_current_active_user
@@ -4530,7 +4530,7 @@ routes:
     dependencies:
       - get_current_active_user
       - get_db
-  - path: "/api/users/me/full-profile"
+  - path: '/api/users/me/full-profile'
     methods:
       - GET
     auth: get_current_active_user
@@ -4570,7 +4570,7 @@ routes:
     dependencies:
       - get_current_user
       - get_db
-  - path: "/creator/activity/{log_id}"
+  - path: '/creator/activity/{log_id}'
     methods:
       - GET
     auth: get_current_user

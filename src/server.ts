@@ -35,7 +35,9 @@ function isDryRunEnabled(): boolean {
 
 function getPort(): number {
   const parsedPort = Number(process.env.PORT ?? DEFAULT_PORT);
-  return Number.isFinite(parsedPort) && parsedPort > 0 ? parsedPort : DEFAULT_PORT;
+  return Number.isFinite(parsedPort) && parsedPort > 0
+    ? parsedPort
+    : DEFAULT_PORT;
 }
 
 function getErrorRateThreshold(): number {
@@ -88,7 +90,11 @@ function getSentrySignatureHeader(request: Request): string | undefined {
   return undefined;
 }
 
-export function verifySentrySignature(rawBody: Buffer, secret: string, signatureHeader?: string): boolean {
+export function verifySentrySignature(
+  rawBody: Buffer,
+  secret: string,
+  signatureHeader?: string
+): boolean {
   if (!signatureHeader) {
     return false;
   }
@@ -100,7 +106,9 @@ export function verifySentrySignature(rawBody: Buffer, secret: string, signature
     .filter(Boolean);
 
   return acceptedSignatures.some((candidate) => {
-    const normalizedCandidate = candidate.startsWith('sha256=') ? candidate.slice(7) : candidate;
+    const normalizedCandidate = candidate.startsWith('sha256=')
+      ? candidate.slice(7)
+      : candidate;
     return timingSafeCompare(normalizedCandidate, expectedSignature);
   });
 }
@@ -117,7 +125,9 @@ function normalizeRate(value: unknown): number | undefined {
   return value > 1 ? value / 100 : value;
 }
 
-export function extractErrorRate(payload: SentryWebhookPayload): number | undefined {
+export function extractErrorRate(
+  payload: SentryWebhookPayload
+): number | undefined {
   const candidates: unknown[] = [
     payload.errorRate,
     payload.error_rate,
@@ -142,7 +152,10 @@ export function extractErrorRate(payload: SentryWebhookPayload): number | undefi
 }
 
 function resolveDeploySecret(request: Request): string | undefined {
-  return request.header(DEPLOY_SECRET_HEADER) || getBearerToken(request.header('authorization'));
+  return (
+    request.header(DEPLOY_SECRET_HEADER) ||
+    getBearerToken(request.header('authorization'))
+  );
 }
 
 function getRequiredEnv(name: string): string {
@@ -160,7 +173,8 @@ function sendUnauthorized(response: Response, detail: string): void {
 }
 
 function sendConfigError(response: Response, error: unknown): void {
-  const message = error instanceof Error ? error.message : 'Server configuration error';
+  const message =
+    error instanceof Error ? error.message : 'Server configuration error';
   response.status(500).json({ error: message });
 }
 
@@ -240,7 +254,9 @@ async function handleSentryWebhook(
     return;
   }
 
-  const rawBody = Buffer.isBuffer(request.body) ? request.body : Buffer.from('');
+  const rawBody = Buffer.isBuffer(request.body)
+    ? request.body
+    : Buffer.from('');
   const signatureHeader = getSentrySignatureHeader(request);
 
   if (!verifySentrySignature(rawBody, sentryWebhookSecret, signatureHeader)) {
@@ -271,7 +287,9 @@ async function handleSentryWebhook(
 
   const errorRate = extractErrorRate(payload);
   if (errorRate === undefined) {
-    console.log('Ignoring Sentry webhook because no error rate was found in the payload.');
+    console.log(
+      'Ignoring Sentry webhook because no error rate was found in the payload.'
+    );
     response.status(202).json({
       ok: true,
       ignored: true,
@@ -334,7 +352,8 @@ async function handleSentryWebhook(
 export function createApp(dependencies: MonitorDependencies = {}): Express {
   const app = express();
   const now = dependencies.now ?? (() => new Date());
-  const rollbackDeploymentFn = dependencies.rollbackDeploymentFn ?? rollbackDeployment;
+  const rollbackDeploymentFn =
+    dependencies.rollbackDeploymentFn ?? rollbackDeployment;
 
   app.get('/health', (_request, response) => {
     response.status(200).json({ ok: true });
@@ -348,9 +367,13 @@ export function createApp(dependencies: MonitorDependencies = {}): Express {
     await handleDeployWebhook(request, response, 'production', now());
   });
 
-  app.post('/webhook/sentry', express.raw({ type: '*/*' }), async (request, response) => {
-    await handleSentryWebhook(request, response, now(), rollbackDeploymentFn);
-  });
+  app.post(
+    '/webhook/sentry',
+    express.raw({ type: '*/*' }),
+    async (request, response) => {
+      await handleSentryWebhook(request, response, now(), rollbackDeploymentFn);
+    }
+  );
 
   return app;
 }

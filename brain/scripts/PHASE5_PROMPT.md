@@ -34,6 +34,7 @@ User Request
 ```
 
 Include:
+
 - Exact inputs each role receives
 - Exact outputs each role produces
 - Decision points and branches
@@ -42,6 +43,7 @@ Include:
 ### 2. `architect_to_builder_handoff.md`
 
 Define what the Architect outputs that the Builder needs:
+
 - Implementation scope
 - Impacted files list
 - Migration requirements
@@ -53,6 +55,7 @@ Define what the Architect outputs that the Builder needs:
 ### 3. `builder_to_reviewer_handoff.md`
 
 Define what the Builder outputs that the Reviewer needs:
+
 - Code changes (diff or commit)
 - Implementation plan reference
 - Tests added/updated
@@ -62,6 +65,7 @@ Define what the Builder outputs that the Reviewer needs:
 ### 4. `reviewer_approval_criteria.md`
 
 Define when Reviewer approval is required:
+
 - Critical findings must be resolved
 - High findings should be resolved or documented
 - Medium findings may remain with rationale
@@ -70,6 +74,7 @@ Define when Reviewer approval is required:
 ### 5. `monitor_drift_update.md` (enhance existing)
 
 Enhance the existing playbook to handle the complete drift update flow:
+
 - Detect drift
 - Propose knowledge updates
 - Get confirmation (if needed)
@@ -80,6 +85,7 @@ Enhance the existing playbook to handle the complete drift update flow:
 Create a decision tree based on the PRD escalation contract:
 
 **Autonomous (brain can proceed):**
+
 - Change is additive and localized
 - Existing architecture clearly indicates path
 - Migration is additive and non-destructive
@@ -87,6 +93,7 @@ Create a decision tree based on the PRD escalation contract:
 - Tests can verify correctness
 
 **Must Stop and Ask (escalate):**
+
 - Auth/session semantics would change
 - Destructive data layer change
 - Ambiguous content domain (Post vs Thread vs PortfolioItem)
@@ -98,6 +105,7 @@ Create a decision tree based on the PRD escalation contract:
 ### 7. `role_prompts_orchestration.md`
 
 Update the existing role prompts to include:
+
 - Who invokes this role
 - What inputs to expect
 - What outputs to produce
@@ -107,6 +115,7 @@ Update the existing role prompts to include:
 ## Directory Structure
 
 Create:
+
 ```
 brain/workflows/
 ├── workflow_orchestration.md      # Main orchestration document
@@ -129,6 +138,7 @@ brain/workflows/
 ## Testing the Orchestration
 
 After implementation, document how to test:
+
 1. Give a simple feature request through the full flow
 2. Give a request that requires escalation
 3. Verify knowledge updates are proposed correctly

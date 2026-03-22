@@ -154,10 +154,10 @@ frontend:
     - frontend/app/layout.tsx
   pages:
     - frontend/app/page.tsx
-    - "frontend/app/view/[token]/page.tsx"
+    - 'frontend/app/view/[token]/page.tsx'
   routes:
     - frontend/app
-    - "frontend/app/view/[token]"
+    - 'frontend/app/view/[token]'
 mobile:
   api: mobile/src/lib/api.ts
   components:

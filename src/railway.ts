@@ -197,7 +197,9 @@ async function railwayGraphQLRequest<T>(
   }
 
   if (!response.ok) {
-    const errorMessage = parsedBody.errors?.map((error) => error.message).join('; ');
+    const errorMessage = parsedBody.errors
+      ?.map((error) => error.message)
+      .join('; ');
     throw new Error(
       `Railway API request failed (${response.status} ${response.statusText})${errorMessage ? `: ${errorMessage}` : ''}`
     );
@@ -228,25 +230,38 @@ function unwrapTypeRef(type: TypeRef): TypeRef {
 
 function ensureRollbackMutationContract(field: MutationField): void {
   if (field.args.length !== 1 || field.args[0]?.name !== 'id') {
-    throw new Error('Railway deploymentRollback mutation contract changed: expected a single id argument.');
+    throw new Error(
+      'Railway deploymentRollback mutation contract changed: expected a single id argument.'
+    );
   }
 
   if (field.args[0].type.kind !== 'NON_NULL') {
-    throw new Error('Railway deploymentRollback mutation contract changed: id must remain NON_NULL.');
+    throw new Error(
+      'Railway deploymentRollback mutation contract changed: id must remain NON_NULL.'
+    );
   }
 
   const argumentLeafType = unwrapTypeRef(field.args[0].type);
-  if (argumentLeafType.kind !== 'SCALAR' || argumentLeafType.name !== 'String') {
-    throw new Error('Railway deploymentRollback mutation contract changed: id must remain a String scalar.');
+  if (
+    argumentLeafType.kind !== 'SCALAR' ||
+    argumentLeafType.name !== 'String'
+  ) {
+    throw new Error(
+      'Railway deploymentRollback mutation contract changed: id must remain a String scalar.'
+    );
   }
 
   if (field.type.kind !== 'NON_NULL') {
-    throw new Error('Railway deploymentRollback mutation contract changed: return type must remain NON_NULL.');
+    throw new Error(
+      'Railway deploymentRollback mutation contract changed: return type must remain NON_NULL.'
+    );
   }
 
   const returnLeafType = unwrapTypeRef(field.type);
   if (returnLeafType.kind !== 'SCALAR' || returnLeafType.name !== 'Boolean') {
-    throw new Error('Railway deploymentRollback mutation contract changed: expected a Boolean return value.');
+    throw new Error(
+      'Railway deploymentRollback mutation contract changed: expected a Boolean return value.'
+    );
   }
 }
 
@@ -261,7 +276,9 @@ export async function validateRailwayConnection(): Promise<RailwayValidationResu
   const project = response.data?.project;
 
   if (!project) {
-    throw new Error(`Railway project was not found for RAILWAY_PROJECT_ID=${projectId}`);
+    throw new Error(
+      `Railway project was not found for RAILWAY_PROJECT_ID=${projectId}`
+    );
   }
 
   return {
@@ -285,7 +302,9 @@ export async function getRollbackMutationShape(): Promise<RollbackMutationShapeR
   );
 
   if (!field) {
-    throw new Error('Railway GraphQL schema does not expose a deploymentRollback mutation.');
+    throw new Error(
+      'Railway GraphQL schema does not expose a deploymentRollback mutation.'
+    );
   }
 
   ensureRollbackMutationContract(field);
@@ -335,7 +354,9 @@ export async function rollbackDeployment(): Promise<RollbackDeploymentResult> {
   );
 
   if (typeof response.data?.deploymentRollback !== 'boolean') {
-    throw new Error('Railway deploymentRollback response did not return the expected Boolean payload.');
+    throw new Error(
+      'Railway deploymentRollback response did not return the expected Boolean payload.'
+    );
   }
 
   return {

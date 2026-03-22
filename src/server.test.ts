@@ -18,7 +18,9 @@ import {
 } from './server';
 
 function makeTempStateFile(): string {
-  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'loopedagent-monitor-'));
+  const directory = fs.mkdtempSync(
+    path.join(os.tmpdir(), 'loopedagent-monitor-')
+  );
   return path.join(directory, 'deploy-state.json');
 }
 
@@ -48,9 +50,15 @@ describe('deployState', () => {
 
   it('detects whether the production deploy is inside the stability window', () => {
     process.env.STABILITY_WINDOW_MINUTES = '15';
-    recordDeploy('production', 'deploy-123', new Date('2026-03-22T12:00:00.000Z'));
+    recordDeploy(
+      'production',
+      'deploy-123',
+      new Date('2026-03-22T12:00:00.000Z')
+    );
 
-    const activeWindow = getProductionStabilityWindowStatus(new Date('2026-03-22T12:10:00.000Z'));
+    const activeWindow = getProductionStabilityWindowStatus(
+      new Date('2026-03-22T12:10:00.000Z')
+    );
     expect(activeWindow.active).toBe(true);
 
     const inactiveWindow = getProductionStabilityWindowStatus(
@@ -67,8 +75,16 @@ describe('server helpers', () => {
     const signature = createSentrySignature(secret, rawBody);
 
     expect(verifySentrySignature(rawBody, secret, signature)).toBe(true);
-    expect(verifySentrySignature(rawBody, secret, `sha256=${signature}`)).toBe(true);
-    expect(verifySentrySignature(rawBody, secret, crypto.randomBytes(16).toString('hex'))).toBe(false);
+    expect(verifySentrySignature(rawBody, secret, `sha256=${signature}`)).toBe(
+      true
+    );
+    expect(
+      verifySentrySignature(
+        rawBody,
+        secret,
+        crypto.randomBytes(16).toString('hex')
+      )
+    ).toBe(false);
   });
 
   it('extracts an error rate from supported payload shapes', () => {
@@ -142,7 +158,11 @@ describe('rollback monitor server', () => {
   });
 
   it('ignores sentry webhooks outside the production stability window', async () => {
-    recordDeploy('production', 'deploy-1', new Date('2026-03-22T12:00:00.000Z'));
+    recordDeploy(
+      'production',
+      'deploy-1',
+      new Date('2026-03-22T12:00:00.000Z')
+    );
     const rollbackDeploymentFn = jest.fn().mockResolvedValue({ ok: true });
     const app = createApp({
       now: () => new Date('2026-03-22T12:30:00.000Z'),
@@ -153,7 +173,10 @@ describe('rollback monitor server', () => {
     const response = await request(app)
       .post('/webhook/sentry')
       .set('Content-Type', 'application/json')
-      .set('sentry-hook-signature', createSentrySignature(sentrySecret, Buffer.from(payload)))
+      .set(
+        'sentry-hook-signature',
+        createSentrySignature(sentrySecret, Buffer.from(payload))
+      )
       .send(payload);
 
     expect(response.status).toBe(202);
@@ -162,7 +185,11 @@ describe('rollback monitor server', () => {
   });
 
   it('ignores sentry webhooks below the rollback threshold', async () => {
-    recordDeploy('production', 'deploy-1', new Date('2026-03-22T12:00:00.000Z'));
+    recordDeploy(
+      'production',
+      'deploy-1',
+      new Date('2026-03-22T12:00:00.000Z')
+    );
     const rollbackDeploymentFn = jest.fn().mockResolvedValue({ ok: true });
     const app = createApp({
       now: () => new Date('2026-03-22T12:05:00.000Z'),
@@ -173,7 +200,10 @@ describe('rollback monitor server', () => {
     const response = await request(app)
       .post('/webhook/sentry')
       .set('Content-Type', 'application/json')
-      .set('sentry-hook-signature', createSentrySignature(sentrySecret, Buffer.from(payload)))
+      .set(
+        'sentry-hook-signature',
+        createSentrySignature(sentrySecret, Buffer.from(payload))
+      )
       .send(payload);
 
     expect(response.status).toBe(202);
@@ -182,7 +212,11 @@ describe('rollback monitor server', () => {
   });
 
   it('rolls back when a signed sentry webhook exceeds the threshold inside the stability window', async () => {
-    recordDeploy('production', 'deploy-1', new Date('2026-03-22T12:00:00.000Z'));
+    recordDeploy(
+      'production',
+      'deploy-1',
+      new Date('2026-03-22T12:00:00.000Z')
+    );
     const rollbackDeploymentFn = jest.fn().mockResolvedValue({
       dryRun: false,
       request: { deploymentId: 'deploy-1' },
@@ -197,7 +231,10 @@ describe('rollback monitor server', () => {
     const response = await request(app)
       .post('/webhook/sentry')
       .set('Content-Type', 'application/json')
-      .set('sentry-hook-signature', createSentrySignature(sentrySecret, Buffer.from(payload)))
+      .set(
+        'sentry-hook-signature',
+        createSentrySignature(sentrySecret, Buffer.from(payload))
+      )
       .send(payload);
 
     expect(response.status).toBe(200);
@@ -221,12 +258,19 @@ describe('rollback monitor server', () => {
     expect(deployResponse.status).toBe(202);
     expect(readDeployState().production).toBeUndefined();
 
-    recordDeploy('production', 'deploy-1', new Date('2026-03-22T12:00:00.000Z'));
+    recordDeploy(
+      'production',
+      'deploy-1',
+      new Date('2026-03-22T12:00:00.000Z')
+    );
     const payload = JSON.stringify({ errorRate: 0.2 });
     const sentryResponse = await request(app)
       .post('/webhook/sentry')
       .set('Content-Type', 'application/json')
-      .set('sentry-hook-signature', createSentrySignature(sentrySecret, Buffer.from(payload)))
+      .set(
+        'sentry-hook-signature',
+        createSentrySignature(sentrySecret, Buffer.from(payload))
+      )
       .send(payload);
 
     expect(sentryResponse.status).toBe(202);

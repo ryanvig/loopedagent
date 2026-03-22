@@ -41,7 +41,10 @@ function parseStabilityWindowMinutes(): number {
 }
 
 export function getDeployStateFilePath(): string {
-  return process.env.DEPLOY_STATE_FILE?.trim() || path.join(process.cwd(), 'data', 'deploy-state.json');
+  return (
+    process.env.DEPLOY_STATE_FILE?.trim() ||
+    path.join(process.cwd(), 'data', 'deploy-state.json')
+  );
 }
 
 function createDefaultState(): DeployState {
@@ -97,7 +100,9 @@ export function recordDeploy(
   return nextState;
 }
 
-export function getProductionStabilityWindowStatus(now: Date = new Date()): StabilityWindowStatus {
+export function getProductionStabilityWindowStatus(
+  now: Date = new Date()
+): StabilityWindowStatus {
   const state = readDeployState();
   const productionDeploy = state.production;
 
