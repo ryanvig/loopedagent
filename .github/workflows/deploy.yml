@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_API_TOKEN }}
+      RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+      RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
     steps:
       - uses: actions/checkout@v4
 
@@ -23,12 +25,12 @@ jobs:
         run: npm install -g @railway/cli
 
       - name: Deploy
-        run: railway up --environment staging --ci
+        run: railway up --project "$RAILWAY_PROJECT_ID" --service "$RAILWAY_SERVICE_ID" --environment staging --ci
 
       - name: Resolve Railway Deployment ID
         id: railway_deploy
         run: |
-          deployment_id=$(railway deployment list --environment staging --json --limit 10 | jq -r 'map(select(.status == "SUCCESS")) | first | .id')
+          deployment_id=$(railway deployment list --project "$RAILWAY_PROJECT_ID" --service "$RAILWAY_SERVICE_ID" --environment staging --json --limit 10 | jq -r 'map(select(.status == "SUCCESS")) | first | .id')
           if [ -z "$deployment_id" ] || [ "$deployment_id" = "null" ]; then
             echo "Unable to determine Railway deployment ID" >&2
             exit 1
