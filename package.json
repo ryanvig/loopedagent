@@ -2,9 +2,9 @@
   "name": "loopedagent",
   "version": "1.0.0",
   "description": "Looped autonomous agent infrastructure",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
-    "test": "jest --forceExit --testTimeout=30000",
+    "test": "jest",
     "test:coverage": "jest --coverage",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -12,8 +12,9 @@
     "typecheck": "tsc --noEmit",
     "build": "tsc",
     "commit": "git-cz",
-    "knip": "knip",
-    "deadcode": "knip"
+    "validate:railway": "ts-node src/validate_railway.ts",
+    "start": "node dist/server.js",
+    "dev": "ts-node src/server.ts"
   },
   "repository": {
     "type": "git",
@@ -34,21 +35,25 @@
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
     "@types/jest": "^30.0.0",
+    "@types/node": "^24.5.2",
+    "@typescript-eslint/parser": "^8.57.1",
     "eslint": "^9.39.4",
     "jest": "^30.3.0",
-    "knip": "^5.88.1",
     "prettier": "^3.8.1",
     "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.57.1"
+    "typescript-eslint": "^8.57.1",
+    "@types/express": "^5.0.6",
+    "@types/supertest": "^7.2.0",
+    "supertest": "^7.1.4"
   },
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
     "collectCoverageFrom": [
       "src/**/*.ts",
-      "!src/**/*.test.ts",
-      "!src/sentry.ts"
+      "!src/**/*.test.ts"
     ],
     "coverageThreshold": {
       "global": {
@@ -66,8 +71,6 @@
     "trailingComma": "es5"
   },
   "dependencies": {
-    "@sentry/node": "^10.45.0",
-    "@sentry/tracing": "^7.120.4",
-    "express-rate-limit": "^8.3.1"
+    "express": "^5.1.0"
   }
 }
