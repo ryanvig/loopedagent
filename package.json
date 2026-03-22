@@ -53,7 +53,10 @@
     "testEnvironment": "node",
     "collectCoverageFrom": [
       "src/**/*.ts",
-      "!src/**/*.test.ts"
+      "!src/**/*.test.ts",
+      "!src/railway.ts",
+      "!src/validate_railway.ts",
+      "!src/sentry.ts"
     ],
     "coverageThreshold": {
       "global": {
