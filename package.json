@@ -39,7 +39,7 @@
     "@types/node": "^24.5.2",
     "@types/supertest": "^7.2.0",
     "@typescript-eslint/parser": "^8.57.1",
-    "eslint": "^9.39.4",
+    "eslint": "^10.1.0",
     "jest": "^30.3.0",
     "prettier": "^3.8.1",
     "supertest": "^7.1.4",
