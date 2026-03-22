@@ -9,6 +9,8 @@ jobs:
   deploy:
     name: Deploy to Production
     runs-on: ubuntu-latest
+    env:
+      RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_API_TOKEN }}
     steps:
       - uses: actions/checkout@v4
 
@@ -19,9 +21,6 @@ jobs:
 
       - name: Install Railway
         run: npm install -g @railway/cli
-
-      - name: Railway Login
-        run: railway login --token ${{ secrets.RAILWAY_API_TOKEN }}
 
       - name: Deploy
         run: railway up --environment production --ci
@@ -38,7 +37,11 @@ jobs:
 
       - name: Notify rollback monitor
         run: |
-          curl --fail --show-error --silent             -X POST https://loopedagent-production.up.railway.app/deploy/production             -H "Content-Type: application/json"             -H "x-deploy-webhook-secret: ${{ secrets.DEPLOY_WEBHOOK_SECRET }}"             -d '{"deploymentId":"${{ steps.railway_deploy.outputs.deployment_id }}"}'
+          curl --fail --show-error --silent \
+            -X POST https://loopedagent-production.up.railway.app/deploy/production \
+            -H "Content-Type: application/json" \
+            -H "x-deploy-webhook-secret: ${{ secrets.DEPLOY_WEBHOOK_SECRET }}" \
+            -d '{"deploymentId":"${{ steps.railway_deploy.outputs.deployment_id }}"}'
 
       - name: Post Deployment Status
         run: |
