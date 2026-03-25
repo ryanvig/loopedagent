@@ -16,11 +16,16 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
 
+RUN addgroup -S app && adduser -S app -G app
+
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/production-safety.md ./production-safety.md
+RUN chown -R app:app /app
+
+USER app
 
 EXPOSE 3000
 CMD ["node", "dist/server.js"]
