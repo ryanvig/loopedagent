@@ -74,7 +74,7 @@
     "trailingComma": "es5"
   },
   "dependencies": {
-    "@sentry/node": "^10.20.0",
+    "@sentry/node": "^10.47.0",
     "@sentry/tracing": "^7.120.4",
     "convex": "^1.34.1",
     "express": "^5.1.0",
