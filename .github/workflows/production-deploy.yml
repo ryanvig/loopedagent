@@ -24,18 +24,63 @@ jobs:
       - name: Install Railway
         run: npm install -g @railway/cli
 
+      - name: Mark deploy start time
+        id: deploy_start
+        run: echo "started_at=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> "$GITHUB_OUTPUT"
+
       - name: Deploy
+        id: railway_up
+        continue-on-error: true
         run: railway up --project "$RAILWAY_PROJECT_ID" --service "$RAILWAY_SERVICE_ID" --environment production --ci
 
       - name: Resolve Railway Deployment ID
         id: railway_deploy
         run: |
-          deployment_id=$(railway deployment list --project "$RAILWAY_PROJECT_ID" --service "$RAILWAY_SERVICE_ID" --environment production --json --limit 10 | jq -r 'map(select(.status == "SUCCESS")) | first | .id')
-          if [ -z "$deployment_id" ] || [ "$deployment_id" = "null" ]; then
-            echo "Unable to determine Railway deployment ID" >&2
-            exit 1
+          if [ "${{ steps.railway_up.outcome }}" != "success" ]; then
+            echo "railway up exited non-zero; continuing because Railway log streaming can fail even when deployment is progressing."
           fi
-          echo "deployment_id=$deployment_id" >> "$GITHUB_OUTPUT"
+
+          started_at='${{ steps.deploy_start.outputs.started_at }}'
+          started_epoch=$(date -d "$started_at" +%s)
+          for attempt in $(seq 1 30); do
+            latest=$(railway deployment list --project "$RAILWAY_PROJECT_ID" --service "$RAILWAY_SERVICE_ID" --environment production --json --limit 1)
+            deployment_id=$(printf '%s' "$latest" | jq -r '.[0].id // .[0].deploymentId // .[0].deployment_id // empty')
+            deployment_status=$(printf '%s' "$latest" | jq -r '.[0].status // .[0].state // empty')
+            created_at=$(printf '%s' "$latest" | jq -r '.[0].createdAt // .[0].created_at // empty')
+
+            if [ -n "$created_at" ] && [ "$created_at" != "null" ]; then
+              created_epoch=$(date -d "$created_at" +%s)
+              if [ "$created_epoch" -lt "$started_epoch" ]; then
+                echo "Latest Railway deployment predates this workflow run; waiting for a fresh deployment..."
+                sleep 10
+                continue
+              fi
+            fi
+
+            if [ -z "$deployment_id" ] || [ "$deployment_id" = "null" ]; then
+              echo "Unable to determine latest Railway deployment yet; waiting..."
+              sleep 10
+              continue
+            fi
+
+            echo "Latest Railway deployment: $deployment_id ($deployment_status)"
+            case "$deployment_status" in
+              SUCCESS)
+                echo "deployment_id=$deployment_id" >> "$GITHUB_OUTPUT"
+                exit 0
+                ;;
+              BUILDING|DEPLOYING|QUEUED|PENDING|INITIALIZING|IN_PROGRESS)
+                sleep 10
+                ;;
+              *)
+                echo "Railway deployment failed with status: $deployment_status" >&2
+                exit 1
+                ;;
+            esac
+          done
+
+          echo "Timed out waiting for Railway deployment to complete successfully." >&2
+          exit 1
 
       - name: Notify rollback monitor
         run: |
