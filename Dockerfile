@@ -7,6 +7,7 @@ RUN npm ci
 COPY tsconfig.json ./
 COPY eslint.config.js ./
 COPY src ./src
+COPY convex ./convex
 COPY production-safety.md ./production-safety.md
 
 RUN npm run build

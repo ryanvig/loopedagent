@@ -61,7 +61,9 @@ describe('github and mission-control webhooks', () => {
       .post('/webhooks/github-pull-request')
       .set('Content-Type', 'application/json')
       .set('x-hub-signature-256', 'sha256=wrong')
-      .send(JSON.stringify({ action: 'closed', pull_request: { merged: true } }));
+      .send(
+        JSON.stringify({ action: 'closed', pull_request: { merged: true } })
+      );
 
     expect(response.status).toBe(401);
   });
@@ -259,7 +261,12 @@ describe('github and mission-control webhooks', () => {
         conclusion: 'success',
         head_branch: 'feature/issue-18-thread-posts',
         html_url: 'https://github.com/ryanvig/Looped/actions/runs/18',
-        pull_requests: [{ number: 88, html_url: 'https://github.com/ryanvig/Looped/pull/88' }],
+        pull_requests: [
+          {
+            number: 88,
+            html_url: 'https://github.com/ryanvig/Looped/pull/88',
+          },
+        ],
       },
     });
     const failurePayload = JSON.stringify({
@@ -358,7 +365,11 @@ describe('github and mission-control webhooks', () => {
       .mockResolvedValueOnce(jsonResponse({ state: 'success' }))
       .mockResolvedValueOnce(
         jsonResponse([
-          { state: 'APPROVED', body: 'Looks good', user: { login: 'reviewer', type: 'User' } },
+          {
+            state: 'APPROVED',
+            body: 'Looks good',
+            user: { login: 'reviewer', type: 'User' },
+          },
         ])
       )
       .mockResolvedValueOnce(jsonResponse([{ body: 'design-review complete' }]))
@@ -370,7 +381,12 @@ describe('github and mission-control webhooks', () => {
               head_branch: 'feature/issue-18-thread-posts',
               html_url: 'https://github.com/ryanvig/Looped/actions/runs/88',
               conclusion: 'success',
-              pull_requests: [{ number: 88, html_url: 'https://github.com/ryanvig/Looped/pull/88' }],
+              pull_requests: [
+                {
+                  number: 88,
+                  html_url: 'https://github.com/ryanvig/Looped/pull/88',
+                },
+              ],
             },
           ],
         })
@@ -405,7 +421,9 @@ describe('github and mission-control webhooks', () => {
 
     fetchMock.mockReset();
     fetchMock.mockRejectedValueOnce(new Error('network down'));
-    await expect(pollGitHubState(fetchMock as typeof fetch)).resolves.toBeUndefined();
+    await expect(
+      pollGitHubState(fetchMock as typeof fetch)
+    ).resolves.toBeUndefined();
   });
 
   it('seeds agents on startup and configures interval polling', async () => {
