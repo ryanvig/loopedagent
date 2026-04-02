@@ -11,6 +11,7 @@ COPY convex ./convex
 COPY production-safety.md ./production-safety.md
 
 RUN npm run build
+RUN ls -la /app/ && ls -la /app/dist/ 2>/dev/null || echo "dist directory does not exist"
 
 FROM node:20-alpine AS runtime
 WORKDIR /app

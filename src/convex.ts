@@ -1,6 +1,6 @@
 import { ConvexHttpClient } from 'convex/browser';
 
-import { api } from '../convex/_generated/api';
+import { api } from './convexApi';
 
 let client: ConvexHttpClient | null = null;
 
