@@ -5,8 +5,15 @@ import { api } from '../convex/_generated/api';
 let client: ConvexHttpClient | null = null;
 
 function getClient(): ConvexHttpClient | null {
-  if (!process.env.CONVEX_URL) return null;
-  if (!client) client = new ConvexHttpClient(process.env.CONVEX_URL);
+  const convexUrl = process.env.CONVEX_URL?.trim();
+  if (!convexUrl) {
+    return null;
+  }
+
+  if (!client) {
+    client = new ConvexHttpClient(convexUrl);
+  }
+
   return client;
 }
 

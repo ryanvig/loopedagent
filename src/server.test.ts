@@ -122,7 +122,8 @@ describe('rollback monitor server', () => {
     const response = await request(app).get('/health');
 
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({ ok: true });
+    expect(response.body.status).toBe('ok');
+    expect(typeof response.body.timestamp).toBe('string');
   });
 
   it('rejects deploy webhooks with the wrong shared secret', async () => {

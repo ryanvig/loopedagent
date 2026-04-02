@@ -1081,7 +1081,11 @@ export async function pollGitHubState(fetchFn: FetchLike): Promise<void> {
 
 export function startBackgroundPolling(fetchFn: FetchLike): void {
   const runPoll = () => {
-    void pollGitHubState(fetchFn);
+    try {
+      void pollGitHubState(fetchFn);
+    } catch (error) {
+      console.error('[GitHub poll] scheduler failed:', error);
+    }
   };
 
   runPoll();
@@ -1107,7 +1111,10 @@ export function createApp(dependencies: MonitorDependencies = {}): Express {
   const fetchFn = dependencies.fetchFn ?? fetch;
 
   app.get('/health', (_request, response) => {
-    response.status(200).json({ ok: true });
+    response.status(200).json({
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+    });
   });
 
   app.post('/deploy/staging', express.json(), async (request, response) => {
@@ -1159,9 +1166,25 @@ export function startServer(): void {
   const port = getPort();
 
   app.listen(port, () => {
-    console.log(`Rollback monitor listening on port ${port}`);
-    void seedAgentStatus();
-    startBackgroundPolling(fetchFn);
+    console.log(`[loopedagent] Server listening on port ${port}`);
+    console.log(
+      `[loopedagent] CONVEX_URL: ${process.env.CONVEX_URL ? 'set' : 'not set'}`
+    );
+    console.log(
+      `[loopedagent] GITHUB_TOKEN: ${process.env.GITHUB_TOKEN ? 'set' : 'not set'}`
+    );
+
+    try {
+      void seedAgentStatus();
+    } catch (error) {
+      console.error('[loopedagent] startup agent seeding failed:', error);
+    }
+
+    try {
+      startBackgroundPolling(fetchFn);
+    } catch (error) {
+      console.error('[loopedagent] background polling startup failed:', error);
+    }
   });
 }
 
