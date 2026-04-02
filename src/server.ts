@@ -1012,7 +1012,7 @@ async function handleBrainDriftWebhook(
   response.status(200).json({ ok: true });
 }
 
-async function pollGitHubState(fetchFn: FetchLike): Promise<void> {
+export async function pollGitHubState(fetchFn: FetchLike): Promise<void> {
   try {
     const pullRequests = await githubRequest<GitHubPullRequest[]>(
       '/pulls?state=open&per_page=20',
@@ -1079,7 +1079,7 @@ async function pollGitHubState(fetchFn: FetchLike): Promise<void> {
   }
 }
 
-function startBackgroundPolling(fetchFn: FetchLike): void {
+export function startBackgroundPolling(fetchFn: FetchLike): void {
   const runPoll = () => {
     void pollGitHubState(fetchFn);
   };
@@ -1089,7 +1089,7 @@ function startBackgroundPolling(fetchFn: FetchLike): void {
   timer.unref();
 }
 
-async function seedAgentStatus(): Promise<void> {
+export async function seedAgentStatus(): Promise<void> {
   try {
     await Promise.allSettled(
       STARTUP_AGENTS.map((agent) => ConvexWriter.upsertAgentStatus(agent))
@@ -1165,6 +1165,7 @@ export function startServer(): void {
   });
 }
 
+/* istanbul ignore next */
 if (require.main === module) {
   startServer();
 }
