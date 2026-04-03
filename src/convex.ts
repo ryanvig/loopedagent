@@ -1,20 +1,29 @@
-import { ConvexHttpClient } from 'convex/browser';
+const CONVEX_URL = process.env.CONVEX_URL?.trim();
 
-import { api } from './convexApi';
-
-let client: ConvexHttpClient | null = null;
-
-function getClient(): ConvexHttpClient | null {
-  const convexUrl = process.env.CONVEX_URL?.trim();
-  if (!convexUrl) {
-    return null;
+async function convexMutation(
+  name: string,
+  args: Record<string, unknown>
+): Promise<void> {
+  if (!CONVEX_URL) {
+    return;
   }
 
-  if (!client) {
-    client = new ConvexHttpClient(convexUrl);
-  }
+  try {
+    const response = await fetch(`${CONVEX_URL}/api/mutation`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ path: name, args }),
+    });
 
-  return client;
+    if (!response.ok) {
+      const text = await response.text();
+      console.error(
+        `[Convex] mutation ${name} failed: ${response.status} ${text}`
+      );
+    }
+  } catch (err) {
+    console.error(`[Convex] mutation ${name} error:`, err);
+  }
 }
 
 export const ConvexWriter = {
@@ -35,17 +44,11 @@ export const ConvexWriter = {
     agentName: 'kimi-builder';
     logs?: string;
   }) {
-    try {
-      const c = getClient();
-      if (!c) return;
-      await c.mutation(api.mutations.upsertBuildEvent, {
-        ...args,
-        startedAt: Date.now(),
-        updatedAt: Date.now(),
-      });
-    } catch (err) {
-      console.error('[Convex] upsertBuildEvent failed:', err);
-    }
+    await convexMutation('mutations:upsertBuildEvent', {
+      ...args,
+      startedAt: Date.now(),
+      updatedAt: Date.now(),
+    });
   },
 
   async upsertAgentStatus(args: {
@@ -57,16 +60,10 @@ export const ConvexWriter = {
     currentTask?: string;
     links: Array<{ label: string; url: string }>;
   }) {
-    try {
-      const c = getClient();
-      if (!c) return;
-      await c.mutation(api.mutations.upsertAgentStatus, {
-        ...args,
-        lastActionAt: Date.now(),
-      });
-    } catch (err) {
-      console.error('[Convex] upsertAgentStatus failed:', err);
-    }
+    await convexMutation('mutations:upsertAgentStatus', {
+      ...args,
+      lastActionAt: Date.now(),
+    });
   },
 
   async upsertPullRequest(args: {
@@ -87,17 +84,11 @@ export const ConvexWriter = {
     ciStatus: 'pending' | 'passing' | 'failing';
     issueNumber?: number;
   }) {
-    try {
-      const c = getClient();
-      if (!c) return;
-      await c.mutation(api.mutations.upsertPullRequest, {
-        ...args,
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-      });
-    } catch (err) {
-      console.error('[Convex] upsertPullRequest failed:', err);
-    }
+    await convexMutation('mutations:upsertPullRequest', {
+      ...args,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    });
   },
 
   async insertKnowledgeHealth(args: {
@@ -106,16 +97,10 @@ export const ConvexWriter = {
     filesChanged: string[];
     nextCheckAt?: number;
   }) {
-    try {
-      const c = getClient();
-      if (!c) return;
-      await c.mutation(api.mutations.insertKnowledgeHealth, {
-        ...args,
-        checkRunAt: Date.now(),
-      });
-    } catch (err) {
-      console.error('[Convex] insertKnowledgeHealth failed:', err);
-    }
+    await convexMutation('mutations:insertKnowledgeHealth', {
+      ...args,
+      checkRunAt: Date.now(),
+    });
   },
 
   async upsertProductionHealth(args: {
@@ -126,15 +111,9 @@ export const ConvexWriter = {
     lastDeployAt?: number;
     sentryAlerts: number;
   }) {
-    try {
-      const c = getClient();
-      if (!c) return;
-      await c.mutation(api.mutations.upsertProductionHealth, {
-        ...args,
-        recordedAt: Date.now(),
-      });
-    } catch (err) {
-      console.error('[Convex] upsertProductionHealth failed:', err);
-    }
+    await convexMutation('mutations:upsertProductionHealth', {
+      ...args,
+      recordedAt: Date.now(),
+    });
   },
 };

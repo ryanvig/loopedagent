@@ -1,28 +1,11 @@
-import type { Mock } from 'jest-mock';
-
 describe('ConvexWriter', () => {
-  const mutation = jest.fn();
-  const ConvexHttpClient = jest.fn().mockImplementation(() => ({ mutation }));
+  const fetchMock = jest.fn();
 
   beforeEach(() => {
     jest.resetModules();
     jest.clearAllMocks();
     delete process.env.CONVEX_URL;
-
-    jest.doMock('convex/browser', () => ({
-      ConvexHttpClient,
-    }));
-    jest.doMock('../convex/_generated/api', () => ({
-      api: {
-        mutations: {
-          upsertBuildEvent: 'upsertBuildEventRef',
-          upsertAgentStatus: 'upsertAgentStatusRef',
-          upsertPullRequest: 'upsertPullRequestRef',
-          insertKnowledgeHealth: 'insertKnowledgeHealthRef',
-          upsertProductionHealth: 'upsertProductionHealthRef',
-        },
-      },
-    }));
+    global.fetch = fetchMock as typeof fetch;
   });
 
   it('no-ops when CONVEX_URL is not configured', async () => {
@@ -36,12 +19,16 @@ describe('ConvexWriter', () => {
       agentName: 'kimi-builder',
     });
 
-    expect(ConvexHttpClient).not.toHaveBeenCalled();
-    expect(mutation).not.toHaveBeenCalled();
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('writes all supported event types through the Convex client', async () => {
+  it('writes all supported event types through the Convex HTTP API', async () => {
     process.env.CONVEX_URL = 'https://convex.example';
+    fetchMock.mockResolvedValue({
+      ok: true,
+      text: async () => '',
+    } as Response);
+
     const { ConvexWriter } = await import('./convex');
 
     await ConvexWriter.upsertBuildEvent({
@@ -84,52 +71,53 @@ describe('ConvexWriter', () => {
       sentryAlerts: 0,
     });
 
-    expect(ConvexHttpClient).toHaveBeenCalledWith('https://convex.example');
-    expect((mutation as Mock).mock.calls).toEqual([
+    expect(fetchMock.mock.calls).toEqual([
       [
-        'upsertBuildEventRef',
+        'https://convex.example/api/mutation',
         expect.objectContaining({
-          issueNumber: 12,
-          status: 'building',
-          startedAt: expect.any(Number),
-          updatedAt: expect.any(Number),
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: expect.stringContaining('"path":"mutations:upsertBuildEvent"'),
         }),
       ],
       [
-        'upsertAgentStatusRef',
+        'https://convex.example/api/mutation',
         expect.objectContaining({
-          agentId: 'kimi-builder',
-          lastActionAt: expect.any(Number),
+          body: expect.stringContaining('"path":"mutations:upsertAgentStatus"'),
         }),
       ],
       [
-        'upsertPullRequestRef',
+        'https://convex.example/api/mutation',
         expect.objectContaining({
-          prNumber: 44,
-          createdAt: expect.any(Number),
-          updatedAt: expect.any(Number),
+          body: expect.stringContaining('"path":"mutations:upsertPullRequest"'),
         }),
       ],
       [
-        'insertKnowledgeHealthRef',
+        'https://convex.example/api/mutation',
         expect.objectContaining({
-          status: 'current',
-          checkRunAt: expect.any(Number),
+          body: expect.stringContaining(
+            '"path":"mutations:insertKnowledgeHealth"'
+          ),
         }),
       ],
       [
-        'upsertProductionHealthRef',
+        'https://convex.example/api/mutation',
         expect.objectContaining({
-          service: 'production',
-          recordedAt: expect.any(Number),
+          body: expect.stringContaining(
+            '"path":"mutations:upsertProductionHealth"'
+          ),
         }),
       ],
     ]);
   });
 
-  it('swallows Convex client errors and logs them', async () => {
+  it('logs non-ok Convex mutation responses', async () => {
     process.env.CONVEX_URL = 'https://convex.example';
-    mutation.mockRejectedValueOnce(new Error('boom'));
+    fetchMock.mockResolvedValue({
+      ok: false,
+      status: 500,
+      text: async () => 'broken',
+    } as Response);
     const consoleError = jest
       .spyOn(console, 'error')
       .mockImplementation(() => undefined);
@@ -144,7 +132,30 @@ describe('ConvexWriter', () => {
     });
 
     expect(consoleError).toHaveBeenCalledWith(
-      '[Convex] upsertBuildEvent failed:',
+      '[Convex] mutation mutations:upsertBuildEvent failed: 500 broken'
+    );
+
+    consoleError.mockRestore();
+  });
+
+  it('swallows fetch errors and logs them', async () => {
+    process.env.CONVEX_URL = 'https://convex.example';
+    fetchMock.mockRejectedValueOnce(new Error('boom'));
+    const consoleError = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined);
+
+    const { ConvexWriter } = await import('./convex');
+    await ConvexWriter.upsertBuildEvent({
+      issueNumber: 99,
+      issueTitle: 'Broken event',
+      issueUrl: 'https://example.com/issues/99',
+      status: 'failed',
+      agentName: 'kimi-builder',
+    });
+
+    expect(consoleError).toHaveBeenCalledWith(
+      '[Convex] mutation mutations:upsertBuildEvent error:',
       expect.any(Error)
     );
 
