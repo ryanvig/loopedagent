@@ -3,6 +3,7 @@ import crypto from 'node:crypto';
 import request from 'supertest';
 
 import {
+  clearPendingDesignReviews,
   createApp,
   pollGitHubState,
   seedAgentStatus,
@@ -41,17 +42,22 @@ describe('github and mission-control webhooks', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    fetchMock.mockReset();
+    clearPendingDesignReviews();
     process.env.GITHUB_WEBHOOK_SECRET = githubSecret;
     process.env.GITHUB_TOKEN = githubToken;
     process.env.SLACK_LOGS_WEBHOOK_URL = 'https://slack.example/logs';
     process.env.SLACK_ALERTS_WEBHOOK_URL = 'https://slack.example/alerts';
+    process.env.SLACK_DESIGN_REVIEW_WEBHOOK_URL = 'https://slack.example/design-review';
   });
 
   afterEach(() => {
+    clearPendingDesignReviews();
     delete process.env.GITHUB_WEBHOOK_SECRET;
     delete process.env.GITHUB_TOKEN;
     delete process.env.SLACK_LOGS_WEBHOOK_URL;
     delete process.env.SLACK_ALERTS_WEBHOOK_URL;
+    delete process.env.SLACK_DESIGN_REVIEW_WEBHOOK_URL;
   });
 
   it('rejects GitHub PR webhooks with an invalid signature', async () => {
@@ -340,6 +346,117 @@ describe('github and mission-control webhooks', () => {
     );
     expect(fetchMock).toHaveBeenCalledWith(
       'https://slack.example/logs',
+      expect.objectContaining({ method: 'POST' })
+    );
+  });
+
+  it('registers and lists pending design reviews', async () => {
+    const app = createApp({ fetchFn: fetchMock as typeof fetch });
+
+    const registerResponse = await request(app)
+      .post('/design-review/register')
+      .send({
+        prNumber: '42',
+        prTitle: 'Polish profile shell',
+        prRepo: 'ryanvig/Looped',
+      });
+    const pendingResponse = await request(app).get('/design-review/pending');
+
+    expect(registerResponse.status).toBe(200);
+    expect(registerResponse.body.ok).toBe(true);
+    expect(pendingResponse.status).toBe(200);
+    expect(pendingResponse.body.pending).toHaveLength(1);
+    expect(pendingResponse.body.pending[0]).toEqual(
+      expect.objectContaining({
+        prNumber: '42',
+        prTitle: 'Polish profile shell',
+        prRepo: 'ryanvig/Looped',
+      })
+    );
+  });
+
+  it('handles Slack URL verification for design review webhooks', async () => {
+    const app = createApp({ fetchFn: fetchMock as typeof fetch });
+
+    const response = await request(app)
+      .post('/webhooks/slack-design-review')
+      .send({
+        type: 'url_verification',
+        challenge: 'challenge-token',
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body.challenge).toBe('challenge-token');
+  });
+
+  it('creates a build-ready implementation issue when a design variant is selected', async () => {
+    const app = createApp({ fetchFn: fetchMock as typeof fetch });
+
+    await request(app)
+      .post('/design-review/register')
+      .send({
+        prNumber: '51',
+        prTitle: 'Refine discover cards',
+        prRepo: 'ryanvig/Looped',
+      });
+
+    fetchMock
+      .mockResolvedValueOnce(
+        jsonResponse({
+          number: 200,
+          title: 'feat(design): implement Variant B from PR #51 design review',
+          html_url: 'https://github.com/ryanvig/Looped/issues/200',
+        })
+      )
+      .mockResolvedValueOnce(jsonResponse({ ok: true }));
+
+    const response = await request(app)
+      .post('/webhooks/slack-design-review')
+      .send({
+        event: {
+          type: 'message',
+          text: 'B',
+          channel: 'C123',
+        },
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body.selectedVariant).toBe('B');
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      1,
+      'https://api.github.com/repos/ryanvig/Looped/issues',
+      expect.objectContaining({
+        method: 'POST',
+      })
+    );
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      2,
+      'https://slack.example/design-review',
+      expect.objectContaining({ method: 'POST' })
+    );
+
+    const pendingResponse = await request(app).get('/design-review/pending');
+    expect(pendingResponse.body.pending).toHaveLength(0);
+  });
+
+  it('acknowledges freeform Slack feedback for design reviews', async () => {
+    const app = createApp({ fetchFn: fetchMock as typeof fetch });
+
+    fetchMock.mockResolvedValueOnce(jsonResponse({ ok: true }));
+
+    const response = await request(app)
+      .post('/webhooks/slack-design-review')
+      .send({
+        event: {
+          type: 'message',
+          text: 'Can we make Variant B feel airier?',
+          channel: 'C123',
+        },
+      });
+
+    expect(response.status).toBe(200);
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://slack.example/design-review',
       expect.objectContaining({ method: 'POST' })
     );
   });

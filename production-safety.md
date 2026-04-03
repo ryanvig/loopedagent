@@ -17,6 +17,21 @@ variables and secrets:
 - `CONVEX_URL` — Convex deployment URL from the Mission Control app
 - `GITHUB_WEBHOOK_SECRET` — secret for verifying GitHub webhook payloads
 - `GITHUB_TOKEN` — used for backlog advancement, GitHub Actions polling, and PR metadata sync
+- `SLACK_DESIGN_REVIEW_WEBHOOK_URL` — incoming webhook used for Design Agent review notifications and acknowledgements
+
+## Slack Design Review Loop
+
+To complete the Design Agent review-selection loop, configure the Slack app
+Events API with:
+
+- Request URL: `https://loopedagent-production.up.railway.app/webhooks/slack-design-review`
+- Subscribe to bot events: `message.channels`
+- Invite the loopedagent app to the `#design-review` channel
+
+The Looped GitHub Actions workflow posts the review prompt to Slack and
+registers the pending review with loopedagent. Replies in `#design-review`
+using `1/2/3` or `A/B/C` are translated into a `build:ready` GitHub issue for
+the selected variant.
 
 ## Railway Rollback Notes
 

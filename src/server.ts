@@ -41,6 +41,12 @@ interface GitHubIssue {
   labels: GitHubIssueLabel[];
 }
 
+interface GitHubCreatedIssue {
+  number: number;
+  title: string;
+  html_url: string;
+}
+
 interface GitHubUser {
   login: string;
   type?: string;
@@ -109,6 +115,31 @@ interface BrainDriftWebhookBody {
   driftSummary: string[];
   filesChanged: string[];
   nextCheckAt?: number;
+}
+
+interface PendingDesignReview {
+  prNumber: string;
+  prTitle: string;
+  prRepo: string;
+  createdAt: number;
+}
+
+interface DesignReviewRegisterBody {
+  prNumber?: string;
+  prTitle?: string;
+  prRepo?: string;
+}
+
+interface SlackEventBody {
+  type?: string;
+  challenge?: string;
+  event?: {
+    type?: string;
+    subtype?: string;
+    text?: string;
+    channel?: string;
+    bot_id?: string;
+  };
 }
 
 export interface MonitorDependencies {
@@ -213,6 +244,8 @@ const STARTUP_AGENTS = [
     links: [],
   },
 ];
+
+const pendingDesignReviews = new Map<string, PendingDesignReview>();
 
 function isDryRunEnabled(): boolean {
   return process.env.RAILWAY_DRY_RUN?.trim().toLowerCase() === 'true';
@@ -371,6 +404,10 @@ function getRequiredEnv(name: string): string {
   }
 
   return value;
+}
+
+function getGitHubApiBase(repo = 'ryanvig/Looped'): string {
+  return `https://api.github.com/repos/${repo}`;
 }
 
 function sendUnauthorized(response: Response, detail: string): void {
@@ -548,6 +585,34 @@ async function githubRequest<T>(
   return (await response.json()) as T;
 }
 
+async function githubRepoRequest<T>(
+  repo: string,
+  path: string,
+  fetchFn: FetchLike,
+  init: RequestInit = {}
+): Promise<T> {
+  const token = getRequiredEnv('GITHUB_TOKEN');
+  const response = await fetchFn(`${getGitHubApiBase(repo)}${path}`, {
+    ...init,
+    headers: {
+      Accept: 'application/vnd.github+json',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'User-Agent': 'loopedagent-monitor',
+      ...(init.headers ?? {}),
+    },
+  });
+
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(
+      `GitHub API request failed (${response.status} ${response.statusText}): ${body}`
+    );
+  }
+
+  return (await response.json()) as T;
+}
+
 async function fetchIssue(
   issueNumber: number,
   fetchFn: FetchLike
@@ -577,6 +642,109 @@ async function relabelBacklogIssue(
   await githubRequest<void>(`/issues/${issueNumber}/labels`, fetchFn, {
     method: 'POST',
     body: JSON.stringify({ labels: ['build:ready'] }),
+  });
+}
+
+function parseDesignReviewSelection(
+  text: string
+): { selectedVariant: 'A' | 'B' | 'C' | null; feedback: string | null } {
+  const normalized = text.trim().toLowerCase();
+
+  if (
+    normalized === '1' ||
+    normalized === 'a' ||
+    normalized === 'variant a'
+  ) {
+    return { selectedVariant: 'A', feedback: null };
+  }
+
+  if (
+    normalized === '2' ||
+    normalized === 'b' ||
+    normalized === 'variant b'
+  ) {
+    return { selectedVariant: 'B', feedback: null };
+  }
+
+  if (
+    normalized === '3' ||
+    normalized === 'c' ||
+    normalized === 'variant c'
+  ) {
+    return { selectedVariant: 'C', feedback: null };
+  }
+
+  if (normalized.length > 1) {
+    return { selectedVariant: null, feedback: text };
+  }
+
+  return { selectedVariant: null, feedback: null };
+}
+
+function findPendingDesignReview(
+  text: string
+): [string, PendingDesignReview] | undefined {
+  const explicitPrMatch = text.match(/#?(\d{1,8})/);
+  if (explicitPrMatch) {
+    const explicitPrNumber = explicitPrMatch[1];
+    const explicitMatch = Array.from(pendingDesignReviews.entries()).find(
+      ([, review]) => review.prNumber === explicitPrNumber
+    );
+    if (explicitMatch) {
+      return explicitMatch;
+    }
+  }
+
+  return Array.from(pendingDesignReviews.entries()).sort(
+    (left, right) => right[1].createdAt - left[1].createdAt
+  )[0];
+}
+
+async function createDesignImplementationIssue(
+  review: PendingDesignReview,
+  selectedVariant: 'A' | 'B' | 'C',
+  fetchFn: FetchLike
+): Promise<GitHubCreatedIssue> {
+  const issueBody = [
+    '## Design Implementation',
+    '',
+    `**Source PR:** #${review.prNumber} — ${review.prTitle}`,
+    `**Selected Variant:** ${selectedVariant}`,
+    '',
+    '## Complexity estimate',
+    '- Files to read: 3',
+    '- Files to write: 2',
+    '- Within single session: true',
+    '',
+    '## Context',
+    '',
+    `The Design Agent reviewed PR #${review.prNumber} and generated 3 prototype variants. Ryan selected Variant ${selectedVariant}.`,
+    '',
+    '## Task',
+    '',
+    `Read the design review comment on PR #${review.prNumber} in ${review.prRepo}. Find Variant ${selectedVariant} in the comment. Implement the React Native component structure exactly as specified in that variant.`,
+    '',
+    '## Constraints',
+    '- Use only tokens from looped-infra/brain/design/knowledge/design-system.md',
+    '- Follow patterns in looped-infra/brain/design/knowledge/component-inventory.md',
+    '- No hardcoded hex values or spacing numbers',
+    '- Run full test suite before opening PR',
+    '- PR to develop branch',
+    '',
+    '## Definition of done',
+    '- Selected variant is implemented in the appropriate mobile/src/components/ or mobile/src/screens/ file',
+    '- All design tokens are used correctly',
+    '- Tests pass',
+    '- PR opens to develop',
+  ].join('\n');
+
+  return githubRepoRequest<GitHubCreatedIssue>(review.prRepo, '/issues', fetchFn, {
+    method: 'POST',
+    body: JSON.stringify({
+      title: `feat(design): implement Variant ${selectedVariant} from PR #${review.prNumber} design review`,
+      body: issueBody,
+      labels: ['build:ready'],
+    }),
   });
 }
 
@@ -1012,6 +1180,127 @@ async function handleBrainDriftWebhook(
   response.status(200).json({ ok: true });
 }
 
+async function handleDesignReviewRegister(
+  request: Request,
+  response: Response
+): Promise<void> {
+  const { prNumber, prTitle, prRepo } = request.body as DesignReviewRegisterBody;
+
+  if (!prNumber || !prTitle || !prRepo) {
+    response.status(400).json({
+      error: 'prNumber, prTitle, and prRepo are required.',
+    });
+    return;
+  }
+
+  const reviewId = `pr-${prNumber}-${Date.now()}`;
+  pendingDesignReviews.set(reviewId, {
+    prNumber,
+    prTitle,
+    prRepo,
+    createdAt: Date.now(),
+  });
+
+  console.log(`[design-review] Registered pending review for PR #${prNumber}`);
+  response.status(200).json({ ok: true, reviewId });
+}
+
+async function handleSlackDesignReviewWebhook(
+  request: Request,
+  response: Response,
+  fetchFn: FetchLike
+): Promise<void> {
+  try {
+    const payload = request.body as SlackEventBody;
+
+    if (payload.type === 'url_verification') {
+      response.status(200).json({ challenge: payload.challenge });
+      return;
+    }
+
+    const event = payload.event;
+    if (
+      event?.type !== 'message' ||
+      event.bot_id ||
+      event.subtype ||
+      !event.text
+    ) {
+      response.status(200).json({ ok: true, ignored: true });
+      return;
+    }
+
+    const rawText = event.text.trim();
+    const normalizedText = rawText.toLowerCase();
+    console.log(
+      `[design-review] Received Slack message: "${normalizedText}" in channel ${event.channel ?? 'unknown'}`
+    );
+
+    const { selectedVariant, feedback } = parseDesignReviewSelection(rawText);
+
+    if (selectedVariant) {
+      const resolvedReview = findPendingDesignReview(rawText);
+
+      if (!resolvedReview) {
+        await postSlackMessage(
+          process.env.SLACK_DESIGN_REVIEW_WEBHOOK_URL,
+          '⚠️ No pending design review was found to attach that selection to.',
+          fetchFn
+        );
+        response.status(200).json({ ok: true, pendingFound: false });
+        return;
+      }
+
+      const [reviewId, review] = resolvedReview;
+      console.log(
+        `[design-review] Variant ${selectedVariant} selected for PR #${review.prNumber}`
+      );
+
+      try {
+        const createdIssue = await createDesignImplementationIssue(
+          review,
+          selectedVariant,
+          fetchFn
+        );
+
+        await postSlackMessage(
+          process.env.SLACK_DESIGN_REVIEW_WEBHOOK_URL,
+          `✅ Got it! Variant ${selectedVariant} selected for PR #${review.prNumber}.\n\nA new implementation issue has been created and queued for Kimi Code Builder: ${createdIssue.html_url}`,
+          fetchFn
+        );
+
+        pendingDesignReviews.delete(reviewId);
+      } catch (error) {
+        console.error(
+          '[design-review] Failed to create implementation issue:',
+          error
+        );
+        await postSlackMessage(
+          process.env.SLACK_DESIGN_REVIEW_WEBHOOK_URL,
+          `⚠️ Variant ${selectedVariant} was received for PR #${review.prNumber}, but creating the implementation issue failed. Manual follow-up required.`,
+          fetchFn
+        );
+      }
+
+      response.status(200).json({ ok: true, selectedVariant });
+      return;
+    }
+
+    if (feedback) {
+      console.log(`[design-review] Feedback received: "${feedback}"`);
+      await postSlackMessage(
+        process.env.SLACK_DESIGN_REVIEW_WEBHOOK_URL,
+        `📝 Feedback received: "${feedback}"\n\nRevised prototypes will be generated shortly. This feature is coming soon — for now please select Variant A, B, or C from the current options.`,
+        fetchFn
+      );
+    }
+
+    response.status(200).json({ ok: true });
+  } catch (error) {
+    console.error('[design-review] Webhook error:', error);
+    response.status(200).json({ ok: true });
+  }
+}
+
 export async function pollGitHubState(fetchFn: FetchLike): Promise<void> {
   try {
     const pullRequests = await githubRequest<GitHubPullRequest[]>(
@@ -1103,6 +1392,10 @@ export async function seedAgentStatus(): Promise<void> {
   }
 }
 
+export function clearPendingDesignReviews(): void {
+  pendingDesignReviews.clear();
+}
+
 export function createApp(dependencies: MonitorDependencies = {}): Express {
   const app = express();
   const now = dependencies.now ?? (() => new Date());
@@ -1154,6 +1447,25 @@ export function createApp(dependencies: MonitorDependencies = {}): Express {
     express.json(),
     async (request, response) => {
       await handleBrainDriftWebhook(request, response, fetchFn);
+    }
+  );
+
+  app.post('/design-review/register', express.json(), async (request, response) => {
+    await handleDesignReviewRegister(request, response);
+  });
+
+  app.get('/design-review/pending', (_request, response) => {
+    const reviews = Array.from(pendingDesignReviews.entries())
+      .map(([id, review]) => ({ id, ...review }))
+      .sort((left, right) => right.createdAt - left.createdAt);
+    response.status(200).json({ pending: reviews });
+  });
+
+  app.post(
+    '/webhooks/slack-design-review',
+    express.json(),
+    async (request, response) => {
+      await handleSlackDesignReviewWebhook(request, response, fetchFn);
     }
   );
 
