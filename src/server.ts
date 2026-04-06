@@ -130,6 +130,22 @@ interface DesignReviewRegisterBody {
   prRepo?: string;
 }
 
+interface DesignReviewGenerateBody {
+  prNumber?: string | number;
+  prTitle?: string;
+  prBranch?: string;
+  prRepo?: string;
+  uiFiles?: string;
+  diff?: string;
+}
+
+interface DesignVariant {
+  letter: string;
+  name: string;
+  nodeId?: string;
+  description: string;
+}
+
 interface SlackEventBody {
   type?: string;
   challenge?: string;
@@ -1205,6 +1221,231 @@ async function handleDesignReviewRegister(
   response.status(200).json({ ok: true, reviewId });
 }
 
+async function processDesignReviewGeneration(
+  payload: {
+    prNumber: string;
+    prTitle: string;
+    prBranch: string;
+    prRepo: string;
+    uiFiles: string;
+    diff: string;
+  },
+  fetchFn: FetchLike
+): Promise<void> {
+  const { prNumber, prTitle, prBranch, prRepo, uiFiles, diff } = payload;
+
+  const figmaFileKey = '218eKCIeJqUqszyWFiLmJo';
+  const designReviewsPageId = '1-4';
+  const figmaFileUrl = `https://www.figma.com/design/${figmaFileKey}/Looped-Design-System`;
+
+  const designAgentPrompt = [
+    'You are the Looped Design Agent. You are reviewing a pull request that touches UI files and need to create 3 prototype variant frames in Figma.',
+    '',
+    'PR DETAILS:',
+    `- Number: #${prNumber}`,
+    `- Title: ${prTitle}`,
+    `- Branch: ${prBranch}`,
+    '',
+    'UI FILES CHANGED:',
+    uiFiles,
+    '',
+    'CODE DIFF:',
+    diff ? diff.substring(0, 8000) : 'Not available',
+    '',
+    `FIGMA FILE: ${figmaFileKey}`,
+    `DESIGN REVIEWS PAGE: ${designReviewsPageId}`,
+    '',
+    'Your task:',
+    '1. Understand what UI change was made from the diff',
+    `2. Use the Figma MCP tools to navigate to the Design Reviews page (node ${designReviewsPageId}) in file ${figmaFileKey}`,
+    `3. Create 3 variant frames for PR #${prNumber} with these exact names:`,
+    `   - "PR #${prNumber} - Variant A: [approach name]"`,
+    `   - "PR #${prNumber} - Variant B: [approach name]"`,
+    `   - "PR #${prNumber} - Variant C: [approach name]"`,
+    '4. Each frame should be 390x844 (iPhone size) and show a realistic mobile UI representation of the variant approach',
+    '5. Use the Looped color tokens: navy (#0D0D2B), background (#F7F7F8), surface (#FFFFFF), textPrimary (#0D0D2B), textSecondary (#6B7280), success (#22C55E)',
+    '6. After creating frames, get the node IDs of the created frames',
+    '',
+    'For each variant use a meaningfully different visual approach:',
+    '- Variant A: Minimal — subtle, low visual weight, fits naturally into existing UI',
+    '- Variant B: Branded — uses primary navy color, more prominent, brand-forward',
+    '- Variant C: Expressive — creative interpretation, slightly more visual personality',
+    '',
+    'After creating all frames respond with this exact JSON structure:',
+    '{',
+    '  "variants": [',
+    '    { "letter": "A", "name": "approach name", "nodeId": "figma-node-id", "description": "2 sentence description" },',
+    '    { "letter": "B", "name": "approach name", "nodeId": "figma-node-id", "description": "2 sentence description" },',
+    '    { "letter": "C", "name": "approach name", "nodeId": "figma-node-id", "description": "2 sentence description" }',
+    '  ]',
+    '}',
+  ].join('\n');
+
+  const response = await fetchFn('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': process.env.ANTHROPIC_API_KEY || '',
+      'anthropic-version': '2023-06-01',
+      'anthropic-beta': 'mcp-client-2025-04-04',
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 4000,
+      mcp_servers: [
+        {
+          type: 'url',
+          url: 'https://mcp.figma.com/mcp',
+          name: 'figma',
+          authorization_token: process.env.FIGMA_ACCESS_TOKEN,
+        },
+      ],
+      messages: [{ role: 'user', content: designAgentPrompt }],
+    }),
+  });
+
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(
+      `Claude design generation failed (${response.status} ${response.statusText}): ${body}`
+    );
+  }
+
+  const claudeData = (await response.json()) as {
+    content?: Array<{ type?: string; text?: string }>;
+  };
+  console.log('[design-review/generate] Claude response received');
+
+  let variants: DesignVariant[] = [];
+  try {
+    const textContent =
+      claudeData.content
+        ?.filter((block) => block.type === 'text')
+        .map((block) => block.text ?? '')
+        .join('') ?? '';
+
+    const jsonMatch = textContent.match(/\{[\s\S]*"variants"[\s\S]*\}/);
+    if (jsonMatch) {
+      const parsed = JSON.parse(jsonMatch[0]) as { variants?: DesignVariant[] };
+      variants = parsed.variants ?? [];
+    }
+  } catch (error) {
+    console.error('[design-review/generate] Failed to parse variants:', error);
+  }
+
+  const variantLinks =
+    variants.length > 0
+      ? variants
+          .map((variant) => {
+            const frameUrl = variant.nodeId
+              ? `${figmaFileUrl}?node-id=${encodeURIComponent(variant.nodeId)}`
+              : figmaFileUrl;
+            return `*Variant ${variant.letter} — ${variant.name}*\n${variant.description}\n🎨 <${frameUrl}|View in Figma>`;
+          })
+          .join('\n\n')
+      : 'Variants generated — view in Figma Design Reviews page';
+
+  const slackMessage = {
+    text: `🎨 *Design Review Ready — PR #${prNumber}*`,
+    blocks: [
+      {
+        type: 'header',
+        text: {
+          type: 'plain_text',
+          text: `🎨 Design Review — PR #${prNumber}`,
+        },
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `*${prTitle}*\nBranch: \`${prBranch}\`\n\n*UI Files Changed:*\n${uiFiles
+            .split('\n')
+            .filter(Boolean)
+            .map((file) => `• \`${file}\``)
+            .join('\n')}`,
+        },
+      },
+      {
+        type: 'divider',
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `*3 Prototype Variants Created in Figma:*\n\n${variantLinks}`,
+        },
+      },
+      {
+        type: 'divider',
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `*Select your preferred variant:*\nReply with \`1\` or \`A\`, \`2\` or \`B\`, \`3\` or \`C\`\nOr send feedback for revised prototypes\n\n🔗 <https://github.com/${prRepo}/pull/${prNumber}|View PR on GitHub> | 🎨 <${figmaFileUrl}?node-id=1-4|Open Design Reviews in Figma>`,
+        },
+      },
+    ],
+  };
+
+  const slackWebhookUrl = process.env.SLACK_DESIGN_REVIEW_WEBHOOK_URL;
+  if (slackWebhookUrl) {
+    await fetchFn(slackWebhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(slackMessage),
+    });
+    console.log('[design-review/generate] Posted to Slack');
+  }
+
+  const reviewId = `pr-${prNumber}-${Date.now()}`;
+  pendingDesignReviews.set(reviewId, {
+    prNumber,
+    prTitle,
+    prRepo,
+    createdAt: Date.now(),
+  });
+
+  console.log(`[design-review/generate] Complete for PR #${prNumber}`);
+}
+
+async function handleDesignReviewGenerate(
+  request: Request,
+  response: Response,
+  fetchFn: FetchLike
+): Promise<void> {
+  const { prNumber, prTitle, prBranch, prRepo, uiFiles, diff } =
+    request.body as DesignReviewGenerateBody;
+
+  if (!prNumber || !prTitle || !prBranch || !prRepo || !uiFiles) {
+    response.status(400).json({
+      error: 'prNumber, prTitle, prBranch, prRepo, and uiFiles are required.',
+    });
+    return;
+  }
+
+  const normalizedPayload = {
+    prNumber: String(prNumber),
+    prTitle,
+    prBranch,
+    prRepo,
+    uiFiles,
+    diff: diff ?? '',
+  };
+
+  console.log(
+    `[design-review/generate] Generating Figma frames for PR #${normalizedPayload.prNumber}`
+  );
+  response.status(200).json({ ok: true, status: 'generating' });
+
+  void processDesignReviewGeneration(normalizedPayload, fetchFn).catch(
+    (error) => {
+      console.error('[design-review/generate] Error:', error);
+    }
+  );
+}
+
 async function handleSlackDesignReviewWebhook(
   request: Request,
   response: Response,
@@ -1452,6 +1693,10 @@ export function createApp(dependencies: MonitorDependencies = {}): Express {
 
   app.post('/design-review/register', express.json(), async (request, response) => {
     await handleDesignReviewRegister(request, response);
+  });
+
+  app.post('/design-review/generate', express.json(), async (request, response) => {
+    await handleDesignReviewGenerate(request, response, fetchFn);
   });
 
   app.get('/design-review/pending', (_request, response) => {
