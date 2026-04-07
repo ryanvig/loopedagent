@@ -661,32 +661,21 @@ async function relabelBacklogIssue(
   });
 }
 
-function parseDesignReviewSelection(
-  text: string
-): { selectedVariant: 'A' | 'B' | 'C' | null; feedback: string | null } {
+function parseDesignReviewSelection(text: string): {
+  selectedVariant: 'A' | 'B' | 'C' | null;
+  feedback: string | null;
+} {
   const normalized = text.trim().toLowerCase();
 
-  if (
-    normalized === '1' ||
-    normalized === 'a' ||
-    normalized === 'variant a'
-  ) {
+  if (normalized === '1' || normalized === 'a' || normalized === 'variant a') {
     return { selectedVariant: 'A', feedback: null };
   }
 
-  if (
-    normalized === '2' ||
-    normalized === 'b' ||
-    normalized === 'variant b'
-  ) {
+  if (normalized === '2' || normalized === 'b' || normalized === 'variant b') {
     return { selectedVariant: 'B', feedback: null };
   }
 
-  if (
-    normalized === '3' ||
-    normalized === 'c' ||
-    normalized === 'variant c'
-  ) {
+  if (normalized === '3' || normalized === 'c' || normalized === 'variant c') {
     return { selectedVariant: 'C', feedback: null };
   }
 
@@ -754,14 +743,19 @@ async function createDesignImplementationIssue(
     '- PR opens to develop',
   ].join('\n');
 
-  return githubRepoRequest<GitHubCreatedIssue>(review.prRepo, '/issues', fetchFn, {
-    method: 'POST',
-    body: JSON.stringify({
-      title: `feat(design): implement Variant ${selectedVariant} from PR #${review.prNumber} design review`,
-      body: issueBody,
-      labels: ['build:ready'],
-    }),
-  });
+  return githubRepoRequest<GitHubCreatedIssue>(
+    review.prRepo,
+    '/issues',
+    fetchFn,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        title: `feat(design): implement Variant ${selectedVariant} from PR #${review.prNumber} design review`,
+        body: issueBody,
+        labels: ['build:ready'],
+      }),
+    }
+  );
 }
 
 async function handleDeployWebhook(
@@ -1200,7 +1194,8 @@ async function handleDesignReviewRegister(
   request: Request,
   response: Response
 ): Promise<void> {
-  const { prNumber, prTitle, prRepo } = request.body as DesignReviewRegisterBody;
+  const { prNumber, prTitle, prRepo } =
+    request.body as DesignReviewRegisterBody;
 
   if (!prNumber || !prTitle || !prRepo) {
     response.status(400).json({
@@ -1418,9 +1413,9 @@ async function handleDesignReviewGenerate(
   const { prNumber, prTitle, prBranch, prRepo, uiFiles, diff } =
     request.body as DesignReviewGenerateBody;
 
-  if (!prNumber || !prTitle || !prBranch || !prRepo || !uiFiles) {
+  if (!prNumber || !prTitle || !prBranch || !prRepo) {
     response.status(400).json({
-      error: 'prNumber, prTitle, prBranch, prRepo, and uiFiles are required.',
+      error: 'Missing required fields: prNumber, prTitle, prBranch, prRepo',
     });
     return;
   }
@@ -1430,7 +1425,7 @@ async function handleDesignReviewGenerate(
     prTitle,
     prBranch,
     prRepo,
-    uiFiles,
+    uiFiles: uiFiles ?? '',
     diff: diff ?? '',
   };
 
@@ -1691,13 +1686,21 @@ export function createApp(dependencies: MonitorDependencies = {}): Express {
     }
   );
 
-  app.post('/design-review/register', express.json(), async (request, response) => {
-    await handleDesignReviewRegister(request, response);
-  });
+  app.post(
+    '/design-review/register',
+    express.json(),
+    async (request, response) => {
+      await handleDesignReviewRegister(request, response);
+    }
+  );
 
-  app.post('/design-review/generate', express.json(), async (request, response) => {
-    await handleDesignReviewGenerate(request, response, fetchFn);
-  });
+  app.post(
+    '/design-review/generate',
+    express.json(),
+    async (request, response) => {
+      await handleDesignReviewGenerate(request, response, fetchFn);
+    }
+  );
 
   app.get('/design-review/pending', (_request, response) => {
     const reviews = Array.from(pendingDesignReviews.entries())

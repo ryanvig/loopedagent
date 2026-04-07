@@ -48,7 +48,8 @@ describe('github and mission-control webhooks', () => {
     process.env.GITHUB_TOKEN = githubToken;
     process.env.SLACK_LOGS_WEBHOOK_URL = 'https://slack.example/logs';
     process.env.SLACK_ALERTS_WEBHOOK_URL = 'https://slack.example/alerts';
-    process.env.SLACK_DESIGN_REVIEW_WEBHOOK_URL = 'https://slack.example/design-review';
+    process.env.SLACK_DESIGN_REVIEW_WEBHOOK_URL =
+      'https://slack.example/design-review';
   });
 
   afterEach(() => {
@@ -375,6 +376,49 @@ describe('github and mission-control webhooks', () => {
     );
   });
 
+  describe('POST /design-review/generate', () => {
+    it('should return 200 with ok:true for valid payload', async () => {
+      fetchMock.mockResolvedValue(
+        jsonResponse({
+          content: [
+            {
+              type: 'text',
+              text: '{"variants":[]}',
+            },
+          ],
+        })
+      );
+
+      const app = createApp({ fetchFn: fetchMock as typeof fetch });
+
+      const response = await request(app).post('/design-review/generate').send({
+        prNumber: '99',
+        prTitle: 'test PR',
+        prBranch: 'feature/test',
+        prRepo: 'ryanvig/Looped',
+        uiFiles: 'mobile/src/components/Test.tsx',
+        diff: 'test diff',
+      });
+
+      expect(response.status).toBe(200);
+      expect(response.body.ok).toBe(true);
+      expect(response.body.status).toBe('generating');
+    });
+
+    it('should return 400 for missing required fields', async () => {
+      const app = createApp({ fetchFn: fetchMock as typeof fetch });
+
+      const response = await request(app)
+        .post('/design-review/generate')
+        .send({});
+
+      expect(response.status).toBe(400);
+      expect(response.body.error).toBe(
+        'Missing required fields: prNumber, prTitle, prBranch, prRepo'
+      );
+    });
+  });
+
   it('handles Slack URL verification for design review webhooks', async () => {
     const app = createApp({ fetchFn: fetchMock as typeof fetch });
 
@@ -392,13 +436,11 @@ describe('github and mission-control webhooks', () => {
   it('creates a build-ready implementation issue when a design variant is selected', async () => {
     const app = createApp({ fetchFn: fetchMock as typeof fetch });
 
-    await request(app)
-      .post('/design-review/register')
-      .send({
-        prNumber: '51',
-        prTitle: 'Refine discover cards',
-        prRepo: 'ryanvig/Looped',
-      });
+    await request(app).post('/design-review/register').send({
+      prNumber: '51',
+      prTitle: 'Refine discover cards',
+      prRepo: 'ryanvig/Looped',
+    });
 
     fetchMock
       .mockResolvedValueOnce(
