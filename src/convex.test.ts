@@ -155,8 +155,11 @@ describe('ConvexWriter', () => {
     });
 
     expect(consoleError).toHaveBeenCalledWith(
-      '[Convex] mutation mutations:upsertBuildEvent error:',
-      expect.any(Error)
+      '[Convex] mutation error:',
+      expect.objectContaining({
+        name: 'mutations:upsertBuildEvent',
+        err: expect.any(Error),
+      })
     );
 
     consoleError.mockRestore();

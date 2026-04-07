@@ -22,7 +22,7 @@ async function convexMutation(
       );
     }
   } catch (err) {
-    console.error(`[Convex] mutation ${name} error:`, err);
+    console.error('[Convex] mutation error:', { name, err });
   }
 }
 
