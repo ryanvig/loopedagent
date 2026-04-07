@@ -1276,6 +1276,10 @@ async function processDesignReviewGeneration(
     '}',
   ].join('\n');
 
+  console.log(
+    '[design-review/generate] FIGMA_ACCESS_TOKEN present:',
+    !!process.env.FIGMA_ACCESS_TOKEN
+  );
   const response = await fetchFn('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
@@ -1292,7 +1296,9 @@ async function processDesignReviewGeneration(
           type: 'url',
           url: 'https://mcp.figma.com/mcp',
           name: 'figma',
-          authorization_token: process.env.FIGMA_ACCESS_TOKEN,
+          headers: {
+            'X-Figma-Token': process.env.FIGMA_ACCESS_TOKEN || '',
+          },
         },
       ],
       messages: [{ role: 'user', content: designAgentPrompt }],
