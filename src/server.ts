@@ -1296,9 +1296,7 @@ async function processDesignReviewGeneration(
           type: 'url',
           url: 'https://mcp.figma.com/mcp',
           name: 'figma',
-          headers: {
-            'X-Figma-Token': process.env.FIGMA_ACCESS_TOKEN || '',
-          },
+          authorization_token: `Bearer ${process.env.FIGMA_ACCESS_TOKEN || ''}`,
         },
       ],
       messages: [{ role: 'user', content: designAgentPrompt }],
