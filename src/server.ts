@@ -139,13 +139,6 @@ interface DesignReviewGenerateBody {
   diff?: string;
 }
 
-interface DesignVariant {
-  letter: string;
-  name: string;
-  nodeId?: string;
-  description: string;
-}
-
 interface SlackEventBody {
   type?: string;
   challenge?: string;
@@ -1229,8 +1222,6 @@ async function processDesignReviewGeneration(
 ): Promise<void> {
   const { prNumber, prTitle, prBranch, prRepo, uiFiles, diff } = payload;
 
-  const figmaFileUrl =
-    'https://www.figma.com/design/218eKCIeJqUqszyWFiLmJo/Looped-Design-System';
   const designAgentPrompt = `You are the Looped Design Agent. A pull request just modified UI files and you need to:
 1. Understand what was built from the diff
 2. Generate 3 distinct visual variant concepts
