@@ -1229,76 +1229,112 @@ async function processDesignReviewGeneration(
 ): Promise<void> {
   const { prNumber, prTitle, prBranch, prRepo, uiFiles, diff } = payload;
 
-  const figmaFileKey = '218eKCIeJqUqszyWFiLmJo';
-  const designReviewsPageId = '1-4';
-  const figmaFileUrl = `https://www.figma.com/design/${figmaFileKey}/Looped-Design-System`;
+  const figmaFileUrl =
+    'https://www.figma.com/design/218eKCIeJqUqszyWFiLmJo/Looped-Design-System';
+  const designAgentPrompt = `You are the Looped Design Agent. A pull request just modified UI files and you need to:
+1. Understand what was built from the diff
+2. Generate 3 distinct visual variant concepts
+3. Write a complete, self-contained Claude Code prompt that a developer can paste directly into Claude Code (which has Figma MCP connected) to create real Figma prototype frames
 
-  const designAgentPrompt = [
-    'You are the Looped Design Agent. You are reviewing a pull request that touches UI files and need to create 3 prototype variant frames in Figma.',
-    '',
-    'PR DETAILS:',
-    `- Number: #${prNumber}`,
-    `- Title: ${prTitle}`,
-    `- Branch: ${prBranch}`,
-    '',
-    'UI FILES CHANGED:',
-    uiFiles,
-    '',
-    'CODE DIFF:',
-    diff ? diff.substring(0, 8000) : 'Not available',
-    '',
-    `FIGMA FILE: ${figmaFileKey}`,
-    `DESIGN REVIEWS PAGE: ${designReviewsPageId}`,
-    '',
-    'Your task:',
-    '1. Understand what UI change was made from the diff',
-    `2. Use the Figma MCP tools to navigate to the Design Reviews page (node ${designReviewsPageId}) in file ${figmaFileKey}`,
-    `3. Create 3 variant frames for PR #${prNumber} with these exact names:`,
-    `   - "PR #${prNumber} - Variant A: [approach name]"`,
-    `   - "PR #${prNumber} - Variant B: [approach name]"`,
-    `   - "PR #${prNumber} - Variant C: [approach name]"`,
-    '4. Each frame should be 390x844 (iPhone size) and show a realistic mobile UI representation of the variant approach',
-    '5. Use the Looped color tokens: navy (#0D0D2B), background (#F7F7F8), surface (#FFFFFF), textPrimary (#0D0D2B), textSecondary (#6B7280), success (#22C55E)',
-    '6. After creating frames, get the node IDs of the created frames',
-    '',
-    'For each variant use a meaningfully different visual approach:',
-    '- Variant A: Minimal — subtle, low visual weight, fits naturally into existing UI',
-    '- Variant B: Branded — uses primary navy color, more prominent, brand-forward',
-    '- Variant C: Expressive — creative interpretation, slightly more visual personality',
-    '',
-    'After creating all frames respond with this exact JSON structure:',
-    '{',
-    '  "variants": [',
-    '    { "letter": "A", "name": "approach name", "nodeId": "figma-node-id", "description": "2 sentence description" },',
-    '    { "letter": "B", "name": "approach name", "nodeId": "figma-node-id", "description": "2 sentence description" },',
-    '    { "letter": "C", "name": "approach name", "nodeId": "figma-node-id", "description": "2 sentence description" }',
-    '  ]',
-    '}',
-  ].join('\n');
+PR DETAILS:
+- Number: #${prNumber}
+- Title: ${prTitle}
+- Branch: ${prBranch}
 
-  console.log(
-    '[design-review/generate] FIGMA_ACCESS_TOKEN present:',
-    !!process.env.FIGMA_ACCESS_TOKEN
-  );
+UI FILES CHANGED:
+${uiFiles}
+
+CODE DIFF:
+${diff ? diff.substring(0, 6000) : 'Not available'}
+
+LOOPED DESIGN TOKENS (include all of these in the Claude Code prompt):
+Colors:
+- navy/textPrimary/background primary: #0D0D2B
+- background: #F7F7F8
+- surface: #FFFFFF  
+- textPrimary: #0D0D2B
+- textSecondary: #6B7280
+- success: #22C55E
+- error: #EF4444
+- warning: #F59E0B
+- purple: #7C3AED
+- purpleBright: #A855F7
+- instagram: #E1306C
+- linkedin: #0077B5
+
+Typography:
+- fonts.sans.regular: Inter_400Regular
+- fonts.sans.medium: Inter_500Medium
+- fonts.sans.semiBold: Inter_600SemiBold
+- fonts.sans.bold: Inter_700Bold
+- fonts.serif.regular: PlayfairDisplay_400Regular
+- fonts.serif.bold: PlayfairDisplay_700Bold
+
+Spacing scale (use only these values): 4, 8, 12, 16, 20, 24, 32, 40, 48, 64
+
+Border radius: 4, 8, 12, 16, 24, 9999 (full)
+
+Figma file: https://www.figma.com/design/218eKCIeJqUqszyWFiLmJo/Looped-Design-System
+Design Reviews page node: 1-4
+
+SCREEN PATTERNS (reference when relevant):
+- Feed/Discover: FlatList of cards, background #F7F7F8, card surface #FFFFFF
+- Profile: ScrollView, hero image, stats row, tab navigation below
+- Modal/Sheet: Full screen, header with title + close button, ScrollView content
+- Settings: Modal/Sheet pattern, list rows with chevrons, grouping with section headers
+- Auth/Onboarding: Dark navy background #0D0D2B, centered content, primary CTA button
+
+ANTI-PATTERNS (never do these):
+- No hardcoded hex values — always reference token names
+- No Tailwind classes in mobile files
+- No mixing of serif and sans fonts without design intent
+
+Based on the diff above, generate:
+
+## Variant Concepts
+
+### Variant A: [name]
+[2-3 sentence description of the visual approach, what makes it distinct]
+Key tokens: [list the specific tokens used]
+Tradeoff: [one sentence on what this optimizes for]
+
+### Variant B: [name]  
+[2-3 sentence description]
+Key tokens: [list]
+Tradeoff: [one sentence]
+
+### Variant C: [name]
+[2-3 sentence description]
+Key tokens: [list]
+Tradeoff: [one sentence]
+
+## Claude Code Prompt
+
+Write a complete prompt starting with "Using the Figma MCP..." that includes:
+1. The Figma file URL and Design Reviews page node to navigate to
+2. A clear explanation of what Kimi built (extract from the diff — include actual code snippets)
+3. All relevant design tokens with their exact hex values
+4. The relevant screen pattern context
+5. Exact frame creation instructions for all 3 variants:
+   - Frame name: "PR #${prNumber} - Variant [A/B/C]: [name]"
+   - Frame size: 390x844px (iPhone)
+   - Detailed visual specification for each variant using token values
+   - What UI elements to show (extract from the diff what screen/component was changed)
+6. Instruction to share direct node links after creating frames
+
+Make the Claude Code prompt completely self-contained — someone should be able to paste it with zero additional context and Claude Code will know exactly what to build.`;
+
+  const anthropicApiKey = getRequiredEnv('ANTHROPIC_API_KEY');
   const response = await fetchFn('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': process.env.ANTHROPIC_API_KEY || '',
+      'x-api-key': anthropicApiKey,
       'anthropic-version': '2023-06-01',
-      'anthropic-beta': 'mcp-client-2025-04-04',
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 4000,
-      mcp_servers: [
-        {
-          type: 'url',
-          url: 'https://mcp.figma.com/mcp',
-          name: 'figma',
-          authorization_token: `Bearer ${process.env.FIGMA_ACCESS_TOKEN || ''}`,
-        },
-      ],
       messages: [{ role: 'user', content: designAgentPrompt }],
     }),
   });
@@ -1315,37 +1351,26 @@ async function processDesignReviewGeneration(
   };
   console.log('[design-review/generate] Claude response received');
 
-  let variants: DesignVariant[] = [];
-  try {
-    const textContent =
-      claudeData.content
-        ?.filter((block) => block.type === 'text')
-        .map((block) => block.text ?? '')
-        .join('') ?? '';
+  const claudeText =
+    claudeData.content
+      ?.filter((block) => block.type === 'text')
+      .map((block) => block.text ?? '')
+      .join('') ?? '';
 
-    const jsonMatch = textContent.match(/\{[\s\S]*"variants"[\s\S]*\}/);
-    if (jsonMatch) {
-      const parsed = JSON.parse(jsonMatch[0]) as { variants?: DesignVariant[] };
-      variants = parsed.variants ?? [];
-    }
-  } catch (error) {
-    console.error('[design-review/generate] Failed to parse variants:', error);
-  }
+  const variantMatch = claudeText.match(
+    /## Variant Concepts([\s\S]*?)## Claude Code Prompt/
+  );
+  const variantSummary = variantMatch
+    ? variantMatch[1].trim().substring(0, 2800)
+    : 'See PR comment for variant details';
 
-  const variantLinks =
-    variants.length > 0
-      ? variants
-          .map((variant) => {
-            const frameUrl = variant.nodeId
-              ? `${figmaFileUrl}?node-id=${encodeURIComponent(variant.nodeId)}`
-              : figmaFileUrl;
-            return `*Variant ${variant.letter} — ${variant.name}*\n${variant.description}\n🎨 <${frameUrl}|View in Figma>`;
-          })
-          .join('\n\n')
-      : 'Variants generated — view in Figma Design Reviews page';
+  const promptMatch = claudeText.match(/## Claude Code Prompt\s*([\s\S]*)/);
+  const claudeCodePrompt = promptMatch
+    ? promptMatch[1].trim().substring(0, 2800)
+    : 'Claude Code prompt not generated';
 
   const slackMessage = {
-    text: `🎨 *Design Review Ready — PR #${prNumber}*`,
+    text: `🎨 Design Review Ready — PR #${prNumber}`,
     blocks: [
       {
         type: 'header',
@@ -1362,7 +1387,7 @@ async function processDesignReviewGeneration(
             .split('\n')
             .filter(Boolean)
             .map((file) => `• \`${file}\``)
-            .join('\n')}`,
+            .join('\n')}\n\n🔗 <https://github.com/${prRepo}/pull/${prNumber}|View PR on GitHub>`,
         },
       },
       {
@@ -1372,7 +1397,7 @@ async function processDesignReviewGeneration(
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*3 Prototype Variants Created in Figma:*\n\n${variantLinks}`,
+          text: variantSummary,
         },
       },
       {
@@ -1382,7 +1407,24 @@ async function processDesignReviewGeneration(
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*Select your preferred variant:*\nReply with \`1\` or \`A\`, \`2\` or \`B\`, \`3\` or \`C\`\nOr send feedback for revised prototypes\n\n🔗 <https://github.com/${prRepo}/pull/${prNumber}|View PR on GitHub> | 🎨 <${figmaFileUrl}?node-id=1-4|Open Design Reviews in Figma>`,
+          text: `*🤖 Claude Code Prompt — paste this into Claude Code to generate Figma frames:*`,
+        },
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `\`\`\`${claudeCodePrompt}\`\`\``,
+        },
+      },
+      {
+        type: 'divider',
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `*After generating Figma frames, reply here to select a variant:*\n• \`1\` or \`A\` — Variant A\n• \`2\` or \`B\` — Variant B\n• \`3\` or \`C\` — Variant C\n• Any other text — feedback for revisions`,
         },
       },
     ],
@@ -1397,6 +1439,24 @@ async function processDesignReviewGeneration(
     });
     console.log('[design-review/generate] Posted to Slack');
   }
+
+  const prComment = `## 🎨 Design Agent Review
+
+The Design Agent has analyzed this PR and generated 3 prototype variants.
+
+**Check #design-review in Slack** for variant summaries and a ready-to-paste Claude Code prompt to generate Figma frames.
+
+🎨 [Open Design Reviews in Figma](https://www.figma.com/design/218eKCIeJqUqszyWFiLmJo/Looped-Design-System?node-id=1-4)
+
+---
+
+${claudeText}`;
+
+  await githubRepoRequest(prRepo, `/issues/${prNumber}/comments`, fetchFn, {
+    method: 'POST',
+    body: JSON.stringify({ body: prComment }),
+  });
+  console.log('[design-review/generate] Posted PR comment');
 
   const reviewId = `pr-${prNumber}-${Date.now()}`;
   pendingDesignReviews.set(reviewId, {
@@ -1434,7 +1494,7 @@ async function handleDesignReviewGenerate(
   };
 
   console.log(
-    `[design-review/generate] Generating Figma frames for PR #${normalizedPayload.prNumber}`
+    `[design-review/generate] Generating design review package for PR #${normalizedPayload.prNumber}`
   );
   response.status(200).json({ ok: true, status: 'generating' });
 
