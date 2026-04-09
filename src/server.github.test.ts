@@ -18,6 +18,11 @@ jest.mock('./convex', () => ({
     upsertPullRequest: jest.fn().mockResolvedValue(undefined),
     insertKnowledgeHealth: jest.fn().mockResolvedValue(undefined),
     upsertProductionHealth: jest.fn().mockResolvedValue(undefined),
+    createDesignReview: jest.fn().mockResolvedValue(undefined),
+    getLatestPendingDesignReview: jest.fn().mockResolvedValue(null),
+    getDesignReviewByPrNumber: jest.fn().mockResolvedValue(null),
+    updateSelectedDesignReview: jest.fn().mockResolvedValue(undefined),
+    updateDesignReviewFigmaLinks: jest.fn().mockResolvedValue(undefined),
   },
 }));
 
@@ -353,6 +358,16 @@ describe('github and mission-control webhooks', () => {
 
   it('registers and lists pending design reviews', async () => {
     const app = createApp({ fetchFn: fetchMock as typeof fetch });
+    (
+      ConvexWriter.getLatestPendingDesignReview as jest.Mock
+    ).mockResolvedValueOnce({
+      _id: 'design-review-42',
+      prNumber: '42',
+      prTitle: 'Polish profile shell',
+      prRepo: 'ryanvig/Looped',
+      status: 'pending',
+      createdAt: Date.now(),
+    });
 
     const registerResponse = await request(app)
       .post('/design-review/register')
@@ -365,6 +380,12 @@ describe('github and mission-control webhooks', () => {
 
     expect(registerResponse.status).toBe(200);
     expect(registerResponse.body.ok).toBe(true);
+    expect(ConvexWriter.createDesignReview).toHaveBeenCalledWith({
+      prNumber: '42',
+      prTitle: 'Polish profile shell',
+      prRepo: 'ryanvig/Looped',
+      prBranch: undefined,
+    });
     expect(pendingResponse.status).toBe(200);
     expect(pendingResponse.body.pending).toHaveLength(1);
     expect(pendingResponse.body.pending[0]).toEqual(
@@ -435,12 +456,16 @@ describe('github and mission-control webhooks', () => {
 
   it('creates a build-ready implementation issue when a design variant is selected', async () => {
     const app = createApp({ fetchFn: fetchMock as typeof fetch });
-
-    await request(app).post('/design-review/register').send({
-      prNumber: '51',
-      prTitle: 'Refine discover cards',
-      prRepo: 'ryanvig/Looped',
-    });
+    (ConvexWriter.getLatestPendingDesignReview as jest.Mock).mockResolvedValueOnce(
+      {
+        _id: 'design-review-51',
+        prNumber: '51',
+        prTitle: 'Refine discover cards',
+        prRepo: 'ryanvig/Looped',
+        status: 'pending',
+        createdAt: Date.now(),
+      }
+    );
 
     fetchMock
       .mockResolvedValueOnce(
@@ -464,6 +489,10 @@ describe('github and mission-control webhooks', () => {
 
     expect(response.status).toBe(200);
     expect(response.body.selectedVariant).toBe('B');
+    expect(ConvexWriter.updateSelectedDesignReview).toHaveBeenCalledWith({
+      id: 'design-review-51',
+      selectedVariant: 'B',
+    });
     expect(fetchMock).toHaveBeenNthCalledWith(
       1,
       'https://api.github.com/repos/ryanvig/Looped/issues',

@@ -7,7 +7,7 @@ import {
   recordDeploy,
 } from './deployState';
 import { rollbackDeployment } from './railway';
-import { ConvexWriter } from './convex';
+import { ConvexWriter, type StoredDesignReview } from './convex';
 
 const DEFAULT_PORT = 3000;
 const DEFAULT_ERROR_RATE_THRESHOLD = 0.05;
@@ -117,17 +117,11 @@ interface BrainDriftWebhookBody {
   nextCheckAt?: number;
 }
 
-interface PendingDesignReview {
-  prNumber: string;
-  prTitle: string;
-  prRepo: string;
-  createdAt: number;
-}
-
 interface DesignReviewRegisterBody {
   prNumber?: string;
   prTitle?: string;
   prRepo?: string;
+  prBranch?: string;
 }
 
 interface DesignReviewGenerateBody {
@@ -253,8 +247,6 @@ const STARTUP_AGENTS = [
     links: [],
   },
 ];
-
-const pendingDesignReviews = new Map<string, PendingDesignReview>();
 
 function isDryRunEnabled(): boolean {
   return process.env.RAILWAY_DRY_RUN?.trim().toLowerCase() === 'true';
@@ -679,27 +671,25 @@ function parseDesignReviewSelection(text: string): {
   return { selectedVariant: null, feedback: null };
 }
 
-function findPendingDesignReview(
+async function findPendingDesignReview(
   text: string
-): [string, PendingDesignReview] | undefined {
+): Promise<StoredDesignReview | null> {
   const explicitPrMatch = text.match(/#?(\d{1,8})/);
   if (explicitPrMatch) {
     const explicitPrNumber = explicitPrMatch[1];
-    const explicitMatch = Array.from(pendingDesignReviews.entries()).find(
-      ([, review]) => review.prNumber === explicitPrNumber
+    const explicitMatch = await ConvexWriter.getDesignReviewByPrNumber(
+      explicitPrNumber
     );
     if (explicitMatch) {
       return explicitMatch;
     }
   }
 
-  return Array.from(pendingDesignReviews.entries()).sort(
-    (left, right) => right[1].createdAt - left[1].createdAt
-  )[0];
+  return ConvexWriter.getLatestPendingDesignReview();
 }
 
 async function createDesignImplementationIssue(
-  review: PendingDesignReview,
+  review: StoredDesignReview,
   selectedVariant: 'A' | 'B' | 'C',
   fetchFn: FetchLike
 ): Promise<GitHubCreatedIssue> {
@@ -1187,7 +1177,7 @@ async function handleDesignReviewRegister(
   request: Request,
   response: Response
 ): Promise<void> {
-  const { prNumber, prTitle, prRepo } =
+  const { prNumber, prTitle, prRepo, prBranch } =
     request.body as DesignReviewRegisterBody;
 
   if (!prNumber || !prTitle || !prRepo) {
@@ -1197,16 +1187,15 @@ async function handleDesignReviewRegister(
     return;
   }
 
-  const reviewId = `pr-${prNumber}-${Date.now()}`;
-  pendingDesignReviews.set(reviewId, {
+  await ConvexWriter.createDesignReview({
     prNumber,
     prTitle,
     prRepo,
-    createdAt: Date.now(),
+    prBranch,
   });
 
   console.log(`[design-review] Registered pending review for PR #${prNumber}`);
-  response.status(200).json({ ok: true, reviewId });
+  response.status(200).json({ ok: true });
 }
 
 async function processDesignReviewGeneration(
@@ -1449,12 +1438,11 @@ ${claudeText}`;
   });
   console.log('[design-review/generate] Posted PR comment');
 
-  const reviewId = `pr-${prNumber}-${Date.now()}`;
-  pendingDesignReviews.set(reviewId, {
+  await ConvexWriter.createDesignReview({
     prNumber,
     prTitle,
-    prRepo,
-    createdAt: Date.now(),
+    prRepo: prRepo || 'ryanvig/Looped',
+    prBranch,
   });
 
   console.log(`[design-review/generate] Complete for PR #${prNumber}`);
@@ -1529,9 +1517,9 @@ async function handleSlackDesignReviewWebhook(
     const { selectedVariant, feedback } = parseDesignReviewSelection(rawText);
 
     if (selectedVariant) {
-      const resolvedReview = findPendingDesignReview(rawText);
+      const review = await findPendingDesignReview(rawText);
 
-      if (!resolvedReview) {
+      if (!review) {
         await postSlackMessage(
           process.env.SLACK_DESIGN_REVIEW_WEBHOOK_URL,
           '⚠️ No pending design review was found to attach that selection to.',
@@ -1541,12 +1529,16 @@ async function handleSlackDesignReviewWebhook(
         return;
       }
 
-      const [reviewId, review] = resolvedReview;
       console.log(
         `[design-review] Variant ${selectedVariant} selected for PR #${review.prNumber}`
       );
 
       try {
+        await ConvexWriter.updateSelectedDesignReview({
+          id: review._id,
+          selectedVariant,
+        });
+
         const createdIssue = await createDesignImplementationIssue(
           review,
           selectedVariant,
@@ -1558,8 +1550,6 @@ async function handleSlackDesignReviewWebhook(
           `✅ Got it! Variant ${selectedVariant} selected for PR #${review.prNumber}.\n\nA new implementation issue has been created and queued for Kimi Code Builder: ${createdIssue.html_url}`,
           fetchFn
         );
-
-        pendingDesignReviews.delete(reviewId);
       } catch (error) {
         console.error(
           '[design-review] Failed to create implementation issue:',
@@ -1684,7 +1674,7 @@ export async function seedAgentStatus(): Promise<void> {
 }
 
 export function clearPendingDesignReviews(): void {
-  pendingDesignReviews.clear();
+  // No-op: design reviews are persisted in Convex rather than process memory.
 }
 
 export function createApp(dependencies: MonitorDependencies = {}): Express {
@@ -1757,11 +1747,9 @@ export function createApp(dependencies: MonitorDependencies = {}): Express {
     }
   );
 
-  app.get('/design-review/pending', (_request, response) => {
-    const reviews = Array.from(pendingDesignReviews.entries())
-      .map(([id, review]) => ({ id, ...review }))
-      .sort((left, right) => right.createdAt - left.createdAt);
-    response.status(200).json({ pending: reviews });
+  app.get('/design-review/pending', async (_request, response) => {
+    const pending = await ConvexWriter.getLatestPendingDesignReview();
+    response.status(200).json({ pending: pending ? [pending] : [] });
   });
 
   app.post(

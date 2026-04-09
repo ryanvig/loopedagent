@@ -51,6 +51,14 @@
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "watchman": false,
+    "cacheDirectory": "/tmp/jest_dx",
+    "haste": {
+      "forceNodeFilesystemAPI": true
+    },
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!src/**/*.test.ts",

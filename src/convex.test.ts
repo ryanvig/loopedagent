@@ -70,6 +70,23 @@ describe('ConvexWriter', () => {
       status: 'healthy',
       sentryAlerts: 0,
     });
+    await ConvexWriter.createDesignReview({
+      prNumber: '44',
+      prTitle: 'Design review',
+      prRepo: 'ryanvig/Looped',
+      prBranch: 'feature/issue-44-design-review',
+    });
+    await ConvexWriter.updateSelectedDesignReview({
+      id: 'design-review-44',
+      selectedVariant: 'B',
+    });
+    await ConvexWriter.updateDesignReviewFigmaLinks({
+      id: 'design-review-44',
+      figmaVariantA: 'https://figma.example/a',
+      figmaVariantB: 'https://figma.example/b',
+    });
+    await ConvexWriter.getLatestPendingDesignReview();
+    await ConvexWriter.getDesignReviewByPrNumber('44');
 
     expect(fetchMock.mock.calls).toEqual([
       [
@@ -106,6 +123,38 @@ describe('ConvexWriter', () => {
           body: expect.stringContaining(
             '"path":"mutations:upsertProductionHealth"'
           ),
+        }),
+      ],
+      [
+        'https://convex.example/api/mutation',
+        expect.objectContaining({
+          body: expect.stringContaining('"path":"designReviews:create"'),
+        }),
+      ],
+      [
+        'https://convex.example/api/mutation',
+        expect.objectContaining({
+          body: expect.stringContaining('"path":"designReviews:updateSelected"'),
+        }),
+      ],
+      [
+        'https://convex.example/api/mutation',
+        expect.objectContaining({
+          body: expect.stringContaining(
+            '"path":"designReviews:updateFigmaLinks"'
+          ),
+        }),
+      ],
+      [
+        'https://convex.example/api/query',
+        expect.objectContaining({
+          body: expect.stringContaining('"path":"designReviews:getLatestPending"'),
+        }),
+      ],
+      [
+        'https://convex.example/api/query',
+        expect.objectContaining({
+          body: expect.stringContaining('"path":"designReviews:getByPrNumber"'),
         }),
       ],
     ]);
@@ -160,6 +209,28 @@ describe('ConvexWriter', () => {
         name: 'mutations:upsertBuildEvent',
         err: expect.any(Error),
       })
+    );
+
+    consoleError.mockRestore();
+  });
+
+  it('logs non-ok Convex query responses and returns null', async () => {
+    process.env.CONVEX_URL = 'https://convex.example';
+    fetchMock.mockResolvedValue({
+      ok: false,
+      status: 500,
+      text: async () => 'broken-query',
+    } as Response);
+    const consoleError = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined);
+
+    const { ConvexWriter } = await import('./convex');
+    const result = await ConvexWriter.getLatestPendingDesignReview();
+
+    expect(result).toBeNull();
+    expect(consoleError).toHaveBeenCalledWith(
+      '[Convex] query designReviews:getLatestPending failed: 500 broken-query'
     );
 
     consoleError.mockRestore();

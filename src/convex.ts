@@ -26,6 +26,48 @@ async function convexMutation(
   }
 }
 
+async function convexQuery<T>(
+  name: string,
+  args: Record<string, unknown>
+): Promise<T | null> {
+  if (!CONVEX_URL) {
+    return null;
+  }
+
+  try {
+    const response = await fetch(`${CONVEX_URL}/api/query`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ path: name, args }),
+    });
+
+    if (!response.ok) {
+      const text = await response.text();
+      console.error(`[Convex] query ${name} failed: ${response.status} ${text}`);
+      return null;
+    }
+
+    return (await response.json()) as T;
+  } catch (err) {
+    console.error('[Convex] query error:', { name, err });
+    return null;
+  }
+}
+
+export interface StoredDesignReview {
+  _id: string;
+  prNumber: string;
+  prTitle: string;
+  prRepo: string;
+  prBranch?: string;
+  figmaVariantA?: string;
+  figmaVariantB?: string;
+  figmaVariantC?: string;
+  status: string;
+  selectedVariant?: string;
+  createdAt: number;
+}
+
 export const ConvexWriter = {
   async upsertBuildEvent(args: {
     issueNumber: number;
@@ -115,5 +157,42 @@ export const ConvexWriter = {
       ...args,
       recordedAt: Date.now(),
     });
+  },
+
+  async createDesignReview(args: {
+    prNumber: string;
+    prTitle: string;
+    prRepo: string;
+    prBranch?: string;
+  }) {
+    await convexMutation('designReviews:create', args);
+  },
+
+  async getLatestPendingDesignReview(): Promise<StoredDesignReview | null> {
+    return convexQuery<StoredDesignReview>('designReviews:getLatestPending', {});
+  },
+
+  async getDesignReviewByPrNumber(
+    prNumber: string
+  ): Promise<StoredDesignReview | null> {
+    return convexQuery<StoredDesignReview>('designReviews:getByPrNumber', {
+      prNumber,
+    });
+  },
+
+  async updateSelectedDesignReview(args: {
+    id: string;
+    selectedVariant: string;
+  }) {
+    await convexMutation('designReviews:updateSelected', args);
+  },
+
+  async updateDesignReviewFigmaLinks(args: {
+    id: string;
+    figmaVariantA?: string;
+    figmaVariantB?: string;
+    figmaVariantC?: string;
+  }) {
+    await convexMutation('designReviews:updateFigmaLinks', args);
   },
 };
