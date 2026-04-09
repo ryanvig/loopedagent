@@ -677,9 +677,8 @@ async function findPendingDesignReview(
   const explicitPrMatch = text.match(/#?(\d{1,8})/);
   if (explicitPrMatch) {
     const explicitPrNumber = explicitPrMatch[1];
-    const explicitMatch = await ConvexWriter.getDesignReviewByPrNumber(
-      explicitPrNumber
-    );
+    const explicitMatch =
+      await ConvexWriter.getDesignReviewByPrNumber(explicitPrNumber);
     if (explicitMatch) {
       return explicitMatch;
     }
@@ -1367,7 +1366,9 @@ Make the Claude Code prompt completely self-contained — someone should be able
             .split('\n')
             .filter(Boolean)
             .map((file) => `• \`${file}\``)
-            .join('\n')}\n\n🔗 <https://github.com/${prRepo}/pull/${prNumber}|View PR on GitHub>`,
+            .join(
+              '\n'
+            )}\n\n🔗 <https://github.com/${prRepo}/pull/${prNumber}|View PR on GitHub>`,
         },
       },
       {

@@ -134,7 +134,9 @@ describe('ConvexWriter', () => {
       [
         'https://convex.example/api/mutation',
         expect.objectContaining({
-          body: expect.stringContaining('"path":"designReviews:updateSelected"'),
+          body: expect.stringContaining(
+            '"path":"designReviews:updateSelected"'
+          ),
         }),
       ],
       [
@@ -148,7 +150,9 @@ describe('ConvexWriter', () => {
       [
         'https://convex.example/api/query',
         expect.objectContaining({
-          body: expect.stringContaining('"path":"designReviews:getLatestPending"'),
+          body: expect.stringContaining(
+            '"path":"designReviews:getLatestPending"'
+          ),
         }),
       ],
       [

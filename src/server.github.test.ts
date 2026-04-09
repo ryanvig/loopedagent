@@ -456,16 +456,16 @@ describe('github and mission-control webhooks', () => {
 
   it('creates a build-ready implementation issue when a design variant is selected', async () => {
     const app = createApp({ fetchFn: fetchMock as typeof fetch });
-    (ConvexWriter.getLatestPendingDesignReview as jest.Mock).mockResolvedValueOnce(
-      {
-        _id: 'design-review-51',
-        prNumber: '51',
-        prTitle: 'Refine discover cards',
-        prRepo: 'ryanvig/Looped',
-        status: 'pending',
-        createdAt: Date.now(),
-      }
-    );
+    (
+      ConvexWriter.getLatestPendingDesignReview as jest.Mock
+    ).mockResolvedValueOnce({
+      _id: 'design-review-51',
+      prNumber: '51',
+      prTitle: 'Refine discover cards',
+      prRepo: 'ryanvig/Looped',
+      status: 'pending',
+      createdAt: Date.now(),
+    });
 
     fetchMock
       .mockResolvedValueOnce(

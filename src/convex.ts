@@ -43,7 +43,9 @@ async function convexQuery<T>(
 
     if (!response.ok) {
       const text = await response.text();
-      console.error(`[Convex] query ${name} failed: ${response.status} ${text}`);
+      console.error(
+        `[Convex] query ${name} failed: ${response.status} ${text}`
+      );
       return null;
     }
 
@@ -169,7 +171,10 @@ export const ConvexWriter = {
   },
 
   async getLatestPendingDesignReview(): Promise<StoredDesignReview | null> {
-    return convexQuery<StoredDesignReview>('designReviews:getLatestPending', {});
+    return convexQuery<StoredDesignReview>(
+      'designReviews:getLatestPending',
+      {}
+    );
   },
 
   async getDesignReviewByPrNumber(
